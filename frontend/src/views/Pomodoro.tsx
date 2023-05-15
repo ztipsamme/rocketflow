@@ -15,8 +15,6 @@ const Pomodoro = () => {
     }
     const [intervals, setIntervals] = useState(initialValues)
     const [time, setTime] = useState('00:00')
-    const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
-
     const pomodoro = async (x: MyFormValues) => {
         for (const [_key, value] of Object.entries(x)) {
             countdown(value)
