@@ -1,0 +1,55 @@
+@import '../fonts/GeneralSans_Complete/Fonts/WEB/css/general-sans.css';
+
+$primary: #fb8a38;
+$seconday: #fdd3b6;
+$gradient: linear-gradient(#3a0c42, #0c1142);
+
+$font-family-sans-serif: GeneralSans-Regular;
+
+h1,
+h2,
+.h1,
+.h2 {
+    font-family: GeneralSans-Bold;
+}
+h2,
+h3,
+.h2,
+.h3 {
+    text-transform: capitalize;
+}
+h1,
+.h1 {
+    font-size: 4em;
+}
+h2,
+.h2 {
+    font-size: 2em;
+}
+h3,
+.h3 {
+    font-family: GeneralSans-Semibold;
+    font-size: 1.5em;
+}
+
+button,
+.btn {
+    --bs-btn-font-size: 0.75rem;
+    --bs-btn-padding-y: 0.25rem;
+    --bs-btn-padding-x: 0.5rem;
+}
+
+// --primary-100: #59335c;
+// --primary-75: #952fa5;
+// --primary-50: #c61ee1;
+// --primary-25: #f6c2fe;
+// --secondary-100: #000;
+// --secondary-75: #fff;
+// --secondary-50: #d9d9d9;
+// --secondary-25: #eee;
+// --tertiary-100: #a43e04;
+// --tertiary-75: #ed5601;
+// --tertiary-50: #fb8a38;
+// --tertiary-25: #fdd3b6;
+
+@import '../../../node_modules/bootstrap/scss/bootstrap';

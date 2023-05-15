@@ -9,11 +9,12 @@ import Home from './views/Home'
 import Login from './views/Login'
 import About from './views/About'
 import Contact from './views/Contact'
+import Pomodoro from './views/Pomodoro'
 import logo from './assets/images/logo.svg'
 
 function Root() {
     return (
-        <>
+        <div className="bg-gradient text-white">
             <header>
                 <div className="hb-menu"></div>
                 <div className="menu">
@@ -50,7 +51,7 @@ function Root() {
                     </ul>
                 </nav>
             </footer>
-        </>
+        </div>
     )
 }
 
@@ -62,6 +63,7 @@ function App() {
                 { element: <Login />, path: '/login' },
                 { element: <About />, path: '/about' },
                 { element: <Contact />, path: '/contact' },
+                { element: <Pomodoro />, path: '/pomodoro' },
             ],
             element: <Root />,
         },

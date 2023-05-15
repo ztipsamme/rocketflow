@@ -54,12 +54,15 @@ h1 {
     line-height: 90%;
     margin-bottom: 8px;
 }
-h2 {
+h2,
+h3 {
     font-size: var(--h2);
+    text-transform: capitalize;
     font-family: var(--font-bold);
 }
 h3 {
     font-size: var(--h3);
+    text-transform: capitalize;
     font-family: var(--font-semibold);
 }
 p {
@@ -83,7 +86,8 @@ body {
     font-family: GeneralSans-Regular;
     min-height: 100vh;
     background-image: linear-gradient(#3a0c42, #0c1142);
-    margin: 0 16px;
+    width: calc(100vw - 16px * 2);
+    margin: auto;
 }
 
 button,
@@ -178,11 +182,13 @@ footer {
 .card img {
     width: 100%;
     grid-row: span 2;
+    align-self: center;
 }
 
 .card h3,
 .card p {
     grid-column: span 3;
+    align-self: baseline;
 }
 
 .glass:before {

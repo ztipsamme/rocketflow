@@ -7,53 +7,91 @@ import lightbulb from '../assets/images/lightbulb.svg'
 function Home() {
     return (
         <div className="Home">
-            <section className="hero">
+            <section className="hero text-center">
                 <h1>Get your work done at warp speed</h1>
                 <p>Take control of your tasks with an all-in-one solution</p>
-                <button>Try for free</button>
+                <button className="btn btn-primary">Try for free</button>
                 <img src={rocket} alt="Elastic guy flying on a rocket" />
             </section>
             <section className="info">
-                <article>
+                <div className="text-center">
                     <h2>Productivity Booster</h2>
                     <p>
                         Put your workflow on autopilot, prioritize you task and
                         eleminate distractions without going off course.
                     </p>
-                </article>
-                <div className="cards">
-                    <div className="card">
-                        <img src={clock} alt="A clock" />
+                </div>
+                <div>
+                    <div className="card mb-3" style={{ maxWidth: '540px' }}>
+                        <div className="row g-0">
+                            <div className="col-md-4">
+                                <img
+                                    src={clock}
+                                    className="img-fluid rounded-start"
+                                    alt="A clock"
+                                />
+                            </div>
+                        </div>
 
-                        <h3>Pomodoro timer</h3>
-                        <p>
-                            The timer helps you do focused work, remainds you of
-                            taking breaks and finish tasks.
-                        </p>
+                        <div className="col-md-8">
+                            <div className="card-body">
+                                <h3 className="card-title">Pomodoro timer</h3>
+                                <p className="card-text">
+                                    The timer helps you do focused work,
+                                    remainds you of taking breaks and finish
+                                    tasks.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div className="card">
-                        <img src={listCheck} alt="A list with checkmarks" />
+                    <div className="card mb-3">
+                        <div className="row g-0">
+                            <div className="col-md-4">
+                                <img
+                                    src={listCheck}
+                                    className="img-fluid rounded-start"
+                                    alt="A list with checkmarks"
+                                />
+                            </div>
+                        </div>
 
-                        <h3>Task board</h3>
-                        <p>
-                            Structures your tasks and helps you prioritize you
-                            work during the day.
-                        </p>
+                        <div className="col-md-8">
+                            <div className="card-body">
+                                <h3 className="card-title">Task board</h3>
+                                <p className="card-text">
+                                    Structures your tasks and helps you
+                                    prioritize you work during the day.
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div className="card">
-                        <img src={lightbulb} alt="A lightbulb" />
 
-                        <h3>Distraction list</h3>
-                        <p>
-                            Let&apos;s you put all distractions in one place so
-                            that you can focus on them later.
-                        </p>
+                    <div className="card mb-3">
+                        <div className="row g-0">
+                            <div className="col-md-4">
+                                <img
+                                    src={lightbulb}
+                                    className="img-fluid rounded-start"
+                                    alt="A lightbulb"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="col-md-8">
+                            <div className="card-body">
+                                <h3 className="card-title">Distraction list</h3>
+                                <p className="card-text">
+                                    Let&apos;s you put all distractions in one
+                                    place so that you can focus on them later.
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </section>
-            <section>
+            <section className="text-center">
                 <h2>Ready for lift off?</h2>
-                <button>Let&apos;s go!</button>
+                <button className="btn btn-primary">Let&apos;s go!</button>
                 <p>
                     Warning! Maximizing your productivity will free up time for
                     firends, family and cause peace of mind.
