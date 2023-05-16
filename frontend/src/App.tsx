@@ -14,7 +14,7 @@ import logo from './assets/images/logo.svg'
 
 function Root() {
     return (
-        <div className="bg-gradient text-white">
+        <div className="App container-fluid bg-gradient text-white">
             <header>
                 <div className="hb-menu"></div>
                 <div className="menu">
@@ -32,7 +32,9 @@ function Root() {
                             </li>
                         </ul>
                     </nav>
-                    <button>Try Rocketflow</button>
+                    <Link to="/pomodoro" className="btn btn-primary">
+                        Try Rocketflow
+                    </Link>
                 </div>
             </header>
             <Outlet />

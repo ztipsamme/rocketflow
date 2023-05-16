@@ -1,17 +1,18 @@
-import cors from 'cors'
 import express from 'express'
-import path from 'path'
-
+import bodyParser from 'body-parser'
+import tasksRoutes from './routes/tasks.routes.js'
+const port = process.env.PORT || 8080
 const app = express()
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use('/tasks', tasksRoutes)
 
-app.use(cors())
-
-app.get('/api', (_request, response) => {
-    response.send({ hello: 'World' })
+app.get('/api', async (req, res) => {
+    res.status(200).json({
+        message: 'Hello World',
+    })
 })
 
-app.use(express.static(path.join(path.resolve(), 'public')))
-
-app.listen(3000, () => {
-    console.log('Redo på http://localhost:3000/')
+app.listen(port, () => {
+    console.log(`Redo på http://localhost:${port}/`)
 })

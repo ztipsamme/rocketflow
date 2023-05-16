@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 import rocket from '../assets/images/elastic-guy-flying-on-a-rocket-1.png'
 import clock from '../assets/images/clock.svg'
 import listCheck from '../assets/images/list-check.svg'
@@ -10,7 +11,10 @@ function Home() {
             <section className="hero text-center">
                 <h1>Get your work done at warp speed</h1>
                 <p>Take control of your tasks with an all-in-one solution</p>
-                <button className="btn btn-primary">Try for free</button>
+                <Link to="/pomodoro" className="btn btn-primary">
+                    Try for free
+                </Link>
+
                 <img src={rocket} alt="Elastic guy flying on a rocket" />
             </section>
             <section className="info">
@@ -91,7 +95,9 @@ function Home() {
             </section>
             <section className="text-center">
                 <h2>Ready for lift off?</h2>
-                <button className="btn btn-primary">Let&apos;s go!</button>
+                <Link to="/pomodoro" className="btn btn-primary">
+                    Let&apos;s go!
+                </Link>
                 <p>
                     Warning! Maximizing your productivity will free up time for
                     firends, family and cause peace of mind.

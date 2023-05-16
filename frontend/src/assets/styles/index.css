@@ -1,5 +1,9 @@
 @charset "UTF-8";
 @import '../fonts/GeneralSans_Complete/Fonts/WEB/css/general-sans.css';
+.App {
+  min-height: 100vh;
+}
+
 h1,
 .h1,
 h2,

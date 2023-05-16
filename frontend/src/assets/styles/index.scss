@@ -6,6 +6,10 @@ $gradient: linear-gradient(#3a0c42, #0c1142);
 
 $font-family-sans-serif: GeneralSans-Regular;
 
+.App {
+    min-height: 100vh;
+}
+
 h1,
 h2,
 .h1,
