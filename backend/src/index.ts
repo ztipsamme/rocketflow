@@ -8,9 +8,11 @@ app.use(bodyParser.urlencoded({ extended: true }))
 app.use('/tasks', tasksRoutes)
 
 app.get('/api', async (req, res) => {
-    res.status(200).json({
-        message: 'Hello World',
-    })
+    res.status(200).json()
+})
+
+app.post('/api', async (req, res) => {
+    res.status(200).json(req.body)
 })
 
 app.listen(port, () => {

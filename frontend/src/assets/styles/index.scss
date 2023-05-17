@@ -1,13 +1,60 @@
 @import '../fonts/GeneralSans_Complete/Fonts/WEB/css/general-sans.css';
+$space-white: #fff;
+$space-black: #000;
+$space-orange-c: #fb8a38;
+$space-bg-top: #3a0c42;
+$space-bg-bottom: #0c1142;
 
-$primary: #fb8a38;
-$seconday: #fdd3b6;
-$gradient: linear-gradient(#3a0c42, #0c1142);
-
+//Fonts
 $font-family-sans-serif: GeneralSans-Regular;
+$display-font-sizes: (
+    1: 6.75em,
+    2: 2em,
+    3: 1.5em,
+    4: 3.5rem,
+    5: 3rem,
+    6: 2.5rem,
+);
+// $display-font-family: null;
 
-.App {
+// Colors
+$primary: $space-orange-c;
+$secondary: $space-white;
+
+$nav-pills-link-active-bg: $space-white;
+$nav-pills-link-active-color: $space-black;
+
+// Cards
+$card-bg: transparent;
+$card-color: $space-white;
+
+// Buttons
+$btn-font-family: GeneralSans-Bold;
+$btn-color: $space-white;
+$card-border-color: transparent;
+
+body {
     min-height: 100vh;
+    background-image: linear-gradient($space-bg-top, $space-bg-bottom);
+}
+
+.glass {
+    backdrop-filter: blur(1rem) !important;
+    background-image: linear-gradient(
+        hsla(0, 0%, 100%, 0.1),
+        hsla(0, 0%, 100%, 0)
+    );
+    .border {
+        $card-border-color: $space-white;
+    }
+}
+
+.card {
+    flex-direction: row !important;
+    align-items: center;
+    img {
+        width: 10%;
+    }
 }
 
 h1,
@@ -22,38 +69,19 @@ h3,
 .h3 {
     text-transform: capitalize;
 }
-h1,
-.h1 {
-    font-size: 4em;
-}
-h2,
-.h2 {
-    font-size: 2em;
-}
+
 h3,
 .h3 {
     font-family: GeneralSans-Semibold;
-    font-size: 1.5em;
 }
 
-button,
-.btn {
-    --bs-btn-font-size: 0.75rem;
-    --bs-btn-padding-y: 0.25rem;
-    --bs-btn-padding-x: 0.5rem;
+.timer-options {
+    .btn {
+        font-family: GeneralSans-Regular;
+    }
+    .btn.active {
+        font-family: GeneralSans-Bold;
+    }
 }
-
-// --primary-100: #59335c;
-// --primary-75: #952fa5;
-// --primary-50: #c61ee1;
-// --primary-25: #f6c2fe;
-// --secondary-100: #000;
-// --secondary-75: #fff;
-// --secondary-50: #d9d9d9;
-// --secondary-25: #eee;
-// --tertiary-100: #a43e04;
-// --tertiary-75: #ed5601;
-// --tertiary-50: #fb8a38;
-// --tertiary-25: #fdd3b6;
 
 @import '../../../node_modules/bootstrap/scss/bootstrap';

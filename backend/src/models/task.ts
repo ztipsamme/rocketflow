@@ -1,9 +1,8 @@
 import { Model, Sequelize, DataTypes } from 'sequelize'
 export default class Task extends Model {
     public id?: number
-    public name!: string
-    public birthdate?: Date
-    public country?: string
+    public task?: string
+    public created?: string
 }
 export const TaskMap = (sequelize: Sequelize) => {
     Task.init(
@@ -13,16 +12,14 @@ export const TaskMap = (sequelize: Sequelize) => {
                 autoIncrement: true,
                 primaryKey: true,
             },
-            name: {
-                type: DataTypes.STRING(255),
+            task: {
+                allowNull: false,
+                type: DataTypes.STRING,
             },
-            birthdate: {
-                type: DataTypes.DATE,
+            created: {
+                type: DataTypes.STRING,
                 allowNull: true,
-            },
-            country: {
-                type: DataTypes.STRING(100),
-                allowNull: true,
+                defaultValue: new Date().getDate(),
             },
         },
         {

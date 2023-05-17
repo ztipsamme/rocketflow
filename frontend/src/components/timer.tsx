@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Formik, Form, Field } from 'formik'
+// import { Formik, Form, Field } from 'formik'
 
 interface MyFormValues {
     work: number
@@ -45,27 +45,55 @@ const Timer = () => {
     }
 
     return (
-        <div>
-            <Formik
-                initialValues={initialValues}
-                onSubmit={(values, actions) => {
-                    pomodoro(values)
-                    actions.setSubmitting(false)
-                }}
-            >
-                <Form>
-                    <label htmlFor="work">Work</label>
-                    <Field id="work" name="work" placeholder="0" />
+        <div className="Timer">
+            {
+                // <Formik
+                //     initialValues={initialValues}
+                //     onSubmit={(values, actions) => {
+                //         pomodoro(values)
+                //         actions.setSubmitting(false)
+                //     }}
+                // >
+                //     <Form>
+                //         <label htmlFor="work">Work</label>
+                //         <Field id="work" name="work" placeholder="0" />
+                //         <button type="submit">Start</button>
+                //     </Form>
+                // </Formik>
+            }
 
-                    {/* <label htmlFor="breakShort">Short Break</label>
-                    <Field id="breakShort" name="breakShort" placeholder="0" />
-
-                    <label htmlFor="breakLong">Long break</label>
-                    <Field id="breakLong" name="breakLong" placeholder="0" /> */}
-                    <button type="submit">Start</button>
-                </Form>
-            </Formik>
-            <div>{time}</div>
+            <nav className="card glass border">
+                <ul className="nav nav-pills secondary card-body row">
+                    <li className="nav-item col">
+                        <button className="btn nav-link active">
+                            Pomodoro
+                        </button>
+                    </li>
+                    <li className="nav-item col">
+                        <button className="btn nav-link link-secondary">
+                            Tasks
+                        </button>
+                    </li>
+                    <li className="nav-item col">
+                        <button className="btn nav-link link-secondary">
+                            Distractions
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+            <div className="timer-options nav secondary">
+                <button className="btn nav-link link-secondary active">
+                    Pomodoro
+                </button>
+                <button className="btn nav-link link-secondary">
+                    Short Break
+                </button>
+                <button className="btn nav-link link-secondary">
+                    Long Break
+                </button>
+                <div>{time}</div>
+                <button className="btn btn-primary">Start</button>
+            </div>
         </div>
     )
 }

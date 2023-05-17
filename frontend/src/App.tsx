@@ -18,23 +18,41 @@ function Root() {
             <header>
                 <div className="hb-menu"></div>
                 <div className="menu">
-                    <Link to="/" className="logo">
-                        <img
-                            className="logo"
-                            src={logo}
-                            alt="Rocketflow logo"
-                        />
-                    </Link>
-                    <nav>
-                        <ul>
-                            <li>
-                                <Link to="/login">Login</Link>
-                            </li>
-                        </ul>
+                    <nav className="navbar navbar-expand-lg">
+                        <Link to="/" className="navbar-brand">
+                            <img
+                                className="logo"
+                                src={logo}
+                                alt="Rocketflow logo"
+                            />
+                        </Link>
+                        <button
+                            className="navbar-toggler"
+                            type="button"
+                            data-bs-toggle="collapse"
+                            data-bs-target="#navbarNav"
+                            aria-controls="navbarNav"
+                            aria-expanded="false"
+                            aria-label="Toggle navigation"
+                        >
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div
+                            className="collapse navbar-collapse"
+                            id="navbarNav"
+                        >
+                            <ul>
+                                <li className="nav-item">
+                                    <Link
+                                        to="/pomodoro"
+                                        className="btn btn-primary"
+                                    >
+                                        Try Rocketflow
+                                    </Link>
+                                </li>
+                            </ul>
+                        </div>
                     </nav>
-                    <Link to="/pomodoro" className="btn btn-primary">
-                        Try Rocketflow
-                    </Link>
                 </div>
             </header>
             <Outlet />

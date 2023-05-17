@@ -26,69 +26,38 @@ function Home() {
                     </p>
                 </div>
                 <div>
-                    <div className="card mb-3" style={{ maxWidth: '540px' }}>
-                        <div className="row g-0">
-                            <div className="col-md-4">
-                                <img
-                                    src={clock}
-                                    className="img-fluid rounded-start"
-                                    alt="A clock"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="col-md-8">
-                            <div className="card-body">
-                                <h3 className="card-title">Pomodoro timer</h3>
-                                <p className="card-text">
-                                    The timer helps you do focused work,
-                                    remainds you of taking breaks and finish
-                                    tasks.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
                     <div className="card mb-3">
-                        <div className="row g-0">
-                            <div className="col-md-4">
-                                <img
-                                    src={listCheck}
-                                    className="img-fluid rounded-start"
-                                    alt="A list with checkmarks"
-                                />
-                            </div>
-                        </div>
-
-                        <div className="col-md-8">
-                            <div className="card-body">
-                                <h3 className="card-title">Task board</h3>
-                                <p className="card-text">
-                                    Structures your tasks and helps you
-                                    prioritize you work during the day.
-                                </p>
-                            </div>
+                        <img src={clock} alt="A clock" />
+                        <div className="card-body">
+                            <h3 className="card-title">Pomodoro timer</h3>
+                            <p className="card-text">
+                                The timer helps you do focused work, remainds
+                                you of taking breaks and finish tasks.
+                            </p>
                         </div>
                     </div>
 
                     <div className="card mb-3">
-                        <div className="row g-0">
-                            <div className="col-md-4">
-                                <img
-                                    src={lightbulb}
-                                    className="img-fluid rounded-start"
-                                    alt="A lightbulb"
-                                />
-                            </div>
-                        </div>
+                        <img src={listCheck} alt="A list with checkmarks" />
 
-                        <div className="col-md-8">
-                            <div className="card-body">
-                                <h3 className="card-title">Distraction list</h3>
-                                <p className="card-text">
-                                    Let&apos;s you put all distractions in one
-                                    place so that you can focus on them later.
-                                </p>
-                            </div>
+                        <div className="card-body">
+                            <h3 className="card-title">Task board</h3>
+                            <p className="card-text">
+                                Structures your tasks and helps you prioritize
+                                you work during the day.
+                            </p>
+                        </div>
+                    </div>
+
+                    <div className="card mb-3">
+                        <img src={lightbulb} alt="A lightbulb" />
+
+                        <div className="card-body">
+                            <h3 className="card-title">Distraction list</h3>
+                            <p className="card-text">
+                                Let&apos;s you put all distractions in one place
+                                so that you can focus on them later.
+                            </p>
                         </div>
                     </div>
                 </div>
