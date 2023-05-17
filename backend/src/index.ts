@@ -1,9 +1,9 @@
 import dotenv from 'dotenv'
-import { Client } from 'pg'
+import pg from 'pg'
 
 dotenv.config()
 
-const client = new Client({
+const client = new pg.Client({
     database: process.env.PGDATABASE,
     host: process.env.PGHOST,
     password: process.env.PGPASSWORD,
@@ -12,3 +12,11 @@ const client = new Client({
 })
 
 client.connect()
+
+const TasksTable = (
+    await client.query(`CREATE TABLE Tasks (
+  id uuid DEFAULT uuid_generate_v4 (),
+  task TEXT NOT NULL,
+  created TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+);`)
+).rows
