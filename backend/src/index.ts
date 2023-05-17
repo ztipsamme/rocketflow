@@ -1,20 +1,14 @@
-import express from 'express'
-import bodyParser from 'body-parser'
-import tasksRoutes from './routes/tasks.routes.js'
-const port = process.env.PORT || 8080
-const app = express()
-app.use(bodyParser.json())
-app.use(bodyParser.urlencoded({ extended: true }))
-app.use('/tasks', tasksRoutes)
+import dotenv from 'dotenv'
+import { Client } from 'pg'
 
-app.get('/api', async (req, res) => {
-    res.status(200).json()
+dotenv.config()
+
+const client = new Client({
+    database: process.env.PGDATABASE,
+    host: process.env.PGHOST,
+    password: process.env.PGPASSWORD,
+    port: Number(process.env.PGPORT),
+    user: process.env.PGUSER,
 })
 
-app.post('/api', async (req, res) => {
-    res.status(200).json(req.body)
-})
-
-app.listen(port, () => {
-    console.log(`Redo på http://localhost:${port}/`)
-})
+client.connect()
