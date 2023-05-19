@@ -20,7 +20,6 @@ const client = new pg.Client({
 
 client.connect()
 
-//
 // const TasksTable = (
 //     await client.query(`CREATE TABLE Tasks (
 //   id uuid DEFAULT uuid_generate_v4 (),

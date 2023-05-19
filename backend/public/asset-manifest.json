@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/static/css/main.1cbcf7bb.css",
-    "main.js": "/static/js/main.799c29eb.js",
+    "main.css": "/static/css/main.c40f1f02.css",
+    "main.js": "/static/js/main.b2a6e0bf.js",
     "static/js/787.cda612ba.chunk.js": "/static/js/787.cda612ba.chunk.js",
     "static/media/GeneralSans-VariableItalic.ttf": "/static/media/GeneralSans-VariableItalic.37a2c9e4ec944dec5059.ttf",
     "static/media/GeneralSans-Variable.ttf": "/static/media/GeneralSans-Variable.d7facbbe2ed9ae4aae49.ttf",
@@ -46,17 +46,16 @@
     "static/media/GeneralSans-ExtralightItalic.woff2": "/static/media/GeneralSans-ExtralightItalic.3d55e7e4573d13e89567.woff2",
     "static/media/elastic-guy-flying-on-a-rocket-1.png": "/static/media/elastic-guy-flying-on-a-rocket-1.4f918e89775415001c69.png",
     "static/media/GeneralSans-Extralight.woff2": "/static/media/GeneralSans-Extralight.d6a4332df60f058537bf.woff2",
-    "static/media/logo.svg": "/static/media/logo.1ac55e4469e9862cb43e384a6f7ce4ca.svg",
     "static/media/list-check.svg": "/static/media/list-check.5a1dbf7a82b4ef693648a3f6895bd5a7.svg",
     "static/media/lightbulb.svg": "/static/media/lightbulb.6299e459fbda4265a1d898803bc055be.svg",
     "static/media/clock.svg": "/static/media/clock.4810516535f8796fc8f1760c6d39e1ff.svg",
     "index.html": "/index.html",
-    "main.1cbcf7bb.css.map": "/static/css/main.1cbcf7bb.css.map",
-    "main.799c29eb.js.map": "/static/js/main.799c29eb.js.map",
+    "main.c40f1f02.css.map": "/static/css/main.c40f1f02.css.map",
+    "main.b2a6e0bf.js.map": "/static/js/main.b2a6e0bf.js.map",
     "787.cda612ba.chunk.js.map": "/static/js/787.cda612ba.chunk.js.map"
   },
   "entrypoints": [
-    "static/css/main.1cbcf7bb.css",
-    "static/js/main.799c29eb.js"
+    "static/css/main.c40f1f02.css",
+    "static/js/main.b2a6e0bf.js"
   ]
 }

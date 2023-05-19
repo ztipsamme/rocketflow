@@ -5,15 +5,44 @@ $space-orange-c: #fb8a38;
 $space-bg-top: #3a0c42;
 $space-bg-bottom: #0c1142;
 
+$spacer: 8px;
+$spacers: (
+    0: 0,
+    1: $spacer,
+    2: $spacer * 2,
+    //16
+    3: $spacer * 3,
+    //24
+    4: $spacer * 4,
+    //32
+    5: $spacer * 5,
+    //40
+    6: $spacer * 6,
+    //48
+    7: $spacer * 7,
+    //56
+    8: $spacer * 8,
+    //64
+    9: $spacer * 9,
+    //72
+    10: $spacer * 10,
+    //80
+    11: $spacer * 11,
+    //88
+    12: $spacer * 12,
+    //96
+);
+
 //Fonts
 $font-family-sans-serif: GeneralSans-Regular;
 $display-font-sizes: (
-    1: 6.75em,
-    2: 2em,
-    3: 1.5em,
-    4: 3.5rem,
-    5: 3rem,
-    6: 2.5rem,
+    1: 108px,
+    2: 64px,
+    3: 32px,
+    4: 24px,
+    5: 16px,
+    6: 16px,
+    7: 16px,
 );
 // $display-font-family: null;
 
@@ -71,7 +100,8 @@ h3,
 }
 
 h3,
-.h3 {
+.h3,
+.card-title {
     font-family: GeneralSans-Semibold;
 }
 
@@ -82,6 +112,29 @@ h3,
     .btn.active {
         font-family: GeneralSans-Bold;
     }
+}
+
+@media (max-width: 992px) {
+    // .navbar-collapse.collapsing .navbar-nav {
+    //     display: block;
+    //     position: fixed;
+    //     top: 0;
+    //     bottom: 0;
+    //     left: -25%;
+    //     transition: all 0.2s ease;
+    // }
+
+    // .navbar-collapse.show .navbar-nav {
+    //     background-image: linear-gradient($space-bg-top, $space-bg-bottom);
+    //     border: 1px solid red;
+    //     position: fixed;
+    //     inset: 0;
+    //     flex-direction: column;
+    //     height: auto;
+    //     width: 100%;
+    //     transition: left 0.35s ease;
+    //     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+    // }
 }
 
 @import '../../../node_modules/bootstrap/scss/bootstrap';
