@@ -56,11 +56,17 @@ $nav-pills-link-active-color: $space-black;
 // Cards
 $card-bg: transparent;
 $card-color: $space-white;
+$card-border-color: transparent;
 
 // Buttons
 $btn-font-family: GeneralSans-Bold;
 $btn-color: $space-white;
-$card-border-color: transparent;
+$btn-padding-y-sm: 12px;
+$btn-padding-x-sm: 24px;
+$btn-padding-y-lg: 16px;
+$btn-padding-x-lg: 40px;
+$btn-border-radius-sm: 8px;
+$btn-border-radius-lg: 12px;
 
 body {
     min-height: 100vh;
@@ -87,23 +93,71 @@ body {
 }
 
 h1,
-h2,
-.h1,
-.h2 {
+.h1 {
+    font-size: 32px !important;
+    // font-size: 108px !important;
     font-family: GeneralSans-Bold;
 }
-h2,
-h3,
-.h2,
-.h3 {
-    text-transform: capitalize;
+
+.display-1 {
+    font-size: 108px !important;
+    font-family: GeneralSans-Bold;
 }
 
+h2,
+.h2 {
+    font-size: 24px !important;
+    // font-size: 32px !important;
+    font-family: GeneralSans-Bold;
+}
 h3,
 .h3,
 .card-title {
+    font-size: 16px !important;
     font-family: GeneralSans-Semibold;
 }
+
+h2,
+.h2,
+h3,
+.h3 {
+    text-transform: capitalize !important;
+}
+
+h4,
+.h4 {
+    font-size: 32px !important;
+}
+
+h5,
+.h5 {
+    font-size: 24 !important;
+
+    font-family: GeneralSans-Semibold;
+}
+
+p,
+.body-text {
+    font-family: GeneralSans-Regular;
+}
+// h1,
+// h2,
+// .h1,
+// .h2 {
+//     font-family: GeneralSans-Bold;
+// }
+// h2,
+// h3,
+// .h2,
+// .h3 {
+//     text-transform: capitalize;
+// }
+
+// h3,
+// .h3,
+// .card-title {
+//     font-family: GeneralSans-Semibold;
+// }
 
 .timer-options {
     .btn {

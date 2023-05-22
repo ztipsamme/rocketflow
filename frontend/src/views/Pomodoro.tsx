@@ -39,7 +39,7 @@ const Pomodoro = () => {
                 </ul>
             </nav>
             <Timer />
-            <h2 className="mb-1">Active task</h2>
+            <h2 className="mb-1 body-text">Active task</h2>
             <DragNDrop />
         </>
     )
