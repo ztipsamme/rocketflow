@@ -1,5 +1,5 @@
 import React, { useEffect, useState, MouseEvent } from 'react'
-import { Card, Container, ListGroup } from 'react-bootstrap'
+import { ListGroup } from 'react-bootstrap'
 import axios from 'axios'
 import TaskCard from './task-card'
 
@@ -12,24 +12,20 @@ interface tasksInterface {
 }
 
 const TaskLists: React.FC = () => {
-    const [tasks, setTasks] = useState<tasksInterface[]>([])
     const [toDo, setToDo] = useState<tasksInterface[]>([])
     const [today, setToday] = useState<tasksInterface[]>([])
     const [activeTask, setActiveTask] = useState<tasksInterface[]>([])
     const [done, setDone] = useState<tasksInterface[]>([])
+    const [windowWidth, setWindowWidth] = useState<number | undefined>()
     const btnWidth = {
         width: '100%',
     }
-
-    const getTasks = async () => {
-        await axios
-            .get('http://localhost:8080/api/get-tasks')
-            .then((response) => {
-                setTasks(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+    const overlay: object = {
+        position: 'absolute',
+        left: 0,
+        width: '100%',
+        borderRadius: '8px   8px 0 0',
+        borderTop: '1px solid #fff',
     }
 
     const getToDo = async () => {
@@ -76,27 +72,57 @@ const TaskLists: React.FC = () => {
             })
     }
 
+    window.addEventListener('load', () => {
+        setWindowWidth(window.innerWidth)
+    })
+
     useEffect(() => {
-        getTasks()
         getToDo()
         getToday()
         getActiveTask()
         getDone()
+
+        window.addEventListener('resize', () => {
+            setWindowWidth(window.innerWidth)
+        })
     }, [])
 
     function handleMode(e: MouseEvent<HTMLElement>) {
-        const modes = document.querySelector('#list-options')
-        const modeBtns = modes?.querySelectorAll('button')
+        const modeBtns = document
+            .querySelector('#list-option-btns')
+            ?.querySelectorAll('button')
+        const modesLists = document
+            .querySelector('.list-option-lists')
+            ?.querySelectorAll('.list-group')
+        const listOption = e.currentTarget.innerHTML
+
         modeBtns?.forEach((e) => {
             e.classList.remove('active')
         })
         e.currentTarget.classList.add('active')
+
+        if (windowWidth !== undefined && windowWidth < 900) {
+            if (listOption === 'To do') {
+                updateActiveList('to-do')
+            } else if (listOption === 'Today') {
+                updateActiveList('today')
+            } else if (listOption === 'Done') {
+                updateActiveList('done')
+            }
+        }
+
+        function updateActiveList(list: string) {
+            modesLists?.forEach((e) => {
+                e.classList.add('hidden')
+            })
+            document.querySelector(`#${list}`)?.classList.remove('hidden')
+        }
     }
 
     return (
         <div>
             <h2 className="mb-1 body-text">Active task</h2>
-            <ListGroup>
+            <ListGroup id="active">
                 {activeTask.map((value) => (
                     <li
                         key={value.id}
@@ -113,8 +139,11 @@ const TaskLists: React.FC = () => {
                 ))}
             </ListGroup>
 
-            <div>
-                <nav id="list-options" className="card glass border mt-6 mb-4">
+            <div
+                className="glass list-option-lists glass mt-6 pt-3 px-2"
+                style={overlay}
+            >
+                <nav id="list-option-btns" className="card glass border mb-4">
                     <ul className="nav nav-pills card-body row">
                         <li className="nav-item col">
                             <button
@@ -122,7 +151,7 @@ const TaskLists: React.FC = () => {
                                 style={btnWidth}
                                 onClick={handleMode}
                             >
-                                Todo
+                                To do
                             </button>
                         </li>
                         <li className="nav-item col">
@@ -140,13 +169,13 @@ const TaskLists: React.FC = () => {
                                 style={btnWidth}
                                 onClick={handleMode}
                             >
-                                Distractions
+                                Done
                             </button>
                         </li>
                     </ul>
                 </nav>
-                <ul className="p-0">
-                    <ListGroup>
+                <ul className="list-option-lists p-0">
+                    <ListGroup id="to-do">
                         {toDo.map((value) => (
                             <li
                                 key={value.id}
@@ -162,7 +191,7 @@ const TaskLists: React.FC = () => {
                             </li>
                         ))}
                     </ListGroup>
-                    <ListGroup>
+                    <ListGroup id="today" className="hidden">
                         {today.map((value) => (
                             <li
                                 key={value.id}
@@ -178,7 +207,7 @@ const TaskLists: React.FC = () => {
                             </li>
                         ))}
                     </ListGroup>
-                    <ListGroup>
+                    <ListGroup id="done" className="hidden">
                         {done.map((value) => (
                             <li
                                 key={value.id}

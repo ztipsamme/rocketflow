@@ -71,6 +71,9 @@ $btn-border-radius-lg: 12px;
 body {
     min-height: 100vh;
     background-image: linear-gradient($space-bg-top, $space-bg-bottom);
+    background-attachment: fixed;
+    background-position: center;
+    background-size: cover;
 }
 
 .glass {
@@ -166,6 +169,10 @@ p,
     .btn.active {
         font-family: GeneralSans-Bold;
     }
+}
+
+.hidden {
+    display: none !important;
 }
 
 @media (max-width: 992px) {

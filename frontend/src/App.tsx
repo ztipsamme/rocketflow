@@ -5,17 +5,16 @@ import {
     Outlet,
     RouterProvider,
 } from 'react-router-dom'
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
 import Home from './views/Home'
 import Login from './views/Login'
 import About from './views/About'
 import Contact from './views/Contact'
 import Pomodoro from './views/Pomodoro'
-import logo from './assets/images/logo.svg'
 
 function Root() {
     return (
-        <div className="App container-fluid text-white">
+        <div className="App container-fluid px-2 text-white">
             <Navbar expand="lg" data-bs-theme="dark">
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
