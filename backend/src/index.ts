@@ -69,7 +69,7 @@ client.connect()
 
 app.use(cors())
 
-app.get('/api', async (req, res) => {
+app.get('/api/get-tasks', async (req, res) => {
     try {
         const getTask = (await client.query(`SELECT * FROM Tasks;`)).rows
         res.status(200).send(getTask)
@@ -78,7 +78,7 @@ app.get('/api', async (req, res) => {
     }
 })
 
-app.post('/api', async (req, res) => {
+app.post('/api/add-task', async (req, res) => {
     try {
         await client.query(
             `INSERT INTO Tasks (title, description)   VALUES ($1, $2)`,
@@ -90,7 +90,7 @@ app.post('/api', async (req, res) => {
     }
 })
 
-app.delete('/api', async (req, res) => {
+app.delete('/api/delete-task', async (req, res) => {
     try {
         const getTasks = (await client.query(`SELECT * FROM Tasks;`)).rows
 
@@ -104,7 +104,7 @@ app.delete('/api', async (req, res) => {
     }
 })
 
-app.put('/api/update-info', async (req, res) => {
+app.put('/api/update-task-info', async (req, res) => {
     try {
         const getTasks = (await client.query(`SELECT * FROM Tasks;`)).rows
 
@@ -121,7 +121,7 @@ app.put('/api/update-info', async (req, res) => {
     }
 })
 
-app.put('/api/update-status', async (req, res) => {
+app.put('/api/update-task-status', async (req, res) => {
     try {
         const getTasks = (await client.query(`SELECT * FROM Tasks;`)).rows
 
@@ -133,6 +133,54 @@ app.put('/api/update-status', async (req, res) => {
         ])
 
         res.status(200).send({ message: 'Changes ' + req.body.id })
+    } catch (error) {
+        res.status(400).send({ Error: error })
+    }
+})
+
+app.get('/api/get-to-do', async (req, res) => {
+    try {
+        const getToDo = (
+            await client.query(`SELECT * FROM Tasks WHERE status=$1`, [0])
+        ).rows
+
+        res.status(200).send(getToDo)
+    } catch (error) {
+        res.status(400).send({ Error: error })
+    }
+})
+
+app.get('/api/get-active-task', async (req, res) => {
+    try {
+        const getToDo = (
+            await client.query(`SELECT * FROM Tasks WHERE status=$1`, [2])
+        ).rows
+
+        res.status(200).send(getToDo)
+    } catch (error) {
+        res.status(400).send({ Error: error })
+    }
+})
+
+app.get('/api/get-today', async (req, res) => {
+    try {
+        const getToDo = (
+            await client.query(`SELECT * FROM Tasks WHERE status=$1`, [1])
+        ).rows
+
+        res.status(200).send(getToDo)
+    } catch (error) {
+        res.status(400).send({ Error: error })
+    }
+})
+
+app.get('/api/get-done', async (req, res) => {
+    try {
+        const getToDo = (
+            await client.query(`SELECT * FROM Tasks WHERE status=$1`, [3])
+        ).rows
+
+        res.status(200).send(getToDo)
     } catch (error) {
         res.status(400).send({ Error: error })
     }
