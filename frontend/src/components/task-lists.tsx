@@ -1,5 +1,5 @@
 import React, { useEffect, useState, MouseEvent } from 'react'
-import { Card, Container, ListGroup } from 'react-bootstrap'
+import { ListGroup } from 'react-bootstrap'
 import axios from 'axios'
 import TaskCard from './task-card'
 
@@ -12,7 +12,6 @@ interface tasksInterface {
 }
 
 const TaskLists: React.FC = () => {
-    const [tasks, setTasks] = useState<tasksInterface[]>([])
     const [toDo, setToDo] = useState<tasksInterface[]>([])
     const [today, setToday] = useState<tasksInterface[]>([])
     const [activeTask, setActiveTask] = useState<tasksInterface[]>([])
@@ -27,17 +26,6 @@ const TaskLists: React.FC = () => {
         width: '100%',
         borderRadius: '8px   8px 0 0',
         borderTop: '1px solid #fff',
-    }
-
-    const getTasks = async () => {
-        await axios
-            .get('http://localhost:8080/api/get-tasks')
-            .then((response) => {
-                setTasks(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
     }
 
     const getToDo = async () => {
@@ -89,7 +77,6 @@ const TaskLists: React.FC = () => {
     })
 
     useEffect(() => {
-        getTasks()
         getToDo()
         getToday()
         getActiveTask()

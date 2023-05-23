@@ -5,7 +5,7 @@ import {
     Outlet,
     RouterProvider,
 } from 'react-router-dom'
-import { Navbar, Nav, Container } from 'react-bootstrap'
+import { Navbar, Nav } from 'react-bootstrap'
 import Home from './views/Home'
 import Login from './views/Login'
 import About from './views/About'
