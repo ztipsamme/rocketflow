@@ -1,6 +1,7 @@
 import React, { MouseEvent } from 'react'
 import TaskLists from '../components/task-lists'
 import Timer from '../components/timer'
+import Test from '../components/test'
 
 const Pomodoro = () => {
     const btnWidth = {
@@ -44,6 +45,7 @@ const Pomodoro = () => {
 
             <Timer />
             <TaskLists />
+            <Test />
         </>
     )
 }

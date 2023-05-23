@@ -103,6 +103,9 @@ app.delete('/api/delete-task', async (req, res) => {
         res.status(400).send({ Error: error })
     }
 })
+// Går igenom det igen
+app.put('/api/', async (req, res) => {
+  const getTask = (await client.query(`SELECT * FROM Tasks;`)).rows
 
 app.put('/api/update-task-info', async (req, res) => {
     try {
