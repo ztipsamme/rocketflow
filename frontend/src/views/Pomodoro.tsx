@@ -1,6 +1,7 @@
 import React from 'react'
 import DragNDrop from '../components/drag-n-drop'
 import Timer from '../components/timer'
+import Test from '../components/test'
 
 const Pomodoro = () => {
     const btnWidth = {
@@ -38,9 +39,12 @@ const Pomodoro = () => {
                     </li>
                 </ul>
             </nav>
-            <Timer />
+        <Timer />
+
             <h2 className="mb-1">Active task</h2>
-            <DragNDrop />
+        <DragNDrop />
+
+        <Test/>
         </>
     )
 }

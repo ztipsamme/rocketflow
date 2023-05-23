@@ -56,13 +56,14 @@ app.delete('/api/', async (req, res) => {
 
   res.send()
 })
-// Går igenom det igen
+
+
 app.put('/api/', async (req, res) => {
-  const getTask = (await client.query(`SELECT * FROM Tasks;`)).rows
+  // const getTask = (await client.query(`SELECT * FROM Tasks;`)).rows
 
-  getTask.find(({ task }) => task === req.body.task)
+  // getTask.find(({ task }) => task === req.body.task)
 
-  await client.query('PUT FROM Tasks WHERE task= $1', [req.body.task])
+  await client.query('UPDATE Tasks SET title=$2, description=$3, status=$4 WHERE id= $1', [req.body.task.id, req.body.task.title,req.body.task.description, req.body.task.status ])
 
 
 
