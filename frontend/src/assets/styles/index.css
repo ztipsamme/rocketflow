@@ -3,6 +3,9 @@
 body {
   min-height: 100vh;
   background-image: linear-gradient(#3a0c42, #0c1142);
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
 }
 
 .glass {
@@ -70,6 +73,10 @@ p,
 }
 .timer-options .btn.active {
   font-family: GeneralSans-Bold;
+}
+
+.hidden {
+  display: none !important;
 }
 
 /*!

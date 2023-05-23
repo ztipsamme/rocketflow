@@ -45,7 +45,7 @@ const Pomodoro = () => {
 
             <Timer />
             <TaskLists />
-            <Test />
+            {/* <Test /> */}
         </>
     )
 }

@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react'
+import React, { useState, MouseEvent, useEffect } from 'react'
 import { Card, ListGroup } from 'react-bootstrap'
 import axios from 'axios'
 
@@ -89,8 +89,6 @@ const TaskCard = (props: tasksInterface) => {
             setCardOpen(true)
         }
         console.log(e.currentTarget.getAttribute('data-value'))
-        // e.currentTarget.classList.add('active')
-        // e.classList.remove('active')
     }
 
     const handleActive = async (e: MouseEvent<HTMLButtonElement>) => {
