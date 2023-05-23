@@ -11,6 +11,9 @@ interface tasksInterface {
 
 const TaskCard = (props: tasksInterface) => {
     const [cardOpen, setCardOpen] = useState(false)
+    const [sendToMenuOpen, setSendToMenuOpen] = useState(false)
+    const [taskStatus, setTaskStatus] = useState(props.status)
+
 
     const arrowDownIcon = (
         <svg
@@ -119,17 +122,28 @@ const TaskCard = (props: tasksInterface) => {
         document.location.reload()
     }
 
-    const handleMigrate = async (e: MouseEvent<HTMLButtonElement>) => {
+  const handleMigrate = async (e: MouseEvent<HTMLButtonElement>) => {
+      setSendToMenuOpen(true)
         e.preventDefault()
         const id = e.currentTarget.getAttribute('data-value')
         const status = Number(e.currentTarget.value)
 
-        if (status === 0) {
-            updateState(id, 2)
-        } else {
-            updateState(id, 0)
-        }
-        document.location.reload()
+        // if (status === 0) {
+        //     updateState(id, 2)
+        // } else {
+        //     updateState(id, 0)
+        // }
+
+        if (sendToMenuOpen) {
+          setSendToMenuOpen(false)
+      } else {
+          setSendToMenuOpen(true)
+      }
+      console.log(e.currentTarget.getAttribute('data-value'))
+
+
+
+        //document.location.reload()
     }
 
     const handleDone = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -155,6 +169,30 @@ const TaskCard = (props: tasksInterface) => {
             data: { id: id, status: state },
         })
     }
+
+  function updateTask(e: MouseEvent<HTMLLIElement>) {
+
+    const status = Number(e.currentTarget.id)
+
+    console.log(e.currentTarget.id)
+    console.log(props.id)
+    console.log(status)
+
+    axios({
+      method: "put",
+      url: 'http://localhost:8080/api/update-task-status',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      data: { id: props.id, status: status },
+    })
+
+    //fundera på om ni ska ladda in senaste statusen från backend
+    setTaskStatus(status);
+    // console.log(taskStatus);
+
+
+  }
 
     return (
         <Card className="glass border p-2 pb-1">
@@ -182,14 +220,23 @@ const TaskCard = (props: tasksInterface) => {
                             className="btn btn-secondary btn-icon"
                         >
                             {trashCanIcon}
-                        </button>
+              </button>
+
                         <button
                             onClick={handleMigrate}
                             data-value={props.id}
                             value={props.status}
                             className="btn btn-secondary btn-icon"
                         >
-                            {migrationIcon}
+                {migrationIcon ? arrowDownIcon : arrowUpIcon}
+
+                {sendToMenuOpen && <ul className="list-group">
+
+                <li id="1" onClick={updateTask} className="list-group-item">Send to To-do</li>
+                <li id="2" onClick={updateTask} className="list-group-item">Send to Today</li>
+                <li id="3" onClick={updateTask} className="list-group-item">Send to Active</li>
+
+              </ul>}
                         </button>
                         <button
                             onClick={handleDone}
@@ -198,7 +245,14 @@ const TaskCard = (props: tasksInterface) => {
                             className="btn btn-secondary btn-icon"
                         >
                             {checkboxIcon}
-                        </button>
+              </button>
+              {/* <ul className="list-group">
+                <li className="list-group-item">Send to &rdqou;To-do&rdqou;</li>
+                <li className="list-group-item">Send to &rdqou;Today&rdqou;</li>
+                <li className="list-group-item">Send to &rdqou;Active&rdqou;</li>
+              </ul> */}
+
+
                     </div>
                 </div>
             </Card.Body>
