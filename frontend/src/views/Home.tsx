@@ -10,9 +10,9 @@ function Home() {
     return (
         <>
             <Container id="Hero" className="text-center mt-12 mb-12">
-                <h1 className="display-1">Get your work done at warp speed</h1>
+                <h1>Get your work done at warp speed</h1>
                 <p>Take control of your tasks with an all-in-one solution</p>
-                <Link to="/pomodoro" className="btn btn-primary btn-lg">
+                <Link to="/pomodoro" className="btn btn-primary btn-sm">
                     Try for free
                 </Link>
 
@@ -33,7 +33,7 @@ function Home() {
                 <Card className="mb-1 p-2">
                     <Card.Img src={clock}></Card.Img>
                     <Card.Body>
-                        <Card.Title>Pomodoro timer</Card.Title>
+                        <Card.Title className="h3">Pomodoro timer</Card.Title>
                         <Card.Text>
                             The timer helps you do focused work, remainds you of
                             taking breaks and finish tasks.
@@ -43,7 +43,7 @@ function Home() {
                 <Card className="mb-1 p-2">
                     <Card.Img src={listCheck}></Card.Img>
                     <Card.Body>
-                        <Card.Title>Distraction list</Card.Title>
+                        <Card.Title className="h3">Distraction list</Card.Title>
                         <Card.Text>
                             Let&apos;s you put all distractions in one place so
                             that you can focus on them later.
@@ -53,7 +53,7 @@ function Home() {
                 <Card className="p-2">
                     <Card.Img src={lightbulb}></Card.Img>
                     <Card.Body>
-                        <Card.Title>Pomodoro timer</Card.Title>
+                        <Card.Title className="h3">Pomodoro timer</Card.Title>
                         <Card.Text>
                             The timer helps you do focused work, remainds you of
                             taking breaks and finish tasks.
@@ -63,9 +63,13 @@ function Home() {
             </Container>
             <Container className="text-center mb-5">
                 <h2 className="mb-3">Ready for lift off?</h2>
-                <Link to="/pomodoro" className="btn btn-primary btn-lg">
+                <Link to="/pomodoro" className="btn btn-primary btn-sm">
                     Let&apos;s go!
                 </Link>
+                <p className="mt-3">
+                    Warning! Maximizing your productivity will free up time for
+                    friends, family and cause peace of mind.
+                </p>
             </Container>
         </>
     )
