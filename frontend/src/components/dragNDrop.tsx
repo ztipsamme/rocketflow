@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 import '../assets/styles/drag-n-drop.css'
 
 //Den här funktion tar drag event och dataTransfer(dataöverföring)där kan man lägga till egenskaper och setdata till event så man kan hålla reda på vilken data som är kopplade till den.
-function Test() {
+function DragNdrop() {
   const [widgets, setWidgets] = useState<string[]>([]);
   const [widgetsDone, setWidgetsDone] = useState<string[]>([]);
   const [widgetsTodo, setWidgetsTodo] = useState<string[]>(["style guide", "Choose fonts", "Create ad", "Write final copy", " Collect data","analyse answers", "Check emails","Send wirefrane","Call vice pres", "Send skiss","Write interview","Write survey"]);
@@ -120,7 +120,7 @@ function Test() {
     </>
 )
 }
-export default Test
+export default DragNdrop
 
 
 
