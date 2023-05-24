@@ -28,44 +28,14 @@ const TaskLists: React.FC = () => {
         borderTop: '1px solid #fff',
     }
 
-    const getToDo = async () => {
+    const getTasksByStatus = async (status: number) => {
         await axios
-            .get('http://localhost:8080/api/get-to-do')
+            .get('http://localhost:8080/api/get-task-status?status=' + status)
             .then((response) => {
-                setToDo(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-
-    const getToday = async () => {
-        await axios
-            .get('http://localhost:8080/api/get-today')
-            .then((response) => {
-                setToday(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-
-    const getActiveTask = async () => {
-        await axios
-            .get('http://localhost:8080/api/get-active-task')
-            .then((response) => {
-                setActiveTask(response.data)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
-    }
-
-    const getDone = async () => {
-        await axios
-            .get('http://localhost:8080/api/get-done')
-            .then((response) => {
-                setDone(response.data)
+                if (status === 0) setToDo(response.data)
+                if (status === 1) setToday(response.data)
+                if (status === 2) setActiveTask(response.data)
+                if (status === 3) setDone(response.data)
             })
             .catch((error) => {
                 console.log(error)
@@ -77,10 +47,10 @@ const TaskLists: React.FC = () => {
     })
 
     useEffect(() => {
-        getToDo()
-        getToday()
-        getActiveTask()
-        getDone()
+        const statuses = [0, 1, 2, 3]
+        statuses.forEach((e) => {
+            getTasksByStatus(e)
+        })
 
         window.addEventListener('resize', () => {
             setWindowWidth(window.innerWidth)
