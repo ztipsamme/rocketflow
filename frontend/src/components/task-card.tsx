@@ -48,15 +48,9 @@ const TaskCard = (props: tasksInterface) => {
             className="bi bi-folder-symlink-fill"
             viewBox="0 0 16 16"
         >
-            <path
-                fillRule="evenodd"
-                d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.854 10.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z"
-            />
+            <path d="M13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2l.04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3zM2.19 3c-.24 0-.47.042-.683.12L1.5 2.98a1 1 0 0 1 1-.98h3.672a1 1 0 0 1 .707.293L7.586 3H2.19zm9.608 5.271-3.182 1.97c-.27.166-.616-.036-.616-.372V9.1s-2.571-.3-4 2.4c.571-4.8 3.143-4.8 4-4.8v-.769c0-.336.346-.538.616-.371l3.182 1.969c.27.166.27.576 0 .742z" />
         </svg>
     )
-
-
-
     const checkboxIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -69,9 +63,6 @@ const TaskCard = (props: tasksInterface) => {
             <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
         </svg>
     )
-
-
-
 
     const toggleCard = (e: MouseEvent<HTMLButtonElement>) => {
         if (cardOpen) {
@@ -154,45 +145,45 @@ const TaskCard = (props: tasksInterface) => {
         })
     }
 
-  function updateTask(e: MouseEvent<HTMLLIElement>) {
-
-    const status = Number(e.currentTarget.id)
+    function updateTask(e: MouseEvent<HTMLLIElement>) {
+        const id = Number(e.currentTarget.id)
+        const status = e.currentTarget.value
 
         console.log(e.currentTarget.id)
         console.log(props.id)
         console.log(status)
 
-    axios({
-      method: "put",
-      url: 'http://localhost:8080/api/update-task-status',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: { id: props.id, status: status },
-    })
+        axios({
+            method: 'put',
+            url: 'http://localhost:8080/api/update-task-status',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: { id: id, status: status },
+        })
 
         //fundera på om ni ska ladda in senaste statusen från backend
         setTaskStatus(status)
         // console.log(taskStatus);
     }
 
-  function saveNewTask(e: MouseEvent<SVGSVGElement>) {
-    // const id = e.currentTarget.getAttribute('data-value')
+    function saveNewTask(e: MouseEvent<SVGSVGElement>) {
+        // const id = e.currentTarget.getAttribute('data-value')
 
-    axios({
-      method: "post",
-      url: 'http://localhost:8080/api/add-task',
-      headers: {
-        'Content-Type': 'application/json',
-
-      },
-      data: { title: props.title, description: props.description, id: props.id, status: props.status},
-    })
-
-  }
-
-
-
+        axios({
+            method: 'post',
+            url: 'http://localhost:8080/api/add-task',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: {
+                title: props.title,
+                description: props.description,
+                id: props.id,
+                status: props.status,
+            },
+        })
+    }
 
     return (
         <div
@@ -226,38 +217,79 @@ const TaskCard = (props: tasksInterface) => {
                         {trashCanIcon}
                     </button>
 
-                        <button
-                            onClick={handleMigrate}
-                            data-value={props.id}
-                            value={props.status}
-                            className="btn btn-secondary btn-icon"
-                        >
-                {migrationIcon ? arrowDownIcon : arrowUpIcon}
+                    <button
+                        onClick={handleMigrate}
+                        data-value={props.id}
+                        value={props.status}
+                        className="icon"
+                    >
+                        {migrationIcon}
 
-                {sendToMenuOpen && <ul className="list-group">
+                        {sendToMenuOpen && (
+                            <ul className="list-group">
+                                <li
+                                    id="1"
+                                    value={props.id}
+                                    onClick={updateTask}
+                                >
+                                    Send to To-do
+                                </li>
+                                <li id="2" onClick={updateTask}>
+                                    Send to Today
+                                </li>
+                                <li id="3" onClick={updateTask}>
+                                    Send to Active
+                                </li>
+                                <li
+                                    id={props.id}
+                                    value="1"
+                                    onClick={updateTask}
+                                    className="list-group-item"
+                                >
+                                    Send to To-do
+                                </li>
+                                <li
+                                    id={props.id}
+                                    value="2"
+                                    onClick={updateTask}
+                                    className="list-group-item"
+                                >
+                                    Send to Today
+                                </li>
+                                <li
+                                    id={props.id}
+                                    value="3"
+                                    onClick={updateTask}
+                                    className="list-group-item"
+                                >
+                                    Send to Active
+                                </li>
+                            </ul>
+                        )}
+                    </button>
 
-                <li id="1" onClick={updateTask} className="list-group-item">Send to To-do</li>
-                <li id="2" onClick={updateTask} className="list-group-item">Send to Today</li>
-                <li id="3" onClick={updateTask} className="list-group-item">Send to Active</li>
+                    <button
+                        onClick={handleDone}
+                        data-value={props.id}
+                        value={props.status}
+                        className="icon"
+                    >
+                        {checkboxIcon}
+                    </button>
 
-              </ul>}
-                        </button>
-                        <button
-                            onClick={handleDone}
-                            data-value={props.id}
-                            value={props.status}
-                            className="btn btn-secondary btn-icon"
-                        >
-                            {checkboxIcon}
-              </button>
-              {/* <ul className="list-group">
-                <li className="list-group-item">Send to &rdqou;To-do&rdqou;</li>
-                <li className="list-group-item">Send to &rdqou;Today&rdqou;</li>
-                <li className="list-group-item">Send to &rdqou;Active&rdqou;</li>
-              </ul> */}
-
-
-                    </div>
+                    <svg
+                        onClick={saveNewTask}
+                        data-value={props.title}
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        fill="currentColor"
+                        className="bi bi-check-square"
+                        viewBox="0 0 16 16"
+                    >
+                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                        <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z" />
+                    </svg>
                 </div>
             </div>
         </div>
