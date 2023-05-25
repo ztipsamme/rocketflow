@@ -70,8 +70,14 @@ const TaskCard = (props: tasksInterface) => {
                 fillRule="evenodd"
                 d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.854 10.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z"
             />
-        </svg>
+      </svg>
+
+
+
     )
+
+
+
     const checkboxIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -84,6 +90,9 @@ const TaskCard = (props: tasksInterface) => {
             <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
         </svg>
     )
+
+
+
 
     const toggleCard = (e: MouseEvent<HTMLButtonElement>) => {
         if (cardOpen) {
@@ -170,7 +179,8 @@ const TaskCard = (props: tasksInterface) => {
 
   function updateTask(e: MouseEvent<HTMLLIElement>) {
 
-    const status = Number(e.currentTarget.id)
+    const id = Number(e.currentTarget.id)
+    const status = e.currentTarget.value
 
     console.log(e.currentTarget.id)
     console.log(props.id)
@@ -182,7 +192,7 @@ const TaskCard = (props: tasksInterface) => {
       headers: {
         'Content-Type': 'application/json',
       },
-      data: { id: props.id, status: status },
+      data: { id: id, status: status },
     })
 
     //fundera på om ni ska ladda in senaste statusen från backend
@@ -191,6 +201,24 @@ const TaskCard = (props: tasksInterface) => {
 
 
   }
+
+  function saveNewTask(e: MouseEvent<SVGSVGElement>) {
+    // const id = e.currentTarget.getAttribute('data-value')
+
+    axios({
+      method: "post",
+      url: 'http://localhost:8080/api/add-task',
+      headers: {
+        'Content-Type': 'application/json',
+
+      },
+      data: { title: props.title, description: props.description, id: props.id, status: props.status},
+    })
+
+  }
+
+
+
 
     return (
         <Card className="glass border p-2 pb-1">
@@ -220,6 +248,8 @@ const TaskCard = (props: tasksInterface) => {
                             {trashCanIcon}
               </button>
 
+
+
                         <button
                             onClick={handleMigrate}
                             data-value={props.id}
@@ -230,25 +260,31 @@ const TaskCard = (props: tasksInterface) => {
 
                 {sendToMenuOpen && <ul className="list-group">
 
-                <li id="1" onClick={updateTask} className="list-group-item">Send to To-do</li>
-                <li id="2" onClick={updateTask} className="list-group-item">Send to Today</li>
-                <li id="3" onClick={updateTask} className="list-group-item">Send to Active</li>
+                <li id={props.id} value='1'onClick={updateTask} className="list-group-item">Send to To-do</li>
+                <li id={props.id} value='2'onClick={updateTask} className="list-group-item">Send to Today</li>
+                <li id={props.id} value='3' onClick={updateTask} className="list-group-item">Send to Active</li>
 
               </ul>}
-                        </button>
-                        <button
-                            onClick={handleDone}
-                            data-value={props.id}
-                            value={props.status}
-                            className="btn btn-secondary btn-icon"
-                        >
-                            {checkboxIcon}
               </button>
+
+              <svg onClick={saveNewTask} data-value={props.title} xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" className="bi bi-check-square" viewBox="0 0 16 16">
+  <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z"/>
+  <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z"/>
+</svg>
+
               {/* <ul className="list-group">
                 <li className="list-group-item">Send to &rdqou;To-do&rdqou;</li>
                 <li className="list-group-item">Send to &rdqou;Today&rdqou;</li>
                 <li className="list-group-item">Send to &rdqou;Active&rdqou;</li>
               </ul> */}
+              {/* <button
+                onClick={plusbtn}
+                data-value={props.id}
+                value={props.status}
+                className="btn btn-secondary btn-icon">
+              {plusbtn}
+              </button> */}
+
 
 
                     </div>

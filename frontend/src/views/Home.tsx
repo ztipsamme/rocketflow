@@ -19,8 +19,10 @@ function Home() {
                 <img
                     src={rocket}
                     style={{ width: '100%' }}
-                    alt="Elastic guy flying on a rocket"
+                    alt="rocket"
                 />
+
+
             </Container>
             <Container className="mb-12">
                 <div className="text-center mb-3">
