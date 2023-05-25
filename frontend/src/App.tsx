@@ -1,37 +1,47 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
     createHashRouter,
     Link,
     Outlet,
     RouterProvider,
 } from 'react-router-dom'
-import { Navbar, Nav } from 'react-bootstrap'
 import Home from './views/Home'
 import Login from './views/Login'
 import About from './views/About'
 import Contact from './views/Contact'
 import Pomodoro from './views/Pomodoro'
+import NotFound from './views/NotFound'
 
 function Root() {
+    const [size, setSize] = useState<string>()
+
+    useEffect(() => {
+        window.addEventListener('resize', () => {
+            setSize(
+                `Window size: ${window.innerHeight}px ✕ ${window.innerWidth}px`
+            )
+            console.log(window.innerWidth)
+        })
+    })
     return (
-        <div className="App container-fluid px-2 text-white">
-            <Navbar expand="lg" data-bs-theme="dark">
-                <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                <Navbar.Collapse id="basic-navbar-nav">
-                    <Nav className="me-auto">
-                        <Nav.Link eventKey="1" as={Link} to="/">
-                            Home
-                        </Nav.Link>
-                        <Nav.Link eventKey="2" as={Link} to="/">
-                            Settings
-                        </Nav.Link>
-                        <Nav.Link eventKey="3" as={Link} to="/login">
-                            Sign in
-                        </Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
-            </Navbar>
+        <div className="App">
+            <nav className="navigation"></nav>
+            {/* <div
+                style={{
+                    position: 'absolute',
+                    margin: 0,
+                    padding: 0,
+                    inset: 0,
+                    textAlign: 'right',
+                    fontSize: '20px',
+                    color: 'black',
+                    fontFamily: 'Helvetica',
+                }}
+            >
+                {size}
+            </div> */}
             <Outlet />
+            <footer></footer>
         </div>
     )
 }
@@ -45,6 +55,7 @@ function App() {
                 { element: <About />, path: '/about' },
                 { element: <Contact />, path: '/contact' },
                 { element: <Pomodoro />, path: '/pomodoro' },
+                { element: <NotFound />, path: '/*' },
             ],
             element: <Root />,
         },

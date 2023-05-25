@@ -1,5 +1,4 @@
 import React, { useEffect, useState, MouseEvent } from 'react'
-import { ListGroup } from 'react-bootstrap'
 import axios from 'axios'
 import TaskCard from './task-card'
 
@@ -17,9 +16,6 @@ const TaskLists: React.FC = () => {
     const [activeTask, setActiveTask] = useState<tasksInterface[]>([])
     const [done, setDone] = useState<tasksInterface[]>([])
     const [windowWidth, setWindowWidth] = useState<number | undefined>()
-    const btnWidth = {
-        width: '100%',
-    }
     const overlay: object = {
         position: 'absolute',
         left: 0,
@@ -59,11 +55,9 @@ const TaskLists: React.FC = () => {
 
     function handleMode(e: MouseEvent<HTMLElement>) {
         const modeBtns = document
-            .querySelector('#list-option-btns')
+            .querySelector('.list-option-btns')
             ?.querySelectorAll('button')
-        const modesLists = document
-            .querySelector('.list-option-lists')
-            ?.querySelectorAll('.list-group')
+        const modesLists = document.querySelectorAll('.lists')
         const listOption = e.currentTarget.innerHTML
 
         modeBtns?.forEach((e) => {
@@ -91,8 +85,8 @@ const TaskLists: React.FC = () => {
 
     return (
         <div>
-            <h2 className="mb-1 body-text">Active task</h2>
-            <ListGroup id="active">
+            <h2>Active task</h2>
+            <ul id="active" className="list-option-lists">
                 {activeTask.map((value) => (
                     <li
                         key={value.id}
@@ -107,51 +101,28 @@ const TaskLists: React.FC = () => {
                         />
                     </li>
                 ))}
-            </ListGroup>
+            </ul>
 
-            <div
-                className="glass list-option-lists glass mt-6 pt-3 px-2"
-                style={overlay}
-            >
-                <nav id="list-option-btns" className="card glass border mb-4">
-                    <ul className="nav nav-pills card-body row">
-                        <li className="nav-item col">
-                            <button
-                                className="btn nav-link link-secondary active col"
-                                style={btnWidth}
-                                onClick={handleMode}
-                            >
-                                To do
-                            </button>
+            <div className="list-option-lists" style={overlay}>
+                <nav className="list-option-btns">
+                    <ul>
+                        <li>
+                            <button onClick={handleMode}>To do</button>
                         </li>
-                        <li className="nav-item col">
-                            <button
-                                className="btn nav-link link-secondary col"
-                                style={btnWidth}
-                                onClick={handleMode}
-                            >
+                        <li>
+                            <button className="active" onClick={handleMode}>
                                 Today
                             </button>
                         </li>
-                        <li className="nav-item col">
-                            <button
-                                className="btn nav-link link-secondary col"
-                                style={btnWidth}
-                                onClick={handleMode}
-                            >
-                                Done
-                            </button>
+                        <li>
+                            <button onClick={handleMode}>Done</button>
                         </li>
                     </ul>
                 </nav>
-                <ul className="list-option-lists p-0">
-                    <ListGroup id="to-do">
+                <ul className="list-option-lists">
+                    <ul id="to-do" className="lists hidden">
                         {toDo.map((value) => (
-                            <li
-                                key={value.id}
-                                style={{ listStyle: 'none' }}
-                                className="mb-2"
-                            >
+                            <li key={value.id} style={{ listStyle: 'none' }}>
                                 <TaskCard
                                     id={value.id}
                                     title={value.title}
@@ -160,14 +131,10 @@ const TaskLists: React.FC = () => {
                                 />
                             </li>
                         ))}
-                    </ListGroup>
-                    <ListGroup id="today" className="hidden">
+                    </ul>
+                    <ul id="today" className="lists">
                         {today.map((value) => (
-                            <li
-                                key={value.id}
-                                style={{ listStyle: 'none' }}
-                                className="mb-2"
-                            >
+                            <li key={value.id} style={{ listStyle: 'none' }}>
                                 <TaskCard
                                     id={value.id}
                                     title={value.title}
@@ -176,14 +143,10 @@ const TaskLists: React.FC = () => {
                                 />
                             </li>
                         ))}
-                    </ListGroup>
-                    <ListGroup id="done" className="hidden">
+                    </ul>
+                    <ul id="done" className="lists hidden">
                         {done.map((value) => (
-                            <li
-                                key={value.id}
-                                style={{ listStyle: 'none' }}
-                                className="mb-2"
-                            >
+                            <li key={value.id} style={{ listStyle: 'none' }}>
                                 <TaskCard
                                     id={value.id}
                                     title={value.title}
@@ -192,7 +155,7 @@ const TaskLists: React.FC = () => {
                                 />
                             </li>
                         ))}
-                    </ListGroup>
+                    </ul>
                 </ul>
             </div>
         </div>

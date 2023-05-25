@@ -1,5 +1,4 @@
 import React, { useState, MouseEvent, useEffect } from 'react'
-import { Card, ListGroup } from 'react-bootstrap'
 import axios from 'axios'
 
 interface tasksInterface {
@@ -14,34 +13,17 @@ const TaskCard = (props: tasksInterface) => {
     const [sendToMenuOpen, setSendToMenuOpen] = useState(false)
     const [taskStatus, setTaskStatus] = useState(props.status)
 
-
-    const arrowDownIcon = (
+    const chevron = (
         <svg
-            xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
-            fill="currentColor"
-            className="bi bi-chevron-down"
             viewBox="0 0 16 16"
-        >
-            <path
-                fillRule="evenodd"
-                d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"
-            />
-        </svg>
-    )
-    const arrowUpIcon = (
-        <svg
+            fill="none"
             xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            className="bi bi-chevron-up"
-            viewBox="0 0 16 16"
         >
             <path
-                fillRule="evenodd"
-                d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"
+                d="M2.61429 0.452128L7.49235 5.32178L12.3689 0.452128C12.5173 0.301935 12.6872 0.188901 12.8786 0.113031C13.0699 0.0371602 13.2643 3.73874e-07 13.4602 3.6531e-07C13.6561 3.56746e-07 13.8474 0.0371601 14.0342 0.113031C14.2209 0.188901 14.3878 0.301935 14.5362 0.452128C14.8454 0.754062 15 1.11329 15 1.5329C15 1.95251 14.8454 2.31173 14.5378 2.61367L8.67092 8.49751C8.52245 8.6477 8.34337 8.76538 8.13673 8.85209C7.92857 8.9388 7.71888 8.9868 7.50612 8.99764C7.29337 9.00848 7.0898 8.98215 6.89235 8.91557C6.69643 8.85054 6.53265 8.7437 6.40561 8.59351L0.445408 2.61212C0.148469 2.31173 -3.08123e-07 1.95096 -3.26397e-07 1.5329C-3.44739e-07 1.11329 0.148469 0.754061 0.445408 0.453675C0.593877 0.303482 0.763775 0.190452 0.955102 0.114581C1.14643 0.0387104 1.34082 0.00154966 1.53673 0.00154965C1.73265 0.00154965 1.92398 0.0387104 2.11071 0.114581C2.29745 0.188903 2.46582 0.301935 2.61429 0.452128Z"
+                fill="white"
             />
         </svg>
     )
@@ -63,13 +45,10 @@ const TaskCard = (props: tasksInterface) => {
             width="16"
             height="16"
             fill="currentColor"
-            className="bi bi-arrow-up-right-circle"
+            className="bi bi-folder-symlink-fill"
             viewBox="0 0 16 16"
         >
-            <path
-                fillRule="evenodd"
-                d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.854 10.803a.5.5 0 1 1-.708-.707L9.243 6H6.475a.5.5 0 1 1 0-1h3.975a.5.5 0 0 1 .5.5v3.975a.5.5 0 1 1-1 0V6.707l-4.096 4.096z"
-            />
+            <path d="M13.81 3H9.828a2 2 0 0 1-1.414-.586l-.828-.828A2 2 0 0 0 6.172 1H2.5a2 2 0 0 0-2 2l.04.87a1.99 1.99 0 0 0-.342 1.311l.637 7A2 2 0 0 0 2.826 14h10.348a2 2 0 0 0 1.991-1.819l.637-7A2 2 0 0 0 13.81 3zM2.19 3c-.24 0-.47.042-.683.12L1.5 2.98a1 1 0 0 1 1-.98h3.672a1 1 0 0 1 .707.293L7.586 3H2.19zm9.608 5.271-3.182 1.97c-.27.166-.616-.036-.616-.372V9.1s-2.571-.3-4 2.4c.571-4.8 3.143-4.8 4-4.8v-.769c0-.336.346-.538.616-.371l3.182 1.969c.27.166.27.576 0 .742z" />
         </svg>
     )
     const checkboxIcon = (
@@ -78,10 +57,10 @@ const TaskCard = (props: tasksInterface) => {
             width="16"
             height="16"
             fill="currentColor"
-            className="bi bi-square"
+            className="bi bi-check-circle-fill"
             viewBox="0 0 16 16"
         >
-            <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+            <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z" />
         </svg>
     )
 
@@ -120,8 +99,8 @@ const TaskCard = (props: tasksInterface) => {
         document.location.reload()
     }
 
-  const handleMigrate = async (e: MouseEvent<HTMLButtonElement>) => {
-      setSendToMenuOpen(true)
+    const handleMigrate = async (e: MouseEvent<HTMLButtonElement>) => {
+        setSendToMenuOpen(true)
         e.preventDefault()
         const id = e.currentTarget.getAttribute('data-value')
         const status = Number(e.currentTarget.value)
@@ -133,13 +112,11 @@ const TaskCard = (props: tasksInterface) => {
         // }
 
         if (sendToMenuOpen) {
-          setSendToMenuOpen(false)
-      } else {
-          setSendToMenuOpen(true)
-      }
-      console.log(e.currentTarget.getAttribute('data-value'))
-
-
+            setSendToMenuOpen(false)
+        } else {
+            setSendToMenuOpen(true)
+        }
+        console.log(e.currentTarget.getAttribute('data-value'))
 
         //document.location.reload()
     }
@@ -168,93 +145,97 @@ const TaskCard = (props: tasksInterface) => {
         })
     }
 
-  function updateTask(e: MouseEvent<HTMLLIElement>) {
+    function updateTask(e: MouseEvent<HTMLLIElement>) {
+        const status = Number(e.currentTarget.id)
 
-    const status = Number(e.currentTarget.id)
+        console.log(e.currentTarget.id)
+        console.log(props.id)
+        console.log(status)
 
-    console.log(e.currentTarget.id)
-    console.log(props.id)
-    console.log(status)
+        axios({
+            method: 'put',
+            url: 'http://localhost:8080/api/update-task-status',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: { id: props.id, status: status },
+        })
 
-    axios({
-      method: "put",
-      url: 'http://localhost:8080/api/update-task-status',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      data: { id: props.id, status: status },
-    })
-
-    //fundera på om ni ska ladda in senaste statusen från backend
-    setTaskStatus(status);
-    // console.log(taskStatus);
-
-
-  }
+        //fundera på om ni ska ladda in senaste statusen från backend
+        setTaskStatus(status)
+        // console.log(taskStatus);
+    }
 
     return (
-        <Card className="glass border p-2 pb-1">
-            <Card.Body>
-                <div className="d-flex justify-content-between align-items-center">
-                    <Card.Title>{props.title}</Card.Title>
+        <div
+            id="Card"
+            className="card"
+            style={{ borderRadius: cardOpen ? '10px' : '8px' }}
+        >
+            <div className="header">
+                <h3 className="card-title">{props.title}</h3>
+                <button
+                    className="icon"
+                    onClick={toggleCard}
+                    data-value="false"
+                    style={{ transform: cardOpen ? 'scaleY(-1)' : 'none' }}
+                >
+                    {chevron}
+                </button>
+            </div>
+            <div
+                style={{
+                    display: cardOpen ? 'block' : 'none',
+                }}
+            >
+                <p className="card-text">{props.description}</p>
+                <div className="controls">
                     <button
-                        onClick={toggleCard}
-                        className="btn"
-                        data-value="false"
+                        onClick={handleDelete}
+                        data-value={props.id}
+                        className="icon"
                     >
-                        {cardOpen ? arrowUpIcon : arrowDownIcon}
+                        {trashCanIcon}
+                    </button>
+
+                    <button
+                        onClick={handleMigrate}
+                        data-value={props.id}
+                        value={props.status}
+                        className="icon"
+                    >
+                        {migrationIcon}
+
+                        {sendToMenuOpen && (
+                            <ul className="list-group">
+                                <li
+                                    id="1"
+                                    value={props.id}
+                                    onClick={updateTask}
+                                >
+                                    Send to To-do
+                                </li>
+                                <li id="2" onClick={updateTask}>
+                                    Send to Today
+                                </li>
+                                <li id="3" onClick={updateTask}>
+                                    Send to Active
+                                </li>
+                            </ul>
+                        )}
+                    </button>
+
+                    <button
+                        onClick={handleDone}
+                        data-value={props.id}
+                        value={props.status}
+                        className="icon"
+                    >
+                        {checkboxIcon}
                     </button>
                 </div>
-                <div
-                    style={{
-                        display: cardOpen ? 'block' : 'none',
-                    }}
-                >
-                    <Card.Text>{props.description}</Card.Text>
-                    <div className="d-flex justify-content-between">
-                        <button
-                            onClick={handleDelete}
-                            data-value={props.id}
-                            className="btn btn-secondary btn-icon"
-                        >
-                            {trashCanIcon}
-              </button>
-
-                        <button
-                            onClick={handleMigrate}
-                            data-value={props.id}
-                            value={props.status}
-                            className="btn btn-secondary btn-icon"
-                        >
-                {migrationIcon ? arrowDownIcon : arrowUpIcon}
-
-                {sendToMenuOpen && <ul className="list-group">
-
-                <li id="1" onClick={updateTask} className="list-group-item">Send to To-do</li>
-                <li id="2" onClick={updateTask} className="list-group-item">Send to Today</li>
-                <li id="3" onClick={updateTask} className="list-group-item">Send to Active</li>
-
-              </ul>}
-                        </button>
-                        <button
-                            onClick={handleDone}
-                            data-value={props.id}
-                            value={props.status}
-                            className="btn btn-secondary btn-icon"
-                        >
-                            {checkboxIcon}
-              </button>
-              {/* <ul className="list-group">
-                <li className="list-group-item">Send to &rdqou;To-do&rdqou;</li>
-                <li className="list-group-item">Send to &rdqou;Today&rdqou;</li>
-                <li className="list-group-item">Send to &rdqou;Active&rdqou;</li>
-              </ul> */}
-
-
-                    </div>
-                </div>
-            </Card.Body>
-        </Card>
+            </div>
+        </div>
     )
 }
 
