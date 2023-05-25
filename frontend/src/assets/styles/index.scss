@@ -1,201 +1,455 @@
 @import '../fonts/GeneralSans_Complete/Fonts/WEB/css/general-sans.css';
 $space-white: #fff;
+$space-gray: #9b9b9b;
 $space-black: #000;
 $space-orange-c: #fb8a38;
+$space-orange-d: #ffba88;
+$space-green: #38a505;
 $space-bg-top: #3a0c42;
 $space-bg-bottom: #0c1142;
 
-$spacer: 8px;
-$spacers: (
-    0: 0,
-    1: $spacer,
-    2: $spacer * 2,
-    //16
-    3: $spacer * 3,
-    //24
-    4: $spacer * 4,
-    //32
-    5: $spacer * 5,
-    //40
-    6: $spacer * 6,
-    //48
-    7: $spacer * 7,
-    //56
-    8: $spacer * 8,
-    //64
-    9: $spacer * 9,
-    //72
-    10: $spacer * 10,
-    //80
-    11: $spacer * 11,
-    //88
-    12: $spacer * 12,
-    //96
-);
-
-//Fonts
-$font-family-sans-serif: GeneralSans-Regular;
-$display-font-sizes: (
-    1: 108px,
-    2: 64px,
-    3: 32px,
-    4: 24px,
-    5: 16px,
-    6: 16px,
-    7: 16px,
-);
-// $display-font-family: null;
-
-// Colors
-$primary: $space-orange-c;
-$secondary: $space-white;
-
-$nav-pills-link-active-bg: $space-white;
-$nav-pills-link-active-color: $space-black;
-
-// Cards
-$card-bg: transparent;
-$card-color: $space-white;
-$card-border-color: transparent;
-
-// Buttons
-$btn-font-family: GeneralSans-Bold;
-$btn-color: $space-white;
-$btn-padding-y-sm: 12px;
-$btn-padding-x-sm: 24px;
-$btn-padding-y-lg: 16px;
-$btn-padding-x-lg: 40px;
-$btn-border-radius-sm: 8px;
-$btn-border-radius-lg: 12px;
-
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
 body {
     min-height: 100vh;
     background-image: linear-gradient($space-bg-top, $space-bg-bottom);
     background-attachment: fixed;
     background-position: center;
     background-size: cover;
-}
-
-.glass {
-    backdrop-filter: blur(1rem) !important;
-    background-image: linear-gradient(
-        hsla(0, 0%, 100%, 0.1),
-        hsla(0, 0%, 100%, 0)
-    );
-    .border {
-        $card-border-color: $space-white;
+    color: $space-white;
+    .App {
+        > * {
+            margin: 16px auto;
+            width: calc(100vw - 16px * 2);
+            &:first-child,
+            &:last-child {
+                margin: 0;
+                width: 100%;
+            }
+        }
     }
 }
 
-.card {
-    flex-direction: row !important;
-    align-items: center;
-    img {
-        width: 10%;
+/** Headers, Buttons, Img and Spacing DEFAULTS **/
+
+h1 {
+    font-size: 32px;
+    font-family: GeneralSans-Bold;
+    letter-spacing: -0.02em;
+    line-height: 90%;
+    + p {
+        width: 223px;
+        margin-inline: auto;
+    }
+}
+h2 {
+    font-size: 24px;
+    font-family: GeneralSans-Bold;
+    text-transform: capitalize;
+}
+h3 {
+    font-size: 16px;
+    line-height: 100%;
+    text-transform: capitalize;
+    &.bold {
+        font-family: GeneralSans-Bold;
+    }
+    &.regular {
+        font-family: GeneralSans-Regular;
+    }
+    &.card-title {
+        font-family: GeneralSans-Semibold;
+    }
+}
+p {
+    font-family: GeneralSans-Regular;
+    font-size: 16px;
+    &.card-text {
+        font-size: 12px;
+        text-align: start;
+        margin-top: 8px;
+    }
+    + button,
+    + .button {
+        margin-top: 16px;
+        margin-inline: auto;
     }
 }
 
 h1,
-.h1 {
-    font-size: 32px !important;
-    // font-size: 108px !important;
-    font-family: GeneralSans-Bold;
-}
-
-.display-1 {
-    font-size: 108px !important;
-    font-family: GeneralSans-Bold;
-}
-
 h2,
-.h2 {
-    font-size: 24px !important;
-    // font-size: 32px !important;
+p {
+    text-align: center;
+}
+
+strong {
     font-family: GeneralSans-Bold;
 }
-h3,
-.h3,
-.card-title {
-    font-size: 16px !important;
-    font-family: GeneralSans-Semibold;
-}
 
+h1,
 h2,
-.h2,
-h3,
-.h3 {
-    text-transform: capitalize !important;
-}
-
-h4,
-.h4 {
-    font-size: 32px !important;
-}
-
-h5,
-.h5 {
-    font-size: 24 !important;
-
-    font-family: GeneralSans-Semibold;
-}
-
-p,
-.body-text {
-    font-family: GeneralSans-Regular;
-}
-// h1,
-// h2,
-// .h1,
-// .h2 {
-//     font-family: GeneralSans-Bold;
-// }
-// h2,
-// h3,
-// .h2,
-// .h3 {
-//     text-transform: capitalize;
-// }
-
-// h3,
-// .h3,
-// .card-title {
-//     font-family: GeneralSans-Semibold;
-// }
-
-.timer-options {
-    .btn {
-        font-family: GeneralSans-Regular;
+h3 {
+    + p {
+        margin-top: 8px;
     }
-    .btn.active {
-        font-family: GeneralSans-Bold;
+    + button,
+    + .button {
+        margin-top: 24px;
+        margin-inline: auto;
     }
 }
 
-.hidden {
-    display: none !important;
+button,
+.button {
+    background-color: $space-orange-c;
+    border: transparent;
+    border-radius: 8px;
+    box-shadow: 0px 4px 8px hsla(0, 0%, 0%, 0.25);
+    color: $space-black;
+    display: block;
+    font-family: GeneralSans-Bold;
+    font-size: 12px;
+    padding: 12px 24px;
+    text-decoration: none;
+    width: fit-content;
+    &.icon {
+        background-color: transparent;
+        box-shadow: none;
+        padding: 0;
+        svg {
+            color: $space-white;
+            height: 32px;
+            width: 100%;
+        }
+        &:hover {
+            background-color: transparent;
+        }
+    }
+    &:hover {
+        background-color: $space-orange-d;
+    }
+    + p {
+        margin-top: 24px;
+    }
 }
 
-@media (max-width: 992px) {
-    // .navbar-collapse.collapsing .navbar-nav {
-    //     display: block;
-    //     position: fixed;
-    //     top: 0;
-    //     bottom: 0;
-    //     left: -25%;
-    //     transition: all 0.2s ease;
-    // }
-
-    // .navbar-collapse.show .navbar-nav {
-    //     background-image: linear-gradient($space-bg-top, $space-bg-bottom);
-    //     border: 1px solid red;
-    //     position: fixed;
-    //     inset: 0;
-    //     flex-direction: column;
-    //     height: auto;
-    //     width: 100%;
-    //     transition: left 0.35s ease;
-    //     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
-    // }
+img,
+svg {
+    display: block;
+    height: 100%;
+    width: 100%;
 }
 
-@import '../../../node_modules/bootstrap/scss/bootstrap';
+/** Elements **/
+.navigation {
+    height: 32px;
+    background-color: #fb8a38;
+}
+
+.card {
+    gap: 24px;
+    padding: 16px;
+
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        .icon {
+            height: 20px;
+            width: 20px;
+            margin: 0;
+        }
+    }
+    &.img-left {
+        display: flex;
+        img {
+            width: 40px;
+        }
+    }
+    .controls {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 48px;
+    }
+}
+
+#Card {
+    // backdrop-filter: blur(1rem) !important;
+    background-image: linear-gradient(
+        180deg,
+        rgba(255, 255, 255, 0.1) 0%,
+        rgba(255, 255, 255, 0) 100%
+    );
+    // backdrop-filter: blur(20px);
+
+    border: 1px solid $space-white;
+    border-radius: 16px;
+}
+
+/** Pages **/
+
+#Home {
+    margin-inline: auto;
+    section section {
+        margin-bottom: 48px;
+        &:last-child {
+            margin-bottom: 0;
+        }
+    }
+    > :last-child {
+        h2 {
+            text-transform: none;
+        }
+    }
+    > section {
+        margin-top: 96px;
+        margin-bottom: 64px;
+        > &:first-child img {
+            width: 262px;
+            margin-inline: auto;
+        }
+        > &:nth-child(2),
+        > &:nth-child(3) {
+            > :first-child p,
+            > p {
+                width: 323px;
+                margin-inline: auto;
+            }
+        }
+        > &:nth-child(2) > :last-child {
+            background-color: rgba(255, 255, 255, 0.07);
+            border-radius: 16px;
+            > * {
+                margin-bottom: 8px;
+            }
+            > *:last-child {
+                margin-bottom: 0;
+            }
+        }
+    }
+}
+
+.Pomodoro {
+    h2 {
+        text-align: left;
+        font-family: GeneralSans-Semibold;
+        margin-bottom: 8px;
+    }
+    > :nth-child(2) {
+        margin-bottom: 32px;
+    }
+    > * {
+        margin-bottom: 48px;
+    }
+    .Timer {
+        text-align: center;
+        margin-bottom: 56px;
+
+        > * {
+            margin-bottom: 32px;
+        }
+        .timer-clock {
+            font-family: GeneralSans-Bold;
+            font-size: 108px;
+            line-height: 90%;
+            letter-spacing: -0.02em;
+        }
+        .timer-btns {
+            position: relative;
+        }
+        .start {
+            margin-inline: auto;
+            font-size: 16px;
+            padding: 16px 40px;
+        }
+        .reset {
+            position: absolute;
+            right: 0;
+            top: 0;
+        }
+    }
+    .display-options,
+    .list-option-btns,
+    .timer-options {
+        border: 1px solid $space-white;
+        border-radius: 8px;
+        padding: 8px;
+        ul {
+            display: grid;
+            gap: 8px;
+            list-style: none;
+            button {
+                width: 100%;
+            }
+        }
+        button {
+            background-color: transparent;
+            box-shadow: none;
+            color: $space-white;
+            &.active {
+                background-color: $space-white;
+                color: $space-black;
+            }
+        }
+    }
+
+    .display-options ul {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .list-option-btns ul,
+    .timer-options ul {
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .hidden {
+        display: none;
+    }
+
+    div.list-option-lists {
+        background-image: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        margin-top: 48px;
+        padding: 24px 16px;
+        > * {
+            margin-bottom: 24px;
+        }
+    }
+
+    ul.list-option-lists {
+        &#active > *,
+        > .lists > * {
+            margin-bottom: 24px;
+        }
+        &#active > :last-child,
+        > .lists > :last-child {
+            margin-bottom: 0;
+        }
+    }
+}
+
+@media (max-width: 1024px) {
+    .Pomodoro .Timer .timer-options {
+        border: none;
+        margin-bottom: 16px;
+        button {
+            font-family: GeneralSans-Regular;
+            padding: 10px;
+            &.active {
+                font-family: GeneralSans-Bold;
+                background-color: transparent;
+                color: $space-white;
+            }
+        }
+    }
+}
+
+@media (min-width: 1024px) {
+    /** Headers, Buttons, Img and Spacing DEFAULTS **/
+    h1 {
+        font-size: 108px;
+        text-align: left;
+        + p {
+            font-size: 32px;
+            margin-left: 0;
+            margin-top: 40px;
+            text-align: left;
+            width: 500px;
+            + .button {
+                margin-top: 64px;
+                margin-left: 0;
+            }
+        }
+    }
+    h2 {
+        font-size: 64px;
+        + button,
+        + .button {
+            margin-top: 48px;
+        }
+    }
+    h3 {
+        font-size: 32px;
+        &.card-title {
+            font-size: 24px;
+        }
+    }
+    p {
+        font-size: 24px;
+    }
+
+    button,
+    .button {
+        font-size: 16px;
+        padding: 16px 40px;
+        + p {
+            margin-top: 48px;
+        }
+    }
+
+    /** Elemets **/
+
+    /** Pages **/
+    #Home {
+        > * {
+            width: 1247px;
+            margin-inline: auto;
+        }
+        > :first-child {
+            display: flex;
+            align-items: center;
+            margin-top: 96px;
+            > :first-child {
+                width: 724px;
+            }
+        }
+
+        > :last-child {
+            h2 {
+                font-size: 48px;
+            }
+            margin-bottom: 96px;
+        }
+        > section {
+            margin-top: 160px;
+            > &:first-child img {
+                height: 100%;
+                width: 356px;
+                margin-inline: auto;
+            }
+            > section {
+                margin-bottom: 64px;
+            }
+            > &:nth-child(2),
+            > &:nth-child(3) {
+                > :first-child p,
+                > p {
+                    width: 587px;
+                    margin-inline: auto;
+                }
+            }
+            > &:nth-child(2) > :last-child {
+                background-color: transparent;
+                display: grid;
+                gap: 64px;
+                grid-template-columns: repeat(3, 1fr);
+                > * {
+                    background-color: rgba(255, 255, 255, 0.07);
+                    border-radius: 16px;
+                    padding: 24px;
+                    margin-bottom: 0;
+                    img {
+                        width: 100px;
+                    }
+                }
+            }
+        }
+    }
+}
