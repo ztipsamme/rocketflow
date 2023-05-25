@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { Link } from 'react-router-dom'
 import rocket from '../assets/images/rocket.png'
 import clock from '../assets/images/clock.svg'
@@ -40,14 +40,8 @@ function Home() {
                 <img src={rocket} alt="Rocket" />
             </section>
 
-                <img
-                    src={rocket}
-                    style={{ width: '100%' }}
-                    alt="Elastic guy flying on a rocket"
-                />
-            </Container>
-            <Container className="mb-12">
-                <div className="text-center mb-3">
+            <section id="info">
+                <section>
                     <h2>Prodoctivity booster</h2>
                     <p>
                         Put your workflow on autopilot, prioritize your tasks

@@ -129,6 +129,20 @@ button,
         &:hover {
             background-color: transparent;
         }
+        &.plus-icon {
+            margin: auto;
+            margin-bottom: 16px;
+
+            svg {
+                color: $space-orange-c;
+                height: 50px;
+                width: 100%;
+            }
+            + p {
+                margin: auto;
+                width: 152px;
+            }
+        }
     }
     &:hover {
         background-color: $space-orange-d;

@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useEffect } from 'react'
+import React, { useState, MouseEvent } from 'react'
 import axios from 'axios'
 
 interface tasksInterface {
@@ -10,8 +10,8 @@ interface tasksInterface {
 
 const TaskCard = (props: tasksInterface) => {
     const [cardOpen, setCardOpen] = useState(false)
-    const [sendToMenuOpen, setSendToMenuOpen] = useState(false)
-    const [taskStatus, setTaskStatus] = useState(props.status)
+    const [migrateOpen, setMigrateOpen] = useState(false)
+    // const [taskStatus, setTaskStatus] = useState(props.status)
 
     const chevron = (
         <svg
@@ -73,57 +73,43 @@ const TaskCard = (props: tasksInterface) => {
         console.log(e.currentTarget.getAttribute('data-value'))
     }
 
-    const handleActive = async (e: MouseEvent<HTMLButtonElement>) => {
-        e.preventDefault()
-        const id = e.currentTarget.getAttribute('data-value')
-        const status = Number(e.currentTarget.value)
-
-        if (status !== 2) {
-            updateState(id, 2)
-        } else {
-            updateState(id, 0)
-        }
-        document.location.reload()
-    }
-
     const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
+        const id = e.currentTarget.id
         axios({
             method: 'delete',
             url: 'http://localhost:8080/api/delete-task',
             headers: {
                 'Content-Type': 'application/json',
             },
-            data: { id: e.currentTarget.getAttribute('data-value') },
+            data: { id: id },
         })
         document.location.reload()
     }
 
-    const handleMigrate = async (e: MouseEvent<HTMLButtonElement>) => {
-        setSendToMenuOpen(true)
+    const toggleMigrate = async (e: MouseEvent<HTMLButtonElement>) => {
+        setMigrateOpen(true)
         e.preventDefault()
-        const id = e.currentTarget.getAttribute('data-value')
+        if (migrateOpen) {
+            setMigrateOpen(false)
+        } else {
+            setMigrateOpen(true)
+        }
+    }
+
+    const handleMigrate = async (e: MouseEvent<HTMLLIElement>) => {
+        e.preventDefault()
+        const id = e.currentTarget.id
         const status = Number(e.currentTarget.value)
 
-        // if (status === 0) {
-        //     updateState(id, 2)
-        // } else {
-        //     updateState(id, 0)
-        // }
+        updateState(id, status)
 
-        if (sendToMenuOpen) {
-            setSendToMenuOpen(false)
-        } else {
-            setSendToMenuOpen(true)
-        }
-        console.log(e.currentTarget.getAttribute('data-value'))
-
-        //document.location.reload()
+        document.location.reload()
     }
 
     const handleDone = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        const id = e.currentTarget.getAttribute('data-value')
+        const id = e.currentTarget.id
         const status = Number(e.currentTarget.value)
 
         if (status !== 3) {
@@ -143,47 +129,31 @@ const TaskCard = (props: tasksInterface) => {
             },
             data: { id: id, status: state },
         })
+
+        document.location.reload()
     }
 
-    function updateTask(e: MouseEvent<HTMLLIElement>) {
-        const id = Number(e.currentTarget.id)
-        const status = e.currentTarget.value
+    // function updateTask(e: MouseEvent<HTMLLIElement>) {
+    //     const id = Number(e.currentTarget.id)
+    //     const status = e.currentTarget.value
 
-        console.log(e.currentTarget.id)
-        console.log(props.id)
-        console.log(status)
+    //     console.log(e.currentTarget.id)
+    //     console.log(props.id)
+    //     console.log(status)
 
-        axios({
-            method: 'put',
-            url: 'http://localhost:8080/api/update-task-status',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            data: { id: id, status: status },
-        })
+    //     axios({
+    //         method: 'put',
+    //         url: 'http://localhost:8080/api/update-task-status',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //         data: { id: id, status: status },
+    //     })
 
-        //fundera på om ni ska ladda in senaste statusen från backend
-        setTaskStatus(status)
-        // console.log(taskStatus);
-    }
-
-    function saveNewTask(e: MouseEvent<SVGSVGElement>) {
-        // const id = e.currentTarget.getAttribute('data-value')
-
-        axios({
-            method: 'post',
-            url: 'http://localhost:8080/api/add-task',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            data: {
-                title: props.title,
-                description: props.description,
-                id: props.id,
-                status: props.status,
-            },
-        })
-    }
+    //     //fundera på om ni ska ladda in senaste statusen från backend
+    //     setTaskStatus(status)
+    //     // console.log(taskStatus);
+    // }
 
     return (
         <div
@@ -210,57 +180,51 @@ const TaskCard = (props: tasksInterface) => {
                 <p className="card-text">{props.description}</p>
                 <div className="controls">
                     <button
+                        id={props.id}
                         onClick={handleDelete}
-                        data-value={props.id}
+                        value={props.status}
                         className="icon"
                     >
                         {trashCanIcon}
                     </button>
 
-                    <button
-                        onClick={handleMigrate}
-                        data-value={props.id}
-                        value={props.status}
-                        className="icon"
-                    >
+                    <button onClick={toggleMigrate} className="icon">
                         {migrationIcon}
-
-                        {sendToMenuOpen && (
-                            <ul className="list-group">
-                                <li
-                                    id="1"
-                                    value={props.id}
-                                    onClick={updateTask}
-                                >
-                                    Send to To-do
-                                </li>
-                                <li id="2" onClick={updateTask}>
-                                    Send to Today
-                                </li>
-                                <li id="3" onClick={updateTask}>
-                                    Send to Active
-                                </li>
+                        {migrateOpen && (
+                            <ul>
                                 <li
                                     id={props.id}
-                                    value="1"
-                                    onClick={updateTask}
-                                    className="list-group-item"
+                                    value={0}
+                                    onClick={handleMigrate}
+                                    style={
+                                        props.status === 0
+                                            ? { display: 'none' }
+                                            : { display: 'inline' }
+                                    }
                                 >
                                     Send to To-do
                                 </li>
                                 <li
                                     id={props.id}
-                                    value="2"
-                                    onClick={updateTask}
-                                    className="list-group-item"
+                                    value={1}
+                                    onClick={handleMigrate}
+                                    style={
+                                        props.status === 1
+                                            ? { display: 'none' }
+                                            : { display: 'inline' }
+                                    }
                                 >
                                     Send to Today
                                 </li>
                                 <li
                                     id={props.id}
-                                    value="3"
-                                    onClick={updateTask}
-                                    className="list-group-item"
+                                    value={2}
+                                    onClick={handleMigrate}
+                                    style={
+                                        props.status === 2
+                                            ? { display: 'none' }
+                                            : { display: 'inline' }
+                                    }
                                 >
                                     Send to Active
                                 </li>
@@ -270,26 +234,12 @@ const TaskCard = (props: tasksInterface) => {
 
                     <button
                         onClick={handleDone}
-                        data-value={props.id}
+                        id={props.id}
                         value={props.status}
                         className="icon"
                     >
                         {checkboxIcon}
                     </button>
-
-                    <svg
-                        onClick={saveNewTask}
-                        data-value={props.title}
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        fill="currentColor"
-                        className="bi bi-check-square"
-                        viewBox="0 0 16 16"
-                    >
-                        <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                        <path d="M10.97 4.97a.75.75 0 0 1 1.071 1.05l-3.992 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.235.235 0 0 1 .02-.022z" />
-                    </svg>
                 </div>
             </div>
         </div>

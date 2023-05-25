@@ -128,6 +128,22 @@ button.icon:hover,
 .button.icon:hover {
   background-color: transparent;
 }
+button.icon.plus-icon,
+.button.icon.plus-icon {
+  margin: auto;
+  margin-bottom: 16px;
+}
+button.icon.plus-icon svg,
+.button.icon.plus-icon svg {
+  color: #fb8a38;
+  height: 50px;
+  width: 100%;
+}
+button.icon.plus-icon + p,
+.button.icon.plus-icon + p {
+  margin: auto;
+  width: 152px;
+}
 button:hover,
 .button:hover {
   background-color: #ffba88;
