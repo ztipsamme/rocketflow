@@ -17,13 +17,7 @@ const TaskLists = () => {
     const [done, setDone] = useState<tasksInterface[]>([])
     const [noCardsText, setNoCardsText] = useState(true)
     const [windowWidth, setWindowWidth] = useState<number | undefined>()
-    const overlay: object = {
-        position: 'absolute',
-        left: 0,
-        width: '100%',
-        borderRadius: '8px   8px 0 0',
-        borderTop: '1px solid #fff',
-    }
+    const [desktop, setDesktop] = useState<boolean>()
     const plusIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -53,6 +47,7 @@ const TaskLists = () => {
 
     window.addEventListener('load', () => {
         setWindowWidth(window.innerWidth)
+        ifMobile()
     })
 
     useEffect(() => {
@@ -64,41 +59,70 @@ const TaskLists = () => {
         window.addEventListener('resize', () => {
             setWindowWidth(window.innerWidth)
         })
-        ;[toDo, today, done].forEach((e) => {
-            checkIfEmptyList(e)
-        })
+
+        ifDesktop()
     }, [])
 
-    function handleMode(e: MouseEvent<HTMLElement>) {
-        const modeBtns = document
-            .querySelector('.list-option-btns')
-            ?.querySelectorAll('button')
-        const modesLists = document.querySelectorAll('.lists')
-        const listOption = e.currentTarget.innerHTML
+    function ifMobile() {
+        if (window.innerWidth !== undefined && window.innerWidth < 1024) {
+            const defaultMode: any = document.querySelector('#today')
+            if (defaultMode !== null) defaultMode.checked = true
+            document.querySelectorAll('.list').forEach((e) => {
+                if (!e.classList.contains('today')) e.classList.add('hidden')
+            })
+        }
+    }
+
+    function ifDesktop() {
+        if (window.innerWidth !== undefined && window.innerWidth >= 1024) {
+            setDesktop(true)
+            document.querySelector('.add-task')?.classList.remove('icon')
+            // document.querySelector('.add-task')?.classList.add('button')
+        } else {
+            setDesktop(false)
+        }
+    }
+
+    function handleMode(e: any) {
+        console.log(e)
+        const id = e.target.id
+        const list = e.target.value
+        const lists = document.querySelectorAll('.list')
+        const modeBtns = document.querySelectorAll('.mode-btn>label')
 
         modeBtns?.forEach((e) => {
             e.classList.remove('active')
         })
-        e.currentTarget.classList.add('active')
+        e.target.classList.add('active')
 
-        if (windowWidth !== undefined && windowWidth < 900) {
-            if (listOption === 'To do') {
-                updateActiveList('to-do')
-                checkIfEmptyList(toDo)
-            } else if (listOption === 'Today') {
-                updateActiveList('today')
-                checkIfEmptyList(today)
-            } else if (listOption === 'Done') {
-                updateActiveList('done')
-                checkIfEmptyList(done)
+        if (windowWidth !== undefined && windowWidth < 1024) {
+            lists?.forEach((e) => {
+                if (e.className.includes(id)) {
+                    e.classList.remove('hidden')
+                } else {
+                    e.classList.add('hidden')
+                }
+            })
+
+            switch (list) {
+                case 'toDo':
+                    checkIfEmptyList(toDo)
+                    break
+                case 'today':
+                    checkIfEmptyList(today)
+                    break
+                case 'done':
+                    checkIfEmptyList(done)
+                    break
             }
         }
+    }
 
-        function updateActiveList(list: string) {
-            modesLists?.forEach((e) => {
-                e.classList.add('hidden')
-            })
-            document.querySelector(`#${list}`)?.classList.remove('hidden')
+    function checkIfEmptyList(list: tasksInterface[]) {
+        if (list.length <= 0) {
+            setNoCardsText(false)
+        } else {
+            setNoCardsText(true)
         }
     }
 
@@ -118,25 +142,53 @@ const TaskLists = () => {
         document.location.reload()
     }
 
-    function checkIfEmptyList(list: tasksInterface[]) {
-        if (list.length <= 0) {
-            setNoCardsText(false)
-        } else {
-            setNoCardsText(true)
-            console.log('hah')
-        }
-    }
-
     return (
-        <div>
-            <h2>Active task</h2>
-            <ul id="active" className="list-option-lists">
-                {activeTask.map((value) => (
-                    <li
-                        key={value.id}
-                        style={{ listStyle: 'none' }}
-                        className="mb-2"
-                    >
+        <>
+            <div className="activeTask">
+                <h2 className="h2-active">Active task</h2>
+                <ul id="active" className="list-option-lists">
+                    {activeTask.map((value) => (
+                        <li key={value.id} style={{ listStyle: 'none' }}>
+                            <TaskCard
+                                id={value.id}
+                                title={value.title}
+                                description={value.description}
+                                status={value.status}
+                            />
+                        </li>
+                    ))}
+                </ul>
+            </div>
+
+            {!desktop && (
+                <form className="pill-nav mode-btn" onChange={handleMode}>
+                    <input id="to-do" type="radio" value="toDo" name="mode" />
+                    <label htmlFor="to-do" className="button">
+                        To Do
+                    </label>
+                    <input id="today" type="radio" value="today" name="mode" />
+                    <label htmlFor="today" className="button">
+                        Today
+                    </label>
+                    <input id="done" type="radio" value="done" name="mode" />
+                    <label htmlFor="done" className="button">
+                        Done
+                    </label>
+                </form>
+            )}
+
+            <button
+                className=" add-task icon plus-icon"
+                onClick={handleAddCard}
+            >
+                {desktop ? 'Add Task' : plusIcon}
+            </button>
+            {noCardsText ? <></> : <p>You have not added any tasks yet</p>}
+
+            {desktop && <h2 className="h2-to-do">To Do</h2>}
+            <ul className="to-do list">
+                {toDo.map((value) => (
+                    <li key={value.id}>
                         <TaskCard
                             id={value.id}
                             title={value.title}
@@ -147,74 +199,34 @@ const TaskLists = () => {
                 ))}
             </ul>
 
-            <div className="list-option-lists" style={overlay}>
-                <nav className="list-option-btns">
-                    <ul>
-                        <li>
-                            <button onClick={handleMode}>To do</button>
-                        </li>
-                        <li>
-                            <button className="active" onClick={handleMode}>
-                                Today
-                            </button>
-                        </li>
-                        <li>
-                            <button onClick={handleMode}>Done</button>
-                        </li>
-                    </ul>
-                </nav>
+            {desktop && <h2 className="h2-today">Today</h2>}
+            <ul className="today list">
+                {today.map((value) => (
+                    <li key={value.id}>
+                        <TaskCard
+                            id={value.id}
+                            title={value.title}
+                            description={value.description}
+                            status={value.status}
+                        />
+                    </li>
+                ))}
+            </ul>
 
-                <div>
-                    <button className="icon plus-icon" onClick={handleAddCard}>
-                        {plusIcon}
-                    </button>
-                    {noCardsText ? (
-                        <></>
-                    ) : (
-                        <p>You have not added any tasks yet</p>
-                    )}
-                </div>
-
-                <ul className="list-option-lists">
-                    <ul id="to-do" className="lists hidden">
-                        {toDo.map((value) => (
-                            <li key={value.id} style={{ listStyle: 'none' }}>
-                                <TaskCard
-                                    id={value.id}
-                                    title={value.title}
-                                    description={value.description}
-                                    status={value.status}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                    <ul id="today" className="lists">
-                        {today.map((value) => (
-                            <li key={value.id} style={{ listStyle: 'none' }}>
-                                <TaskCard
-                                    id={value.id}
-                                    title={value.title}
-                                    description={value.description}
-                                    status={value.status}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                    <ul id="done" className="lists hidden">
-                        {done.map((value) => (
-                            <li key={value.id} style={{ listStyle: 'none' }}>
-                                <TaskCard
-                                    id={value.id}
-                                    title={value.title}
-                                    description={value.description}
-                                    status={value.status}
-                                />
-                            </li>
-                        ))}
-                    </ul>
-                </ul>
-            </div>
-        </div>
+            {desktop && <h2 className="h2-done">Done</h2>}
+            <ul className="done list">
+                {done.map((value) => (
+                    <li key={value.id}>
+                        <TaskCard
+                            id={value.id}
+                            title={value.title}
+                            description={value.description}
+                            status={value.status}
+                        />
+                    </li>
+                ))}
+            </ul>
+        </>
     )
 }
 

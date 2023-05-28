@@ -15,17 +15,12 @@ const Pomodoro = () => {
     return (
         <div className="Pomodoro">
             <h1 style={{ display: 'none' }}>Pomodoro</h1>
-            <nav className="display-options">
-                <ul>
-                    <li>
-                        <button className="active" onClick={handleMode}>
-                            Pomodoro
-                        </button>
-                    </li>
-                    <li>
-                        <button onClick={handleMode}>Distractions</button>
-                    </li>
-                </ul>
+            <nav className="pill-nav display-options">
+                <button className="active" onClick={handleMode}>
+                    Pomodoro
+                </button>
+
+                <button onClick={handleMode}>Distractions</button>
             </nav>
 
             <Timer />
