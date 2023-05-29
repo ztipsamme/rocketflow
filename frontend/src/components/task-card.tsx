@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent,ChangeEventHandler, useEffect } from 'react'
+import React, { useState, MouseEvent,ChangeEventHandler, useEffect, useEffect } from 'react'
 import axios from 'axios'
 
 interface tasksInterface {
@@ -84,11 +84,11 @@ const TaskCard = (props: tasksInterface) => {
         })
         document.location.reload()
 
+            setMigrateOpen(false)
         } else {
           setCardOpen(true)
           setEditMode(true)
         }
-        console.log(e.currentTarget.getAttribute('data-value'))
     }
 
     const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -185,6 +185,26 @@ const TaskCard = (props: tasksInterface) => {
 
   }
 
+    interface migrateInterface {
+        value: number
+    }
+
+    useEffect(() => {
+        if (migrateOpen) {
+            document
+                .querySelector('.migrate-list')
+                ?.childNodes.forEach((e: any) => {
+                    if (props.status !== e.value) {
+                        e.classList.add('show')
+                        e.hidden = false
+                    } else {
+                        e.classList.remove('show')
+                        e.hidden = true
+                    }
+                })
+        }
+    }, [migrateOpen])
+
     // function updateTask(e: MouseEvent<HTMLLIElement>) {
     //     const id = Number(e.currentTarget.id)
     //     const status = e.currentTarget.value
@@ -208,99 +228,66 @@ const TaskCard = (props: tasksInterface) => {
     // }
 
     return (
-        <div
-            id="Card"
-            className="card"
-        style={{ borderRadius: cardOpen ? '10px' : '8px' }}
-
-      >
-
-            <div className="header">
-          {/* <h3 className="card-title">{props.title}</h3> */}
-
-          {editMode ? <input onChange={handleSubmitTitle}type="text" value={title}/>: <h3 className="card-title">{title}</h3>}
-
-                <button
-                    className="icon"
-                    onClick={toggleCard}
-        data-value="false"
-                    style={{ transform: cardOpen ? 'scaleY(-1)' : 'none' }}
-                >
-                    {chevron}
-                </button>
-            </div>
-            <div
-                style={{
-                    display: cardOpen ? 'block' : 'none',
-                }}
-            >
-          {/* <p className="card-text">{props.description}</p> */}
-          {editMode ? <input onChange={handleSubmitDesc} type="NyElement" value={description}/> :<p className="card-text">{description}</p>}
-
-                <div className="controls">
-                    <button
-                        id={props.id}
-                        onClick={handleDelete}
-                        value={props.status}
-                        className="icon"
-                    >
-                        {trashCanIcon}
-                    </button>
-
-                    <button onClick={toggleMigrate} className="icon">
-                        {migrationIcon}
-                        {migrateOpen && (
-                            <ul>
-                                <li
-                                    id={props.id}
-                                    value={0}
-                                    onClick={handleMigrate}
-                                    style={
-                                        props.status === 0
-                                            ? { display: 'none' }
-                                            : { display: 'inline' }
-                                    }
-                                >
-                                    Send to To-do
-                                </li>
-                                <li
-                                    id={props.id}
-                                    value={1}
-                                    onClick={handleMigrate}
-                                    style={
-                                        props.status === 1
-                                            ? { display: 'none' }
-                                            : { display: 'inline' }
-                                    }
-                                >
-                                    Send to Today
-                                </li>
-                                <li
-                                    id={props.id}
-                                    value={2}
-                                    onClick={handleMigrate}
-                                    style={
-                                        props.status === 2
-                                            ? { display: 'none' }
-                                            : { display: 'inline' }
-                                    }
-                                >
-                                    Send to Active
-                                </li>
-                            </ul>
-                        )}
-                    </button>
+        <div id="Card">
+            <div className="card">
+                <div className="header">
+                {editMode ? <input onChange={handleSubmitTitle}type="text" value={title}/>: <h3 className="card-title">{title}</h3>}
 
                     <button
-                        onClick={handleDone}
-                        id={props.id}
-                        value={props.status}
                         className="icon"
+                        onClick={toggleCard}
+                        data-value="false"
+                        style={{ transform: cardOpen ? 'scaleY(-1)' : 'none' }}
                     >
-                        {checkboxIcon}
+                        {chevron}
                     </button>
                 </div>
+                <div
+                    style={{
+                        display: cardOpen ? 'block' : 'none',
+                    }}
+                >
+                    {editMode ? <input onChange={handleSubmitDesc} type="NyElement" value={description}/> :<p className="card-text">{description}</p>}
+                    <div className="controls">
+                        <button
+                            id={props.id}
+                            onClick={handleDelete}
+                            value={props.status}
+                            className="icon"
+                        >
+                            {trashCanIcon}
+                        </button>
+                        <button
+                            onClick={toggleMigrate}
+                            className="icon"
+                            value={props.status}
+                        >
+                            {migrationIcon}
+                        </button>
+                        <button
+                            onClick={handleDone}
+                            id={props.id}
+                            value={props.status}
+                            className="icon"
+                        >
+                            {checkboxIcon}
+                        </button>
+                    </div>
+                </div>
             </div>
+            {migrateOpen && (
+                <ul className="migrate-list card">
+                    <li id={props.id} value={0} onClick={handleMigrate}>
+                        Send to <strong>To-do</strong>
+                    </li>
+                    <li id={props.id} value={1} onClick={handleMigrate}>
+                        Send to <strong>Today</strong>
+                    </li>
+                    <li id={props.id} value={2} onClick={handleMigrate}>
+                        Send to <strong>Active</strong>
+                    </li>
+                </ul>
+            )}
         </div>
     )
 }

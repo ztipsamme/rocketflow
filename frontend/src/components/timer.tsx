@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 
 const Timer = () => {
     interface timeInterface {
@@ -32,16 +32,12 @@ const Timer = () => {
         </svg>
     )
 
-    const modes = document.querySelector('.timer-options')
-    const modeBtns = modes?.querySelectorAll('button')
+    function handleMode(e: any) {
+        const setting = e.target.value
+        console.log(setting)
 
-    function handleMode(e: MouseEvent<HTMLElement>) {
-        modeBtns?.forEach((e) => {
-            e.classList.remove('active')
-        })
-        e.currentTarget.classList.add('active')
-        setMode(e.currentTarget.id)
-        setMinutes(time[e.currentTarget.id])
+        setMode(setting)
+        setMinutes(time[setting])
         setContols({ state: false, event: 'mode' })
     }
 
@@ -70,6 +66,11 @@ const Timer = () => {
         }
     }, [seconds, contols])
 
+    useEffect(() => {
+        const defaultMode: any = document.querySelector('#work')
+        if (defaultMode !== null) defaultMode.checked = true
+    }, [])
+
     function reset() {
         setContols({ state: false, event: 'mode' })
         setMinutes(time[mode])
@@ -77,27 +78,31 @@ const Timer = () => {
 
     return (
         <div className="Timer">
-            <nav className="timer-options">
-                <ul>
-                    <li>
-                        <button
-                            id="work"
-                            className="active"
-                            onClick={handleMode}
-                        >
-                            Pomodoro
-                        </button>
-                    </li>
-                    <li>
-                        <button id="shortBreak" onClick={handleMode}>
-                            Short Break
-                        </button>
-                    </li>
-                    <button id="longBreak" onClick={handleMode}>
-                        Long Break
-                    </button>
-                </ul>
-            </nav>
+            <form className="pill-nav timer-options" onChange={handleMode}>
+                <input id="work" type="radio" value="work" name="timer" />
+                <label htmlFor="work" className="button">
+                    Pomodoro
+                </label>
+                <input
+                    id="shortBreak"
+                    type="radio"
+                    value="shortBreak"
+                    name="timer"
+                />
+                <label htmlFor="shortBreak" className="button">
+                    Short Break
+                </label>
+                <input
+                    id="longBreak"
+                    type="radio"
+                    value="longBreak"
+                    name="timer"
+                />
+                <label htmlFor="longBreak" className="button">
+                    Long Break
+                </label>
+            </form>
+
             <div className="timer-clock">
                 {minutes.toString().padStart(2, '0') +
                     ':' +

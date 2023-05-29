@@ -169,6 +169,8 @@ svg {
 .card {
   gap: 24px;
   padding: 16px;
+  -webkit-backdrop-filter: blur(1px);
+          backdrop-filter: blur(1px);
 }
 .card .header {
   display: flex;
@@ -192,10 +194,31 @@ svg {
   margin-top: 48px;
 }
 
-#Card {
+#Card > * {
   background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
   border: 1px solid #fff;
-  border-radius: 16px;
+  border-radius: 8px;
+  position: relative;
+}
+#Card .migrate-list {
+  margin-top: 8px;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
+  border: 1px solid #fff;
+  color: #fff;
+  border-radius: 8px;
+  font-family: GeneralSans-Regular;
+  font-size: 16px;
+  padding: 8px 0;
+  margin-left: calc(50% - 32px);
+  z-index: 10000;
+}
+#Card .migrate-list li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  padding: 8px 16px;
+  margin: 0;
+}
+#Card .migrate-list .show:last-of-type {
+  border-bottom: none;
 }
 
 /** Pages **/
@@ -241,15 +264,24 @@ svg {
   font-family: GeneralSans-Semibold;
   margin-bottom: 8px;
 }
+.Pomodoro > * {
+  margin-bottom: 24px;
+}
 .Pomodoro > :nth-child(2) {
   margin-bottom: 32px;
 }
-.Pomodoro > * {
+.Pomodoro > ul {
+  margin-bottom: 64px;
+}
+.Pomodoro .activeTask {
   margin-bottom: 48px;
+}
+.Pomodoro .activeTask li {
+  margin-bottom: 16px;
 }
 .Pomodoro .Timer {
   text-align: center;
-  margin-bottom: 56px;
+  margin-bottom: 48px;
 }
 .Pomodoro .Timer > * {
   margin-bottom: 32px;
@@ -273,76 +305,67 @@ svg {
   right: 0;
   top: 0;
 }
-.Pomodoro .display-options,
-.Pomodoro .list-option-btns,
-.Pomodoro .timer-options {
+.Pomodoro .pill-nav {
   border: 1px solid #fff;
   border-radius: 8px;
   padding: 8px;
-}
-.Pomodoro .display-options ul,
-.Pomodoro .list-option-btns ul,
-.Pomodoro .timer-options ul {
   display: grid;
   gap: 8px;
   list-style: none;
 }
-.Pomodoro .display-options ul button,
-.Pomodoro .list-option-btns ul button,
-.Pomodoro .timer-options ul button {
+.Pomodoro .pill-nav > * {
   width: 100%;
 }
-.Pomodoro .display-options button,
-.Pomodoro .list-option-btns button,
-.Pomodoro .timer-options button {
-  background-color: transparent;
-  box-shadow: none;
-  color: #fff;
+.Pomodoro .pill-nav.display-options {
+  grid-template-columns: repeat(2, 1fr);
 }
-.Pomodoro .display-options button.active,
-.Pomodoro .list-option-btns button.active,
-.Pomodoro .timer-options button.active {
+.Pomodoro .pill-nav.mode-btn, .Pomodoro .pill-nav.timer-options {
+  grid-template-columns: repeat(3, 1fr);
+}
+.Pomodoro .pill-nav input:checked + label, .Pomodoro .pill-nav.display-options > *.active {
   background-color: #fff;
   color: #000;
 }
-.Pomodoro .display-options ul {
-  grid-template-columns: repeat(2, 1fr);
+.Pomodoro .pill-nav input {
+  display: none;
 }
-.Pomodoro .list-option-btns ul,
-.Pomodoro .timer-options ul {
-  grid-template-columns: repeat(3, 1fr);
+.Pomodoro .pill-nav label, .Pomodoro .pill-nav.display-options > * {
+  background-color: transparent;
+  box-shadow: none;
+  color: #fff;
+  text-align: center;
 }
 .Pomodoro .hidden {
   display: none;
 }
-.Pomodoro div.list-option-lists {
-  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0) 100%);
-  margin-top: 48px;
-  padding: 24px 16px;
+.Pomodoro .lists {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  border-radius: 8px 8px 0 0;
+  border-top: 1px solid #fff;
+  margin-bottom: 48px;
 }
-.Pomodoro div.list-option-lists > * {
-  margin-bottom: 24px;
+.Pomodoro .list li {
+  list-style: none;
+  margin-bottom: 16px;
 }
-.Pomodoro ul.list-option-lists#active > *,
-.Pomodoro ul.list-option-lists > .lists > * {
-  margin-bottom: 24px;
-}
-.Pomodoro ul.list-option-lists#active > :last-child,
-.Pomodoro ul.list-option-lists > .lists > :last-child {
+.Pomodoro .list li:last-child {
   margin-bottom: 0;
 }
 
 @media (max-width: 1024px) {
-  .Pomodoro .Timer .timer-options {
+  .Pomodoro .Timer .pill-nav {
     border: none;
     margin-bottom: 16px;
   }
-  .Pomodoro .Timer .timer-options button {
+  .Pomodoro .Timer .pill-nav label {
     font-family: GeneralSans-Regular;
     padding: 10px;
   }
-  .Pomodoro .Timer .timer-options button.active {
+  .Pomodoro .Timer .pill-nav input:checked + label {
     font-family: GeneralSans-Bold;
+    background-color: #fff;
     background-color: transparent;
     color: #fff;
   }
@@ -440,5 +463,85 @@ svg {
   }
   #Home > section:nth-child(2) > :last-child > * img {
     width: 100px;
+  }
+  .Pomodoro {
+    width: calc(100vw - 80px) !important;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    -moz-column-gap: 46px;
+         column-gap: 46px;
+    row-gap: 0;
+    grid-auto-rows: min-content;
+  }
+  .Pomodoro .display-options {
+    border: none;
+    grid-column: span 12;
+    grid-row: 1/span 1;
+  }
+  .Pomodoro .display-options > * > *:first-child {
+    display: none;
+    border: 1px solid red;
+  }
+  .Pomodoro .display-options > * > *:last-child {
+    grid-column: 2;
+    text-align: right;
+  }
+  .Pomodoro .display-options > * > *:last-child button {
+    display: inline;
+    width: initial;
+    background-color: #fff;
+    color: #000;
+  }
+  .Pomodoro .Timer,
+  .Pomodoro .add-task,
+  .Pomodoro .activeTask,
+  .Pomodoro .today {
+    grid-column: 5/span 4;
+  }
+  .Pomodoro .Timer {
+    grid-row: 2/span 6;
+  }
+  .Pomodoro .activeTask {
+    grid-row: 8/span 1;
+  }
+  .Pomodoro .h2-today {
+    grid-row: 9/span 1;
+  }
+  .Pomodoro .today {
+    grid-row: 10/span 1;
+  }
+  .Pomodoro .h2-to-do,
+  .Pomodoro .h2-done {
+    grid-row: 2/3;
+  }
+  .Pomodoro .to-do,
+  .Pomodoro .h2-to-do {
+    grid-column: 1/span 4;
+  }
+  .Pomodoro .done,
+  .Pomodoro .h2-done {
+    grid-column: 9/span 4;
+  }
+  .Pomodoro .add-task {
+    grid-column: 1/span 4;
+    grid-row: 3/span 1;
+    padding: 12px 16px;
+    background-color: #fff;
+  }
+  .Pomodoro .to-do {
+    grid-row: 4/span 10;
+  }
+  .Pomodoro .done {
+    grid-row: 3/span 10;
+  }
+  .Pomodoro .lists {
+    border: none;
+  }
+  .Pomodoro .pill-nav .button {
+    padding-inline: 20px;
+    font-size: 12px;
+  }
+  .Pomodoro h2 {
+    font-size: 32px;
   }
 }/*# sourceMappingURL=index.css.map */

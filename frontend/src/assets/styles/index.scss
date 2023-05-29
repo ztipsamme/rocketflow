@@ -168,6 +168,7 @@ svg {
 .card {
     gap: 24px;
     padding: 16px;
+    backdrop-filter: blur(1px);
 
     .header {
         display: flex;
@@ -193,16 +194,41 @@ svg {
 }
 
 #Card {
-    // backdrop-filter: blur(1rem) !important;
-    background-image: linear-gradient(
-        180deg,
-        rgba(255, 255, 255, 0.1) 0%,
-        rgba(255, 255, 255, 0) 100%
-    );
-    // backdrop-filter: blur(20px);
+    > * {
+        background-image: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        border: 1px solid $space-white;
+        border-radius: 8px;
+        position: relative;
+    }
 
-    border: 1px solid $space-white;
-    border-radius: 16px;
+    .migrate-list {
+        margin-top: 8px;
+        background-image: linear-gradient(
+            180deg,
+            rgba(255, 255, 255, 0.1) 0%,
+            rgba(255, 255, 255, 0) 100%
+        );
+        border: 1px solid $space-white;
+        color: $space-white;
+        border-radius: 8px;
+        font-family: GeneralSans-Regular;
+        font-size: 16px;
+        padding: 8px 0;
+        margin-left: calc(50% - 32px);
+        z-index: 10000;
+        li {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 8px 16px;
+            margin: 0;
+        }
+        .show:last-of-type {
+            border-bottom: none;
+        }
+    }
 }
 
 /** Pages **/
@@ -254,15 +280,25 @@ svg {
         font-family: GeneralSans-Semibold;
         margin-bottom: 8px;
     }
+    > * {
+        margin-bottom: 24px;
+    }
     > :nth-child(2) {
         margin-bottom: 32px;
     }
-    > * {
+    > ul {
+        margin-bottom: 64px;
+    }
+
+    .activeTask {
         margin-bottom: 48px;
+        li {
+            margin-bottom: 16px;
+        }
     }
     .Timer {
         text-align: center;
-        margin-bottom: 56px;
+        margin-bottom: 48px;
 
         > * {
             margin-bottom: 32px;
@@ -287,80 +323,79 @@ svg {
             top: 0;
         }
     }
-    .display-options,
-    .list-option-btns,
-    .timer-options {
+
+    .pill-nav {
         border: 1px solid $space-white;
         border-radius: 8px;
         padding: 8px;
-        ul {
-            display: grid;
-            gap: 8px;
-            list-style: none;
-            button {
-                width: 100%;
-            }
+        display: grid;
+        gap: 8px;
+        list-style: none;
+        > * {
+            width: 100%;
         }
-        button {
+        &.display-options {
+            grid-template-columns: repeat(2, 1fr);
+        }
+
+        &.mode-btn,
+        &.timer-options {
+            grid-template-columns: repeat(3, 1fr);
+        }
+
+        input:checked + label,
+        &.display-options > *.active {
+            background-color: $space-white;
+            color: $space-black;
+        }
+
+        input {
+            display: none;
+        }
+        label,
+        &.display-options > * {
             background-color: transparent;
             box-shadow: none;
             color: $space-white;
-            &.active {
-                background-color: $space-white;
-                color: $space-black;
-            }
+            text-align: center;
         }
     }
 
-    .display-options ul {
-        grid-template-columns: repeat(2, 1fr);
-    }
-
-    .list-option-btns ul,
-    .timer-options ul {
-        grid-template-columns: repeat(3, 1fr);
-    }
     .hidden {
         display: none;
     }
 
-    div.list-option-lists {
-        background-image: linear-gradient(
-            180deg,
-            rgba(255, 255, 255, 0.1) 0%,
-            rgba(255, 255, 255, 0) 100%
-        );
-        margin-top: 48px;
-        padding: 24px 16px;
-        > * {
-            margin-bottom: 24px;
-        }
+    .lists {
+        position: absolute;
+        left: 0;
+        width: 100%;
+        border-radius: 8px 8px 0 0;
+        border-top: 1px solid #fff;
+        margin-bottom: 48px;
     }
-
-    ul.list-option-lists {
-        &#active > *,
-        > .lists > * {
-            margin-bottom: 24px;
-        }
-        &#active > :last-child,
-        > .lists > :last-child {
+    .list li {
+        list-style: none;
+        margin-bottom: 16px;
+        &:last-child {
             margin-bottom: 0;
         }
     }
 }
 
 @media (max-width: 1024px) {
-    .Pomodoro .Timer .timer-options {
+    .Pomodoro .Timer .pill-nav {
         border: none;
-        margin-bottom: 16px;
-        button {
+        label {
             font-family: GeneralSans-Regular;
             padding: 10px;
-            &.active {
-                font-family: GeneralSans-Bold;
-                background-color: transparent;
-                color: $space-white;
-            }
+        }
+        margin-bottom: 16px;
+
+        input:checked + label {
+            font-family: GeneralSans-Bold;
+            background-color: $space-white;
+            background-color: transparent;
+            color: $space-white;
         }
     }
 }
@@ -464,6 +499,103 @@ svg {
                     }
                 }
             }
+        }
+    }
+
+    .Pomodoro {
+        width: calc(100vw - 40px * 2) !important;
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        column-gap: 46px;
+        row-gap: 0;
+        grid-auto-rows: min-content;
+
+        .display-options {
+            border: none;
+            grid-column: span 12;
+            grid-row: 1 / span 1;
+
+            > * {
+                > *:first-child {
+                    display: none;
+                    border: 1px solid red;
+                }
+                > *:last-child {
+                    grid-column: 2;
+                    text-align: right;
+                    button {
+                        display: inline;
+                        width: initial;
+                        background-color: $space-white;
+                        color: $space-black;
+                    }
+                }
+            }
+        }
+
+        .Timer,
+        .add-task,
+        .activeTask,
+        .today {
+            grid-column: 5 / span 4;
+        }
+
+        .Timer {
+            grid-row: 2 / span 6;
+        }
+
+        .activeTask {
+            grid-row: 8 / span 1;
+        }
+        .h2-today {
+            grid-row: 9 / span 1;
+        }
+        .today {
+            grid-row: 10 / span 1;
+        }
+
+        .h2-to-do,
+        .h2-done {
+            grid-row: 2 / 3;
+        }
+
+        .to-do,
+        .h2-to-do {
+            grid-column: 1 / span 4;
+        }
+
+        .done,
+        .h2-done {
+            grid-column: 9 / span 4;
+        }
+
+        .add-task {
+            grid-column: 1 / span 4;
+            grid-row: 3 / span 1;
+            padding: 12px 16px;
+            background-color: $space-white;
+        }
+
+        .to-do {
+            grid-row: 4 / span 10;
+        }
+        .done {
+            grid-row: 3 / span 10;
+        }
+
+        .lists {
+            border: none;
+        }
+
+        .pill-nav {
+            .button {
+                padding-inline: 20px;
+                font-size: 12px;
+            }
+        }
+
+        h2 {
+            font-size: 32px;
         }
     }
 }
