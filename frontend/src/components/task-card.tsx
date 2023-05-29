@@ -1,4 +1,10 @@
-import React, { useState, MouseEvent, useEffect } from 'react'
+import React, {
+    useState,
+    MouseEvent,
+    ChangeEventHandler,
+    useEffect,
+    useEffect,
+} from 'react'
 import axios from 'axios'
 
 interface tasksInterface {
@@ -12,6 +18,9 @@ const TaskCard = (props: tasksInterface) => {
     const [cardOpen, setCardOpen] = useState(false)
     const [migrateOpen, setMigrateOpen] = useState(false)
     // const [taskStatus, setTaskStatus] = useState(props.status)
+    const [editMode, setEditMode] = useState(false)
+    const [title, setTitle] = useState(props.title)
+    const [description, setDescription] = useState(props.description)
 
     const chevron = (
         <svg
@@ -67,9 +76,23 @@ const TaskCard = (props: tasksInterface) => {
     const toggleCard = () => {
         if (cardOpen) {
             setCardOpen(false)
+            setEditMode(false)
+
+            e.preventDefault()
+            axios({
+                method: 'POST',
+                url: 'http://localhost:8080/api/add-task',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                data: { title: title, description: description },
+            })
+            document.location.reload()
+
             setMigrateOpen(false)
         } else {
             setCardOpen(true)
+            setEditMode(true)
         }
     }
 
@@ -96,12 +119,23 @@ const TaskCard = (props: tasksInterface) => {
             setMigrateOpen(true)
         }
     }
-
+    // Här ska vi göra fetch:
     const handleMigrate = async (e: MouseEvent<HTMLLIElement>) => {
         e.preventDefault()
         const id = e.currentTarget.id
         const status = Number(e.currentTarget.value)
+        console.log('id, ' + id + ' ' + status)
 
+        useEffect(() => {
+            axios({
+                method: 'put',
+                url: 'http://localhost:8080/api/update-task-status',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                data: { id: id, status: status },
+            })
+        }, [title, description])
         updateState(id, status)
 
         document.location.reload()
@@ -111,6 +145,7 @@ const TaskCard = (props: tasksInterface) => {
         e.preventDefault()
         const id = e.currentTarget.id
         const status = Number(e.currentTarget.value)
+        console.log('id, ' + id + ' ' + status)
 
         if (status !== 3) {
             updateState(id, 3)
@@ -133,6 +168,20 @@ const TaskCard = (props: tasksInterface) => {
         document.location.reload()
     }
 
+    function handleSubmitTitle(e: any) {
+        console.log(e.target.value)
+        setTitle(e.target.value)
+    }
+
+    function handleSubmitDesc(e: any) {
+        console.log(e.target.value)
+        setDescription(e.target.value)
+    }
+
+    interface migrateInterface {
+        value: number
+    }
+
     useEffect(() => {
         if (migrateOpen) {
             document
@@ -149,33 +198,20 @@ const TaskCard = (props: tasksInterface) => {
         }
     }, [migrateOpen])
 
-    // function updateTask(e: MouseEvent<HTMLLIElement>) {
-    //     const id = Number(e.currentTarget.id)
-    //     const status = e.currentTarget.value
-
-    //     console.log(e.currentTarget.id)
-    //     console.log(props.id)
-    //     console.log(status)
-
-    //     axios({
-    //         method: 'put',
-    //         url: 'http://localhost:8080/api/update-task-status',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //         },
-    //         data: { id: id, status: status },
-    //     })
-
-    //     //fundera på om ni ska ladda in senaste statusen från backend
-    //     setTaskStatus(status)
-    //     // console.log(taskStatus);
-    // }
-
     return (
         <div id="Card">
             <div className="card">
                 <div className="header">
-                    <h3 className="card-title">{props.title}</h3>
+                    {editMode ? (
+                        <input
+                            onChange={handleSubmitTitle}
+                            type="text"
+                            value={title}
+                        />
+                    ) : (
+                        <h3 className="card-title">{title}</h3>
+                    )}
+
                     <button
                         className="icon"
                         onClick={toggleCard}
@@ -190,7 +226,15 @@ const TaskCard = (props: tasksInterface) => {
                         display: cardOpen ? 'block' : 'none',
                     }}
                 >
-                    <p className="card-text">{props.description}</p>
+                    {editMode ? (
+                        <input
+                            onChange={handleSubmitDesc}
+                            type="NyElement"
+                            value={description}
+                        />
+                    ) : (
+                        <p className="card-text">{description}</p>
+                    )}
                     <div className="controls">
                         <button
                             id={props.id}
