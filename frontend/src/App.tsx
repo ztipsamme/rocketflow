@@ -17,7 +17,6 @@ function Root() {
         <div className="App">
             <nav className="navigation"></nav>
             <Outlet />
-            <footer></footer>
         </div>
     )
 }

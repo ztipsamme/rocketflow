@@ -64,7 +64,7 @@ const TaskCard = (props: tasksInterface) => {
         </svg>
     )
 
-    const toggleCard = (e: MouseEvent<HTMLButtonElement>) => {
+    const toggleCard = () => {
         if (cardOpen) {
             setCardOpen(false)
             setMigrateOpen(false)
@@ -131,10 +131,6 @@ const TaskCard = (props: tasksInterface) => {
         })
 
         document.location.reload()
-    }
-
-    interface migrateInterface {
-        value: number
     }
 
     useEffect(() => {

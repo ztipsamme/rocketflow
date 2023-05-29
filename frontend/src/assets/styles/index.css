@@ -17,11 +17,13 @@ body {
 }
 body .App > * {
   margin: 16px auto;
-  width: calc(100vw - 32px);
+  width: calc(100vw - 64px);
 }
-body .App > *:first-child, body .App > *:last-child {
+body .App .navigation {
   margin: 0;
-  width: 100%;
+  width: 100vw;
+  min-height: -moz-fit-content;
+  min-height: fit-content;
 }
 
 /** Headers, Buttons, Img and Spacing DEFAULTS **/
@@ -111,6 +113,7 @@ button,
   text-decoration: none;
   width: -moz-fit-content;
   width: fit-content;
+  line-height: 16px;
 }
 button.icon,
 .button.icon {
@@ -266,8 +269,11 @@ svg {
 }
 .Pomodoro > * {
   margin-bottom: 24px;
+  width: calc(100vw - 64px);
+  margin-inline: auto;
 }
 .Pomodoro > :nth-child(2) {
+  margin-top: 48px;
   margin-bottom: 32px;
 }
 .Pomodoro > ul {
@@ -277,6 +283,7 @@ svg {
   margin-bottom: 48px;
 }
 .Pomodoro .activeTask li {
+  list-style: none;
   margin-bottom: 16px;
 }
 .Pomodoro .Timer {
@@ -288,7 +295,7 @@ svg {
 }
 .Pomodoro .Timer .timer-clock {
   font-family: GeneralSans-Bold;
-  font-size: 108px;
+  font-size: clamp(96px, 7vw, 108px);
   line-height: 90%;
   letter-spacing: -0.02em;
 }
@@ -339,12 +346,12 @@ svg {
   display: none;
 }
 .Pomodoro .lists {
-  position: absolute;
-  left: 0;
   width: 100%;
+  height: 100%;
   border-radius: 8px 8px 0 0;
   border-top: 1px solid #fff;
-  margin-bottom: 48px;
+  background-image: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, rgba(255, 255, 255, 0.03) 100%);
+  padding: 24px 32px;
 }
 .Pomodoro .list li {
   list-style: none;
@@ -371,6 +378,10 @@ svg {
   }
 }
 @media (min-width: 1024px) {
+  body .App > * {
+    width: 90vw;
+    margin: auto;
+  }
   /** Headers, Buttons, Img and Spacing DEFAULTS **/
   h1 {
     font-size: 108px;
@@ -414,10 +425,6 @@ svg {
   }
   /** Elemets **/
   /** Pages **/
-  #Home > * {
-    width: 1247px;
-    margin-inline: auto;
-  }
   #Home > :first-child {
     display: flex;
     align-items: center;
@@ -465,17 +472,20 @@ svg {
     width: 100px;
   }
   .Pomodoro {
-    width: calc(100vw - 80px) !important;
     display: grid;
-    grid-template-columns: repeat(12, 1fr);
+    grid-template-columns: repeat(11, 1fr);
     -moz-column-gap: 46px;
          column-gap: 46px;
     row-gap: 0;
     grid-auto-rows: min-content;
   }
+  .Pomodoro > * {
+    width: 100%;
+    margin-bottom: 0 !important;
+  }
   .Pomodoro .display-options {
     border: none;
-    grid-column: span 12;
+    grid-column: span 11;
     grid-row: 1/span 1;
   }
   .Pomodoro .display-options > * > *:first-child {
@@ -496,43 +506,52 @@ svg {
   .Pomodoro .add-task,
   .Pomodoro .activeTask,
   .Pomodoro .today {
-    grid-column: 5/span 4;
+    grid-column: 4/span 5;
   }
   .Pomodoro .Timer {
+    border-radius: 16px 16px 0 0;
     grid-row: 2/span 6;
+    padding-top: 40px;
   }
   .Pomodoro .activeTask {
     grid-row: 8/span 1;
   }
-  .Pomodoro .h2-today {
-    grid-row: 9/span 1;
-  }
   .Pomodoro .today {
-    grid-row: 10/span 1;
+    border-radius: 0 0 16px 16px;
+    grid-row: 9/span 1;
+    padding-bottom: 40px;
   }
-  .Pomodoro .h2-to-do,
-  .Pomodoro .h2-done {
-    grid-row: 2/3;
+  .Pomodoro .to-do {
+    grid-column: 1/span 3;
   }
-  .Pomodoro .to-do,
-  .Pomodoro .h2-to-do {
-    grid-column: 1/span 4;
-  }
-  .Pomodoro .done,
-  .Pomodoro .h2-done {
-    grid-column: 9/span 4;
+  .Pomodoro .done {
+    grid-column: 9/span 3;
   }
   .Pomodoro .add-task {
     grid-column: 1/span 4;
-    grid-row: 3/span 1;
+    grid-row: 2/span 1;
     padding: 12px 16px;
     background-color: #fff;
   }
-  .Pomodoro .to-do {
-    grid-row: 4/span 10;
-  }
+  .Pomodoro .to-do,
   .Pomodoro .done {
-    grid-row: 3/span 10;
+    border-radius: 16px;
+    grid-row: 2/span 10;
+    padding: 24px;
+  }
+  .Pomodoro .to-do,
+  .Pomodoro .today,
+  .Pomodoro .activeTask,
+  .Pomodoro .done,
+  .Pomodoro .Timer {
+    background-color: rgba(255, 255, 255, 0.07);
+    height: -moz-min-content;
+    height: min-content;
+  }
+  .Pomodoro .Timer,
+  .Pomodoro .activeTask,
+  .Pomodoro .today {
+    padding-inline: 80px;
   }
   .Pomodoro .lists {
     border: none;
