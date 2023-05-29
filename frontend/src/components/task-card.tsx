@@ -118,19 +118,20 @@ const TaskCard = (props: tasksInterface) => {
         e.preventDefault()
         const id = e.currentTarget.id
         const status = Number(e.currentTarget.value)
-        console.log('id, ' + id + ' ' + status)
-
-        useEffect(() => {
+        console.log('Här: ', status)
+        if (props.title !== title || props.description !== description) {
             axios({
                 method: 'put',
-                url: 'http://localhost:8080/api/update-task-status',
+                url: 'http://localhost:8080/api/update-task-info',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                data: { id: id, status: status },
+                data: { id: id, status: status, title: title, description:description },
             })
-        }, [title, description])
-        updateState(id, status)
+            updateState(id, status)
+        } else {
+            updateState(id, status)
+        }
 
         document.location.reload()
     }
