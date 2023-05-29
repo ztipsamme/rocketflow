@@ -1,10 +1,4 @@
-import React, {
-    useState,
-    MouseEvent,
-    ChangeEventHandler,
-    useEffect,
-    useEffect,
-} from 'react'
+import React, { useState, MouseEvent, useEffect } from 'react'
 import axios from 'axios'
 
 interface tasksInterface {
