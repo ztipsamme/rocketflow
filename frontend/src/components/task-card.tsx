@@ -126,7 +126,12 @@ const TaskCard = (props: tasksInterface) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                data: { id: id, status: status, title: title, description:description },
+                data: {
+                    id: id,
+                    status: status,
+                    title: title,
+                    description: description,
+                },
             })
             updateState(id, status)
         } else {
@@ -187,8 +192,17 @@ const TaskCard = (props: tasksInterface) => {
         }
     }, [migrateOpen])
 
+    function handleOnDrag(event: React.DragEvent, id: string) {
+        event.dataTransfer.setData('card-id', id)
+    }
+
     return (
-        <div id="Card">
+        <div
+            id="Card"
+            draggable
+            onDragStart={(event) => handleOnDrag(event, props.id)}
+            key={props.id}
+        >
             <div className="card">
                 <div className="header">
                     {editMode ? (

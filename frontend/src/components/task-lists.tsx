@@ -146,9 +146,46 @@ const TaskLists = () => {
         document.location.reload()
     }
 
+    function handleOnDrop(e: React.DragEvent) {
+        const id = e.dataTransfer.getData('card-id') as string
+        const event = e.currentTarget.classList
+
+        if (event.contains('to-do')) {
+            updateState(id, 0)
+        } else if (event.contains('today')) {
+            updateState(id, 1)
+        } else if (event.contains('activeTask')) {
+            updateState(id, 2)
+        } else if (event.contains('done')) {
+            updateState(id, 3)
+        }
+
+        function updateState(id: string | null, state: number) {
+            axios({
+                method: 'put',
+                url: 'http://localhost:8080/api/update-task-status',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                data: { id: id, status: state },
+            })
+
+            document.location.reload()
+        }
+    }
+
+    function handleOnDragOver(event: React.DragEvent) {
+        event.preventDefault()
+        console.log('drag over')
+    }
+
     return (
         <>
-            <div className="activeTask">
+            <div
+                className="activeTask"
+                onDrop={handleOnDrop}
+                onDragOver={handleOnDragOver}
+            >
                 <h2 className="h2-active">Active task</h2>
                 <TaskList classes={'list-option-lists'} list={activeTask} />
             </div>
@@ -212,7 +249,12 @@ const TaskLists = () => {
             {!mobile && (
                 <>
                     {lists.map((list) => (
-                        <div className={list.class} key={list.h2}>
+                        <div
+                            className={list.class}
+                            key={list.h2}
+                            onDrop={handleOnDrop}
+                            onDragOver={handleOnDragOver}
+                        >
                             <h2>{list.h2}</h2>
                             {list.h2 === 'To do' && (
                                 <button
@@ -223,7 +265,6 @@ const TaskLists = () => {
                                 </button>
                             )}
                             <TaskList classes={'list'} list={list.list} />
-                            {/* <ul className="list">{renderList(list.list)}</ul> */}
                         </div>
                     ))}
                 </>
