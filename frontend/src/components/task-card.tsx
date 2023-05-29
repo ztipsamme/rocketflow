@@ -1,4 +1,4 @@
-import React, { useState, MouseEvent } from 'react'
+import React, { useState, MouseEvent,ChangeEventHandler, useEffect } from 'react'
 import axios from 'axios'
 
 interface tasksInterface {
@@ -12,6 +12,10 @@ const TaskCard = (props: tasksInterface) => {
     const [cardOpen, setCardOpen] = useState(false)
     const [migrateOpen, setMigrateOpen] = useState(false)
     // const [taskStatus, setTaskStatus] = useState(props.status)
+  const [editMode, setEditMode] = useState(false)
+  const [title, setTitle] = useState(props.title)
+  const [description, setDescription] = useState(props.description)
+
 
     const chevron = (
         <svg
@@ -66,9 +70,23 @@ const TaskCard = (props: tasksInterface) => {
 
     const toggleCard = (e: MouseEvent<HTMLButtonElement>) => {
         if (cardOpen) {
-            setCardOpen(false)
+          setCardOpen(false)
+          setEditMode(false)
+
+          e.preventDefault()
+          axios({
+            method: 'POST',
+            url: 'http://localhost:8080/api/add-task',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            data: {title: title, description: description},
+        })
+        document.location.reload()
+
         } else {
-            setCardOpen(true)
+          setCardOpen(true)
+          setEditMode(true)
         }
         console.log(e.currentTarget.getAttribute('data-value'))
     }
@@ -96,21 +114,41 @@ const TaskCard = (props: tasksInterface) => {
             setMigrateOpen(true)
         }
     }
-
+// Här ska vi göra fetch:
     const handleMigrate = async (e: MouseEvent<HTMLLIElement>) => {
         e.preventDefault()
         const id = e.currentTarget.id
-        const status = Number(e.currentTarget.value)
+      const status = Number(e.currentTarget.value)
+      console.log("id, " + id + " " + status)
 
-        updateState(id, status)
+      useEffect(() => {
+        axios({
+          method: 'put',
+                      url: 'http://localhost:8080/api/update-task-status',
+                       headers: {
+                          'Content-Type': 'application/json',
+                      },
+                     data: { id: id, status: status },
+             })
 
-        document.location.reload()
+
+      },[title, description])
+      updateState(id, status)
+
+
+
+
+
+
+      document.location.reload()
+
     }
 
     const handleDone = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
         const id = e.currentTarget.id
-        const status = Number(e.currentTarget.value)
+      const status = Number(e.currentTarget.value)
+      console.log("id, " + id + " " + status)
 
         if (status !== 3) {
             updateState(id, 3)
@@ -132,6 +170,20 @@ const TaskCard = (props: tasksInterface) => {
 
         document.location.reload()
     }
+
+  function handleSubmitTitle(e:any) {
+    console.log(e.target.value)
+    setTitle(e.target.value)
+
+  }
+
+
+  function handleSubmitDesc(e:any) {
+    console.log(e.target.value)
+    setDescription(e.target.value)
+
+
+  }
 
     // function updateTask(e: MouseEvent<HTMLLIElement>) {
     //     const id = Number(e.currentTarget.id)
@@ -159,14 +211,19 @@ const TaskCard = (props: tasksInterface) => {
         <div
             id="Card"
             className="card"
-            style={{ borderRadius: cardOpen ? '10px' : '8px' }}
-        >
+        style={{ borderRadius: cardOpen ? '10px' : '8px' }}
+
+      >
+
             <div className="header">
-                <h3 className="card-title">{props.title}</h3>
+          {/* <h3 className="card-title">{props.title}</h3> */}
+
+          {editMode ? <input onChange={handleSubmitTitle}type="text" value={title}/>: <h3 className="card-title">{title}</h3>}
+
                 <button
                     className="icon"
                     onClick={toggleCard}
-                    data-value="false"
+        data-value="false"
                     style={{ transform: cardOpen ? 'scaleY(-1)' : 'none' }}
                 >
                     {chevron}
@@ -177,7 +234,9 @@ const TaskCard = (props: tasksInterface) => {
                     display: cardOpen ? 'block' : 'none',
                 }}
             >
-                <p className="card-text">{props.description}</p>
+          {/* <p className="card-text">{props.description}</p> */}
+          {editMode ? <input onChange={handleSubmitDesc} type="NyElement" value={description}/> :<p className="card-text">{description}</p>}
+
                 <div className="controls">
                     <button
                         id={props.id}
