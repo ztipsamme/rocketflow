@@ -67,7 +67,7 @@ const TaskCard = (props: tasksInterface) => {
         </svg>
     )
 
-    const toggleCard = () => {
+    const toggleCard = (e: MouseEvent) => {
         if (cardOpen) {
             setCardOpen(false)
             setEditMode(false)
@@ -162,18 +162,12 @@ const TaskCard = (props: tasksInterface) => {
         document.location.reload()
     }
 
-    function handleSubmitTitle(e: any) {
-        console.log(e.target.value)
+    function handleSubmitTitle(e: { target: HTMLInputElement }) {
         setTitle(e.target.value)
     }
 
-    function handleSubmitDesc(e: any) {
-        console.log(e.target.value)
+    function handleSubmitDesc(e: { target: HTMLInputElement }) {
         setDescription(e.target.value)
-    }
-
-    interface migrateInterface {
-        value: number
     }
 
     useEffect(() => {
