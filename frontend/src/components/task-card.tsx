@@ -71,15 +71,21 @@ const TaskCard = (props: tasksInterface) => {
         if (cardOpen) {
             setCardOpen(false)
             setEditMode(false)
+            const id = e.currentTarget.id
+            console.log(id)
 
             e.preventDefault()
             axios({
-                method: 'POST',
-                url: 'http://localhost:8080/api/add-task',
+                method: 'put',
+                url: '/api/update-task-info',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                data: { title: title, description: description },
+                data: {
+                    id: id,
+                    title: title,
+                    description: description,
+                },
             })
             document.location.reload()
 
@@ -95,7 +101,7 @@ const TaskCard = (props: tasksInterface) => {
         const id = e.currentTarget.id
         axios({
             method: 'delete',
-            url: 'http://localhost:8080/api/delete-task',
+            url: '/api/delete-task',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -122,7 +128,7 @@ const TaskCard = (props: tasksInterface) => {
         if (props.title !== title || props.description !== description) {
             axios({
                 method: 'put',
-                url: 'http://localhost:8080/api/update-task-info',
+                url: '/api/update-task-info',
                 headers: {
                     'Content-Type': 'application/json',
                 },
@@ -158,7 +164,7 @@ const TaskCard = (props: tasksInterface) => {
     function updateState(id: string | null, state: number) {
         axios({
             method: 'put',
-            url: 'http://localhost:8080/api/update-task-status',
+            url: '/api/update-task-status',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -210,6 +216,9 @@ const TaskCard = (props: tasksInterface) => {
                             onChange={handleSubmitTitle}
                             type="text"
                             value={title}
+                            name="title"
+                            autoFocus
+                            className="card-title"
                         />
                     ) : (
                         <h3 className="card-title">{title}</h3>
@@ -232,8 +241,10 @@ const TaskCard = (props: tasksInterface) => {
                     {editMode ? (
                         <input
                             onChange={handleSubmitDesc}
-                            type="NyElement"
+                            type="text"
                             value={description}
+                            name="description"
+                            className="card-title"
                         />
                     ) : (
                         <p className="card-text">{description}</p>

@@ -44,32 +44,40 @@ h2 {
   text-transform: capitalize;
 }
 
-h3 {
+h3,
+.Pomodoro input[name=title] {
   font-size: 16px;
   line-height: 100%;
   text-transform: capitalize;
 }
-h3.bold {
+h3.bold,
+.Pomodoro input[name=title].bold {
   font-family: GeneralSans-Bold;
 }
-h3.regular {
+h3.regular,
+.Pomodoro input[name=title].regular {
   font-family: GeneralSans-Regular;
 }
-h3.card-title {
+h3.card-title,
+.Pomodoro input[name=title].card-title {
   font-family: GeneralSans-Semibold;
 }
 
-p {
+p,
+.Pomodoro input[name=description] {
   font-family: GeneralSans-Regular;
   font-size: 16px;
 }
-p.card-text {
+p.card-text,
+.Pomodoro input[name=description].card-text {
   font-size: 12px;
   text-align: start;
   margin-top: 8px;
 }
 p + button,
-p + .button {
+p + .button,
+.Pomodoro input[name=description] + button,
+.Pomodoro input[name=description] + .button {
   margin-top: 16px;
   margin-inline: auto;
 }
@@ -101,6 +109,7 @@ h3 + .button {
 
 button,
 .button {
+  cursor: pointer;
   background-color: #fb8a38;
   border: transparent;
   border-radius: 8px;
@@ -222,6 +231,15 @@ svg {
 }
 #Card .migrate-list .show:last-of-type {
   border-bottom: none;
+}
+#Card input[type=text] {
+  cursor: pointer;
+  background: transparent;
+  border: transparent;
+  color: #fff;
+}
+#Card input[type=text]:focus {
+  outline: #fb8a38;
 }
 
 /** Pages **/

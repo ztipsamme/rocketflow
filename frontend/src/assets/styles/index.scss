@@ -52,7 +52,8 @@ h2 {
     font-family: GeneralSans-Bold;
     text-transform: capitalize;
 }
-h3 {
+h3,
+.Pomodoro input[name='title'] {
     font-size: 16px;
     line-height: 100%;
     text-transform: capitalize;
@@ -66,7 +67,8 @@ h3 {
         font-family: GeneralSans-Semibold;
     }
 }
-p {
+p,
+.Pomodoro input[name='description'] {
     font-family: GeneralSans-Regular;
     font-size: 16px;
     &.card-text {
@@ -106,6 +108,7 @@ h3 {
 
 button,
 .button {
+    cursor: pointer;
     background-color: $space-orange-c;
     border: transparent;
     border-radius: 8px;
@@ -230,6 +233,16 @@ svg {
             border-bottom: none;
         }
     }
+
+    input[type='text'] {
+        cursor: pointer;
+        background: transparent;
+        border: transparent;
+        color: $space-white;
+        &:focus {
+            outline: $space-orange-c;
+        }
+    }
 }
 
 /** Pages **/
@@ -281,15 +294,18 @@ svg {
         font-family: GeneralSans-Semibold;
         margin-bottom: 8px;
     }
+
     > * {
         margin-bottom: 24px;
         width: calc(100vw - 32px * 2);
         margin-inline: auto;
     }
+
     > :nth-child(2) {
         margin-top: 48px;
         margin-bottom: 32px;
     }
+
     > ul {
         margin-bottom: 64px;
     }
@@ -383,6 +399,7 @@ svg {
         );
         padding: 24px 32px;
     }
+
     .list li {
         list-style: none;
         margin-bottom: 16px;

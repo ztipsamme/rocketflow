@@ -22,7 +22,6 @@ const Pomodoro = () => {
 
                 <button onClick={handleMode}>Distractions</button>
             </nav>
-
             <Timer />
             <TaskLists />
         </div>

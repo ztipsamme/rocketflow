@@ -100,8 +100,8 @@ app.get('/api/get-task-status', async (req, res) => {
 })
 
 app.post('/api/add-task', async (req, res) => {
-  try {
-      console.log(req.body.title + " " + req.body.description)
+    try {
+        console.log(req.body.title + ' ' + req.body.description)
         await client.query(
             `INSERT INTO Tasks (title, description) VALUES ($1, $2)`,
             [req.body.title, req.body.description]

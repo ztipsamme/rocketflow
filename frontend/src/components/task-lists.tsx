@@ -41,9 +41,7 @@ const TaskLists = () => {
         statuses.forEach((e) => {
             const getTasksByStatus = (async () => {
                 axios
-                    .get(
-                        'http://localhost:8080/api/get-task-status?status=' + e
-                    )
+                    .get('/api/get-task-status?status=' + e)
                     .then((response) => {
                         if (e === 0) setToDo(response.data)
                         if (e === 1) setToday(response.data)
@@ -134,7 +132,7 @@ const TaskLists = () => {
         e.preventDefault()
         axios({
             method: 'post',
-            url: 'http://localhost:8080/api/add-task',
+            url: '/api/add-task',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -163,7 +161,7 @@ const TaskLists = () => {
         function updateState(id: string | null, state: number) {
             axios({
                 method: 'put',
-                url: 'http://localhost:8080/api/update-task-status',
+                url: '/api/update-task-status',
                 headers: {
                     'Content-Type': 'application/json',
                 },
