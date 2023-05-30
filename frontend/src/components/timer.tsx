@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react'
+import soundfile from '../assets/audio/audio.mp3'
+const audioplay: HTMLAudioElement = new Audio(soundfile) //new Audio('/Audio.mp3')
 
 const Timer = () => {
     interface timeInterface {
@@ -6,15 +8,19 @@ const Timer = () => {
     }
 
     const time: timeInterface = {
-        work: 25,
+        work: 0,
         shortBreak: 5,
         longBreak: 15,
     }
-
     const [minutes, setMinutes] = useState<number>(time.work)
-    const [seconds, setSeconds] = useState<number>(0)
+    const [seconds, setSeconds] = useState<number>(5)
     const [mode, setMode] = useState('work')
-    const [contols, setContols] = useState({ state: false, event: 'toggle' })
+    const [contols, setContols] = useState({
+        state: 'pause',
+        event: 'toggle',
+        text: 'Start',
+    })
+
     const resetIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -38,14 +44,14 @@ const Timer = () => {
 
         setMode(setting)
         setMinutes(time[setting])
-        setContols({ state: false, event: 'mode' })
+        setContols({ state: 'pause', event: 'mode', text: 'Start' })
     }
 
     useEffect(() => {
-        if (!contols.state) {
+        if (contols.state === 'pause') {
             if (contols.event === 'mode') {
                 // resets to default values
-                setSeconds(0)
+                setSeconds(5) //set seconds
             }
             return
         }
@@ -62,7 +68,9 @@ const Timer = () => {
         }, 1000)
 
         if (minutes === 0 && seconds === 0) {
-            reset()
+          audioplay.play()
+          audioplay.loop = true
+            setContols({ state: 'pause', event: 'toggle', text: 'Stop' })
         }
     }, [seconds, contols])
 
@@ -71,9 +79,10 @@ const Timer = () => {
         if (defaultMode !== null) defaultMode.checked = true
     }, [])
 
-    function reset() {
-        setContols({ state: false, event: 'mode' })
-        setMinutes(time[mode])
+    function reset () {
+      audioplay.pause();
+      setContols({ state: 'pause', event: 'mode', text: 'Start' });
+      setMinutes(time[mode]);
     }
 
     return (
@@ -112,12 +121,24 @@ const Timer = () => {
                 <button
                     className="start"
                     onClick={() => {
-                        !contols.state
-                            ? setContols({ state: true, event: 'toggle' })
-                            : setContols({ state: false, event: 'toggle' })
+                        if (contols.text === 'Start') {
+                            setContols({
+                                state: 'on',
+                                event: 'toggle',
+                                text: 'Pause',
+                            })
+                        } else if (contols.text === 'Pause') {
+                            setContols({
+                                state: 'pause',
+                                event: 'toggle',
+                                text: 'Start',
+                            })
+                        } else if (contols.text === 'Stop') {
+                          reset()
+                        }
                     }}
                 >
-                    {!contols.state ? 'Start' : 'Pause'}
+                    {contols.text}
                 </button>
                 <button className="reset icon" onClick={reset}>
                     {resetIcon}

@@ -119,7 +119,7 @@ const TaskCard = (props: tasksInterface) => {
             setMigrateOpen(true)
         }
     }
-    // Här ska vi göra fetch:
+
     const handleMigrate = async (e: MouseEvent<HTMLLIElement>) => {
         e.preventDefault()
         const id = e.currentTarget.id
