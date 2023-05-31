@@ -227,6 +227,9 @@ svg {
   margin-left: calc(50% - 32px);
   z-index: 10000;
 }
+#Card .migrate-list > * {
+  cursor: pointer;
+}
 #Card .migrate-list li {
   border-bottom: 1px solid rgba(255, 255, 255, 0.5);
   padding: 8px 16px;

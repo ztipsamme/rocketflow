@@ -6,6 +6,7 @@ interface tasksInterface {
     title: string
     description: string
     status: number
+    runAPI: () => any
 }
 
 const TaskCard = (props: tasksInterface) => {
@@ -83,8 +84,10 @@ const TaskCard = (props: tasksInterface) => {
                     title: title,
                     description: description,
                 },
+            }).then(() => {
+                props.runAPI()
             })
-            document.location.reload()
+            // document.location.reload()
 
             setMigrateOpen(false)
         } else {
@@ -102,8 +105,10 @@ const TaskCard = (props: tasksInterface) => {
                 'Content-Type': 'application/json',
             },
             data: { id: props.id },
+        }).then(() => {
+            props.runAPI()
         })
-        document.location.reload()
+        // document.location.reload()
     }
 
     const toggleMigrate = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -137,8 +142,6 @@ const TaskCard = (props: tasksInterface) => {
         } else {
             updateState(newStatus)
         }
-
-        document.location.reload()
     }
 
     const handleDone = async (e: MouseEvent<HTMLButtonElement>) => {
@@ -149,7 +152,6 @@ const TaskCard = (props: tasksInterface) => {
         } else {
             updateState(0)
         }
-        document.location.reload()
     }
 
     function updateState(state: number) {
@@ -160,9 +162,11 @@ const TaskCard = (props: tasksInterface) => {
                 'Content-Type': 'application/json',
             },
             data: { id: props.id, status: state },
+        }).then(() => {
+            props.runAPI()
         })
 
-        document.location.reload()
+        // document.location.reload()
     }
 
     function handleSubmitTitle(e: { target: HTMLTextAreaElement }) {
@@ -193,6 +197,11 @@ const TaskCard = (props: tasksInterface) => {
         event.dataTransfer.setData('card-id', props.id)
     }
 
+    useEffect(() => {
+        props.runAPI()
+        console.log('dfghjk')
+    }, [])
+
     return (
         <div
             id="Card"
@@ -209,7 +218,6 @@ const TaskCard = (props: tasksInterface) => {
                             name="title"
                             autoFocus
                             className="card-title"
-                            rows={2}
                         />
                     ) : (
                         <h3 className="card-title">{title}</h3>

@@ -1,6 +1,7 @@
 import React, { useEffect, useState, MouseEvent } from 'react'
 import axios from 'axios'
 import TaskList from './task-list'
+import { get } from 'http'
 
 export interface tasksInterface {
     id: string
@@ -20,6 +21,7 @@ const TaskLists = () => {
         { class: 'today', list: today, h2: 'Today' },
         { class: 'done', list: done, h2: 'Done' },
     ]
+    const [radio, setRadio] = useState('today')
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [mobile, setMobile] = useState<boolean>()
     const [minHeight, setMinHeight] = useState<string>()
@@ -36,8 +38,9 @@ const TaskLists = () => {
         </svg>
     )
 
-    useEffect(() => {
+    function getAPI() {
         const statuses = [0, 1, 2, 3]
+
         statuses.forEach((e) => {
             const getTasksByStatus = (async () => {
                 axios
@@ -48,19 +51,22 @@ const TaskLists = () => {
                         if (e === 2) setActiveTask(response.data)
                         if (e === 3) setDone(response.data)
                     })
-                    .then(() => {
-                        if (e === 3) ifMobile()
-                    })
                     .catch((error) => {
                         console.log(error)
                     })
             })()
         })
 
+        console.log('hej')
+    }
+
+    useEffect(() => {
         window.addEventListener('load', () => {
             ifMobile()
             setWindowWidth(window.innerWidth)
         })
+
+        getAPI()
     }, [])
 
     useEffect(() => {
@@ -81,18 +87,7 @@ const TaskLists = () => {
     function ifMobile() {
         if (windowWidth !== undefined) {
             if (windowWidth < 1024) {
-                const defaultMode: HTMLInputElement | null =
-                    document.querySelector('#today')
-                if (defaultMode !== null) defaultMode.checked = true
-
-                const lists = document.querySelectorAll('.list')
-                lists?.forEach((e) => {
-                    if (e.className.includes('today')) {
-                        e.classList.remove('hidden')
-                    } else {
-                        e.classList.add('hidden')
-                    }
-                })
+                console.log(radio)
                 setMobile(true)
             } else {
                 setMobile(false)
@@ -102,17 +97,10 @@ const TaskLists = () => {
 
     function handleMode(e: any) {
         const id = e.target?.id
-        const list = e.target?.value
-        const lists = document.querySelectorAll('.list')
 
         if (windowWidth !== undefined && windowWidth < 1024) {
-            lists?.forEach((e) => {
-                if (e.className.includes(id)) {
-                    e.classList.remove('hidden')
-                } else {
-                    e.classList.add('hidden')
-                }
-            })
+            setRadio(id)
+            console.log('click: ' + id)
         }
     }
 
@@ -128,8 +116,9 @@ const TaskLists = () => {
                 title: 'Heading goes here',
                 description: 'Describe the task',
             },
+        }).then(() => {
+            getAPI()
         })
-        document.location.reload()
     }
 
     function handleOnDrop(e: React.DragEvent) {
@@ -154,9 +143,9 @@ const TaskLists = () => {
                     'Content-Type': 'application/json',
                 },
                 data: { id: id, status: state },
+            }).then(() => {
+                getAPI()
             })
-
-            document.location.reload()
         }
     }
 
@@ -173,17 +162,23 @@ const TaskLists = () => {
                 onDragOver={handleOnDragOver}
             >
                 <h2 className="h2-active">Active task</h2>
-                <TaskList classes={'list-option-lists'} list={activeTask} />
+                <TaskList
+                    classes={'list-option-lists'}
+                    list={activeTask}
+                    runAPI={getAPI}
+                />
             </div>
 
             {mobile && (
                 <div className="lists" style={{ minHeight: minHeight }}>
-                    <form className="pill-nav mode-btn" onChange={handleMode}>
+                    <form className="pill-nav mode-btn">
                         <input
                             id="to-do"
                             type="radio"
                             value="toDo"
                             name="mode"
+                            checked={radio === 'to-do'}
+                            onChange={handleMode}
                         />
                         <label htmlFor="to-do" className="button">
                             To Do
@@ -193,6 +188,8 @@ const TaskLists = () => {
                             type="radio"
                             value="today"
                             name="mode"
+                            checked={radio === 'today'}
+                            onChange={handleMode}
                         />
                         <label htmlFor="today" className="button">
                             Today
@@ -202,6 +199,8 @@ const TaskLists = () => {
                             type="radio"
                             value="done"
                             name="mode"
+                            checked={radio === 'done'}
+                            onChange={handleMode}
                         />
                         <label htmlFor="done" className="button">
                             Done
@@ -216,13 +215,17 @@ const TaskLists = () => {
                     </button>
 
                     <div>
-                        {lists.map((list) => (
-                            <TaskList
-                                classes={list.class + ' list'}
-                                list={list.list}
-                                key={list.h2}
-                            />
-                        ))}
+                        {lists.map(
+                            (list) =>
+                                radio === list.class && (
+                                    <TaskList
+                                        classes={list.class + ' list'}
+                                        list={list.list}
+                                        key={list.h2}
+                                        runAPI={getAPI}
+                                    />
+                                )
+                        )}
                     </div>
                 </div>
             )}
@@ -245,7 +248,11 @@ const TaskLists = () => {
                                     Add task
                                 </button>
                             )}
-                            <TaskList classes={'list'} list={list.list} />
+                            <TaskList
+                                classes={'list'}
+                                list={list.list}
+                                runAPI={getAPI}
+                            />
                         </div>
                     ))}
                 </>

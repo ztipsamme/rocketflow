@@ -5,10 +5,12 @@ import { tasksInterface } from './task-lists'
 interface listInterface {
     classes: string
     list: tasksInterface[]
+    runAPI: () => any
 }
 
 function TaskList(props: listInterface) {
     const [listContent, setListContent] = useState<string>()
+    const [hidden, setHidden] = useState('')
 
     function checkIfEmptyList(list: tasksInterface[]) {
         if (list.toString() === 'activeTask')
@@ -26,7 +28,7 @@ function TaskList(props: listInterface) {
 
     return (
         <>
-            <ul className={props.classes}>
+            <ul className={props.classes + hidden}>
                 {props.list.map((value: tasksInterface) => (
                     <li key={value.id}>
                         <TaskCard
@@ -34,6 +36,7 @@ function TaskList(props: listInterface) {
                             title={value.title}
                             description={value.description}
                             status={value.status}
+                            runAPI={props.runAPI}
                         />
                     </li>
                 ))}

@@ -212,6 +212,9 @@ svg {
     }
 
     .migrate-list {
+        > * {
+            cursor: pointer;
+        }
         margin-top: 8px;
         background-image: linear-gradient(
             180deg,
