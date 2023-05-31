@@ -56,8 +56,6 @@ const TaskLists = () => {
                     })
             })()
         })
-
-        console.log('hej')
     }
 
     useEffect(() => {

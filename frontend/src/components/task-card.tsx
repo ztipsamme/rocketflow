@@ -199,7 +199,6 @@ const TaskCard = (props: tasksInterface) => {
 
     useEffect(() => {
         props.runAPI()
-        console.log('dfghjk')
     }, [])
 
     return (

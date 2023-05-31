@@ -25,6 +25,10 @@ body .App .navigation {
   min-height: fit-content;
 }
 
+.WIP {
+  display: none !important;
+}
+
 /** Headers, Buttons, Img and Spacing DEFAULTS **/
 h1 {
   font-size: 32px;
