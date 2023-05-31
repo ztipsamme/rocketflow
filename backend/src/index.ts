@@ -125,7 +125,7 @@ app.put('/api/update-task-info', async (req, res) => {
 
         res.status(200).send({ message: 'Changes ' + req.body.id })
     } catch (error) {
-        res.status(400).send({ Error: error })
+        res.status(400).send({ Error: error, Req: req.body })
     }
 })
 

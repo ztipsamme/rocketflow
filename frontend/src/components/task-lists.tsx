@@ -20,9 +20,9 @@ const TaskLists = () => {
         { class: 'today', list: today, h2: 'Today' },
         { class: 'done', list: done, h2: 'Done' },
     ]
-    const [listContent, isListContent] = useState(true)
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [mobile, setMobile] = useState<boolean>()
+    const [minHeight, setMinHeight] = useState<string>()
     const plusIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -70,6 +70,14 @@ const TaskLists = () => {
         })
     }, [windowWidth])
 
+    useEffect(() => {
+        const appHeight = document.querySelector('.App')?.clientHeight
+        if (appHeight !== undefined) {
+            const height = window.innerHeight - appHeight - 48
+            setMinHeight(height + 'px')
+        }
+    }, [document.querySelector('.App')?.clientHeight])
+
     function ifMobile() {
         if (windowWidth !== undefined) {
             if (windowWidth < 1024) {
@@ -105,26 +113,6 @@ const TaskLists = () => {
                     e.classList.add('hidden')
                 }
             })
-
-            switch (list) {
-                case 'toDo':
-                    checkIfEmptyList(toDo)
-                    break
-                case 'today':
-                    checkIfEmptyList(today)
-                    break
-                case 'done':
-                    checkIfEmptyList(done)
-                    break
-            }
-        }
-
-        function checkIfEmptyList(list: tasksInterface[]) {
-            if (list.length <= 0) {
-                isListContent(false)
-            } else {
-                isListContent(true)
-            }
         }
     }
 
@@ -189,7 +177,7 @@ const TaskLists = () => {
             </div>
 
             {mobile && (
-                <div className="lists">
+                <div className="lists" style={{ minHeight: minHeight }}>
                     <form className="pill-nav mode-btn" onChange={handleMode}>
                         <input
                             id="to-do"
@@ -227,11 +215,6 @@ const TaskLists = () => {
                         {plusIcon}
                     </button>
 
-                    {listContent ? (
-                        <></>
-                    ) : (
-                        <p>You have not added any tasks yet</p>
-                    )}
                     <div>
                         {lists.map((list) => (
                             <TaskList
@@ -248,7 +231,7 @@ const TaskLists = () => {
                 <>
                     {lists.map((list) => (
                         <div
-                            className={list.class}
+                            className={list.class + ' list-area'}
                             key={list.h2}
                             onDrop={handleOnDrop}
                             onDragOver={handleOnDragOver}

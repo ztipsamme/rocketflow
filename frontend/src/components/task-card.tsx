@@ -11,7 +11,6 @@ interface tasksInterface {
 const TaskCard = (props: tasksInterface) => {
     const [cardOpen, setCardOpen] = useState(false)
     const [migrateOpen, setMigrateOpen] = useState(false)
-    // const [taskStatus, setTaskStatus] = useState(props.status)
     const [editMode, setEditMode] = useState(false)
     const [title, setTitle] = useState(props.title)
     const [description, setDescription] = useState(props.description)
@@ -69,12 +68,10 @@ const TaskCard = (props: tasksInterface) => {
 
     const toggleCard = (e: MouseEvent) => {
         if (cardOpen) {
+            e.preventDefault()
             setCardOpen(false)
             setEditMode(false)
-            const id = e.currentTarget.id
-            console.log(id)
 
-            e.preventDefault()
             axios({
                 method: 'put',
                 url: '/api/update-task-info',
@@ -82,7 +79,7 @@ const TaskCard = (props: tasksInterface) => {
                     'Content-Type': 'application/json',
                 },
                 data: {
-                    id: id,
+                    id: props.id,
                     title: title,
                     description: description,
                 },
@@ -98,14 +95,13 @@ const TaskCard = (props: tasksInterface) => {
 
     const handleDelete = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        const id = e.currentTarget.id
         axios({
             method: 'delete',
             url: '/api/delete-task',
             headers: {
                 'Content-Type': 'application/json',
             },
-            data: { id: id },
+            data: { id: props.id },
         })
         document.location.reload()
     }
@@ -122,9 +118,7 @@ const TaskCard = (props: tasksInterface) => {
 
     const handleMigrate = async (e: MouseEvent<HTMLLIElement>) => {
         e.preventDefault()
-        const id = e.currentTarget.id
-        const status = Number(e.currentTarget.value)
-        console.log('Här: ', status)
+        const newStatus = Number(e.currentTarget.value)
         if (props.title !== title || props.description !== description) {
             axios({
                 method: 'put',
@@ -133,15 +127,15 @@ const TaskCard = (props: tasksInterface) => {
                     'Content-Type': 'application/json',
                 },
                 data: {
-                    id: id,
-                    status: status,
+                    id: props.id,
+                    status: newStatus,
                     title: title,
                     description: description,
                 },
             })
-            updateState(id, status)
+            updateState(newStatus)
         } else {
-            updateState(id, status)
+            updateState(newStatus)
         }
 
         document.location.reload()
@@ -149,36 +143,33 @@ const TaskCard = (props: tasksInterface) => {
 
     const handleDone = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault()
-        const id = e.currentTarget.id
-        const status = Number(e.currentTarget.value)
-        console.log('id, ' + id + ' ' + status)
 
-        if (status !== 3) {
-            updateState(id, 3)
+        if (props.status !== 3) {
+            updateState(3)
         } else {
-            updateState(id, 0)
+            updateState(0)
         }
         document.location.reload()
     }
 
-    function updateState(id: string | null, state: number) {
+    function updateState(state: number) {
         axios({
             method: 'put',
             url: '/api/update-task-status',
             headers: {
                 'Content-Type': 'application/json',
             },
-            data: { id: id, status: state },
+            data: { id: props.id, status: state },
         })
 
         document.location.reload()
     }
 
-    function handleSubmitTitle(e: { target: HTMLInputElement }) {
+    function handleSubmitTitle(e: { target: HTMLTextAreaElement }) {
         setTitle(e.target.value)
     }
 
-    function handleSubmitDesc(e: { target: HTMLInputElement }) {
+    function handleSubmitDesc(e: { target: HTMLTextAreaElement }) {
         setDescription(e.target.value)
     }
 
@@ -198,27 +189,27 @@ const TaskCard = (props: tasksInterface) => {
         }
     }, [migrateOpen])
 
-    function handleOnDrag(event: React.DragEvent, id: string) {
-        event.dataTransfer.setData('card-id', id)
+    function handleOnDrag(event: React.DragEvent) {
+        event.dataTransfer.setData('card-id', props.id)
     }
 
     return (
         <div
             id="Card"
             draggable
-            onDragStart={(event) => handleOnDrag(event, props.id)}
+            onDragStart={(event) => handleOnDrag(event)}
             key={props.id}
         >
             <div className="card">
                 <div className="header">
                     {editMode ? (
-                        <input
+                        <textarea
                             onChange={handleSubmitTitle}
-                            type="text"
                             value={title}
                             name="title"
                             autoFocus
                             className="card-title"
+                            rows={2}
                         />
                     ) : (
                         <h3 className="card-title">{title}</h3>
@@ -239,38 +230,24 @@ const TaskCard = (props: tasksInterface) => {
                     }}
                 >
                     {editMode ? (
-                        <input
+                        <textarea
                             onChange={handleSubmitDesc}
-                            type="text"
                             value={description}
                             name="description"
                             className="card-title"
+                            rows={2}
                         />
                     ) : (
                         <p className="card-text">{description}</p>
                     )}
                     <div className="controls">
-                        <button
-                            id={props.id}
-                            onClick={handleDelete}
-                            value={props.status}
-                            className="icon"
-                        >
+                        <button onClick={handleDelete} className="icon">
                             {trashCanIcon}
                         </button>
-                        <button
-                            onClick={toggleMigrate}
-                            className="icon"
-                            value={props.status}
-                        >
+                        <button onClick={toggleMigrate} className="icon">
                             {migrationIcon}
                         </button>
-                        <button
-                            onClick={handleDone}
-                            id={props.id}
-                            value={props.status}
-                            className="icon"
-                        >
+                        <button onClick={handleDone} className="icon">
                             {checkboxIcon}
                         </button>
                     </div>
@@ -278,13 +255,13 @@ const TaskCard = (props: tasksInterface) => {
             </div>
             {migrateOpen && (
                 <ul className="migrate-list card">
-                    <li id={props.id} value={0} onClick={handleMigrate}>
+                    <li value={0} onClick={handleMigrate}>
                         Send to <strong>To-do</strong>
                     </li>
-                    <li id={props.id} value={1} onClick={handleMigrate}>
+                    <li value={1} onClick={handleMigrate}>
                         Send to <strong>Today</strong>
                     </li>
-                    <li id={props.id} value={2} onClick={handleMigrate}>
+                    <li value={2} onClick={handleMigrate}>
                         Send to <strong>Active</strong>
                     </li>
                 </ul>
