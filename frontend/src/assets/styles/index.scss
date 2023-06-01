@@ -27,10 +27,10 @@ body {
             margin: 16px auto;
             width: calc(100vw - 32px * 2);
         }
-        .navigation {
+        .navigation,
+        .page-footer {
             margin: 0;
             width: 100vw;
-            min-height: fit-content;
         }
     }
 }
@@ -40,7 +40,6 @@ body {
 }
 
 /** Headers, Buttons, Img and Spacing DEFAULTS **/
-
 h1 {
     font-size: 32px;
     font-family: GeneralSans-Bold;
@@ -170,9 +169,42 @@ svg {
 }
 
 /** Elements **/
+.navigation,
+.page-footer {
+    padding-inline: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    .logo {
+        img {
+            cursor: pointer;
+            display: inline;
+            width: min-content;
+            height: 40px;
+        }
+    }
+}
 .navigation {
-    height: 32px;
-    background-color: #fb8a38;
+    height: 81px;
+    .menu-btn {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        span {
+            background-color: $space-orange-c;
+            content: '';
+            width: 49px;
+            height: 4px;
+            inset: 0;
+            &:last-child {
+                width: 27px;
+            }
+        }
+    }
+}
+
+.page-footer {
+    height: 120px;
 }
 
 .card {
@@ -487,6 +519,11 @@ svg {
         font-size: 24px;
     }
 
+    .navigation {
+        height: 160px;
+        margin-bottom: 32px !important;
+    }
+
     button,
     .button {
         font-size: 16px;
@@ -557,6 +594,7 @@ svg {
         column-gap: 46px;
         row-gap: 0;
         grid-auto-rows: min-content;
+        margin-bottom: 32px !important;
         > * {
             width: 100%;
             margin-bottom: 0 !important;
@@ -601,6 +639,7 @@ svg {
             border-radius: 16px 16px 0 0;
             grid-row: 2 / span 6;
             padding-top: 40px;
+            margin-top: 48px;
         }
 
         .activeTask {
@@ -615,12 +654,6 @@ svg {
 
         .to-do {
             grid-column: 1 / span 4;
-            > * {
-                margin-block: 0 24px;
-                &:last-child {
-                    margin-block: 0;
-                }
-            }
         }
 
         .done {
@@ -633,20 +666,24 @@ svg {
             padding: 12px 16px;
             background-color: $space-white;
             display: inline;
+            margin-bottom: 24px;
         }
 
         .to-do,
         .done {
             border-radius: 16px;
             grid-row: 2 / span 10;
-            padding: 24px;
+            > .list-area {
+                padding: 24px;
+                border-radius: 16px;
+            }
         }
 
-        .to-do,
-        .today,
         .activeTask,
-        .done,
-        .Timer {
+        .today,
+        .Timer,
+        .to-do .list-area,
+        .done .list-area {
             background-color: rgba(255, 255, 255, 0.07);
             height: min-content;
         }

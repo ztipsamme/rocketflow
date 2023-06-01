@@ -165,8 +165,6 @@ const TaskCard = (props: tasksInterface) => {
         }).then(() => {
             props.runAPI()
         })
-
-        // document.location.reload()
     }
 
     function handleSubmitTitle(e: { target: HTMLTextAreaElement }) {

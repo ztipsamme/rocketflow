@@ -18,11 +18,10 @@ body .App > * {
   margin: 16px auto;
   width: calc(100vw - 64px);
 }
-body .App .navigation {
+body .App .navigation,
+body .App .page-footer {
   margin: 0;
   width: 100vw;
-  min-height: -moz-fit-content;
-  min-height: fit-content;
 }
 
 .WIP {
@@ -180,9 +179,43 @@ svg {
 }
 
 /** Elements **/
+.navigation,
+.page-footer {
+  padding-inline: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+.navigation .logo img,
+.page-footer .logo img {
+  cursor: pointer;
+  display: inline;
+  width: -moz-min-content;
+  width: min-content;
+  height: 40px;
+}
+
 .navigation {
-  height: 32px;
+  height: 81px;
+}
+.navigation .menu-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.navigation .menu-btn span {
   background-color: #fb8a38;
+  content: "";
+  width: 49px;
+  height: 4px;
+  inset: 0;
+}
+.navigation .menu-btn span:last-child {
+  width: 27px;
+}
+
+.page-footer {
+  height: 120px;
 }
 
 .card {
@@ -454,6 +487,10 @@ svg {
   .Pomodoro textarea[name=description] {
     font-size: 24px;
   }
+  .navigation {
+    height: 160px;
+    margin-bottom: 32px !important;
+  }
   button,
   .button {
     font-size: 16px;
@@ -518,6 +555,7 @@ svg {
          column-gap: 46px;
     row-gap: 0;
     grid-auto-rows: min-content;
+    margin-bottom: 32px !important;
   }
   .Pomodoro > * {
     width: 100%;
@@ -555,6 +593,7 @@ svg {
     border-radius: 16px 16px 0 0;
     grid-row: 2/span 6;
     padding-top: 40px;
+    margin-top: 48px;
   }
   .Pomodoro .activeTask {
     grid-row: 8/span 1;
@@ -567,12 +606,6 @@ svg {
   .Pomodoro .to-do {
     grid-column: 1/span 4;
   }
-  .Pomodoro .to-do > * {
-    margin-block: 0 24px;
-  }
-  .Pomodoro .to-do > *:last-child {
-    margin-block: 0;
-  }
   .Pomodoro .done {
     grid-column: 10/span 4;
   }
@@ -582,18 +615,23 @@ svg {
     padding: 12px 16px;
     background-color: #fff;
     display: inline;
+    margin-bottom: 24px;
   }
   .Pomodoro .to-do,
   .Pomodoro .done {
     border-radius: 16px;
     grid-row: 2/span 10;
-    padding: 24px;
   }
-  .Pomodoro .to-do,
-  .Pomodoro .today,
+  .Pomodoro .to-do > .list-area,
+  .Pomodoro .done > .list-area {
+    padding: 24px;
+    border-radius: 16px;
+  }
   .Pomodoro .activeTask,
-  .Pomodoro .done,
-  .Pomodoro .Timer {
+  .Pomodoro .today,
+  .Pomodoro .Timer,
+  .Pomodoro .to-do .list-area,
+  .Pomodoro .done .list-area {
     background-color: rgba(255, 255, 255, 0.07);
     height: -moz-min-content;
     height: min-content;

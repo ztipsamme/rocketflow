@@ -1,7 +1,6 @@
 import React, { useEffect, useState, MouseEvent } from 'react'
 import axios from 'axios'
 import TaskList from './task-list'
-import { get } from 'http'
 
 export interface tasksInterface {
     id: string
@@ -24,7 +23,7 @@ const TaskLists = () => {
     const [radio, setRadio] = useState('today')
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [mobile, setMobile] = useState<boolean>()
-    const [minHeight, setMinHeight] = useState<string>()
+    const appHeight = document.querySelector('.App')?.clientHeight
     const plusIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -74,19 +73,16 @@ const TaskLists = () => {
         })
     }, [windowWidth])
 
-    useEffect(() => {
-        const appHeight = document.querySelector('.App')?.clientHeight
-        if (appHeight !== undefined) {
-            const height = window.innerHeight - appHeight - 48
-            setMinHeight(height + 'px')
-        }
-    }, [document.querySelector('.App')?.clientHeight])
-
     function ifMobile() {
         if (windowWidth !== undefined) {
             if (windowWidth < 1024) {
-                console.log(radio)
                 setMobile(true)
+                // console.log(appHeight)
+                // console.log(window.innerHeight)
+                // if (appHeight !== undefined) {
+                //     setMinHeight(window.innerHeight - appHeight / 2 - 48 + 'px')
+                //     console.log(window.innerHeight - appHeight / 2 - 48 + 'px')
+                // }
             } else {
                 setMobile(false)
             }
@@ -98,7 +94,6 @@ const TaskLists = () => {
 
         if (windowWidth !== undefined && windowWidth < 1024) {
             setRadio(id)
-            console.log('click: ' + id)
         }
     }
 
@@ -149,7 +144,6 @@ const TaskLists = () => {
 
     function handleOnDragOver(event: React.DragEvent) {
         event.preventDefault()
-        console.log('drag over')
     }
 
     return (
@@ -167,8 +161,16 @@ const TaskLists = () => {
                 />
             </div>
 
-            {mobile && (
-                <div className="lists" style={{ minHeight: minHeight }}>
+            {window.innerWidth < 1024 || mobile ? (
+                <div
+                    className="lists"
+                    style={{
+                        minHeight:
+                            (appHeight !== undefined
+                                ? window.innerHeight - appHeight - 48
+                                : 0) + 'px',
+                    }}
+                >
                     <form className="pill-nav mode-btn">
                         <input
                             id="to-do"
@@ -226,31 +228,31 @@ const TaskLists = () => {
                         )}
                     </div>
                 </div>
-            )}
-
-            {!mobile && (
+            ) : (
                 <>
                     {lists.map((list) => (
                         <div
-                            className={list.class + ' list-area'}
+                            className={list.class}
                             key={list.h2}
                             onDrop={handleOnDrop}
                             onDragOver={handleOnDragOver}
                         >
                             <h2>{list.h2}</h2>
-                            {list.h2 === 'To do' && (
-                                <button
-                                    className="add-task"
-                                    onClick={handleAddCard}
-                                >
-                                    Add task
-                                </button>
-                            )}
-                            <TaskList
-                                classes={'list'}
-                                list={list.list}
-                                runAPI={getAPI}
-                            />
+                            <div className="list-area">
+                                {list.h2 === 'To do' && (
+                                    <button
+                                        className="add-task"
+                                        onClick={handleAddCard}
+                                    >
+                                        Add task
+                                    </button>
+                                )}
+                                <TaskList
+                                    classes={'list'}
+                                    list={list.list}
+                                    runAPI={getAPI}
+                                />
+                            </div>
                         </div>
                     ))}
                 </>

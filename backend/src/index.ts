@@ -100,25 +100,45 @@ app.get('/api/get-task-status', async (req, res) => {
 })
 
 app.post('/api/add-task', async (req, res) => {
-    try {
-        const getActive = (
-            await client.query(`SELECT * FROM Tasks WHERE status=2;`)
-        ).rows
+    const getActive = (
+        await client.query(`SELECT * FROM Tasks WHERE status=2;`)
+    ).rows
+    const getToDo = (await client.query(`SELECT * FROM Tasks WHERE status=0;`))
+        .rows
+    const getToday = (await client.query(`SELECT * FROM Tasks WHERE status=1;`))
+        .rows
 
+    async function addNewCard(state: number) {
+        await client.query(
+            `INSERT INTO Tasks (title, description, status) VALUES ($1, $2, $3)`,
+            [req.body.title, req.body.description, state]
+        )
+    }
+
+    console.log('active: ' + getActive.length)
+    console.log('today: ' + getToday.length)
+    console.log('todo: ' + getToDo.length)
+
+    try {
         if (getActive.length === 0) {
-            await client.query(
-                `INSERT INTO Tasks (title, description, status) VALUES ($1, $2, $3)`,
-                [req.body.title, req.body.description, 2]
-            )
+            if (
+                (getToday.length === 0 && getToDo.length >= 1) ||
+                (getToday.length >= 1 && getToDo.length === 0) ||
+                (getToday.length >= 1 && getToDo.length >= 1)
+            ) {
+                console.log('empty on purpos')
+                addNewCard(0)
+            } else {
+                addNewCard(2)
+            }
         } else {
-            console.log(req.body.title + ' ' + req.body.description)
             await client.query(
                 `INSERT INTO Tasks (title, description) VALUES ($1, $2)`,
                 [req.body.title, req.body.description]
             )
         }
 
-        res.status(200).send('Added ' + req.body)
+        res.status(201).send('Added ' + req.body)
     } catch (error) {
         res.status(400).send({ Error: error })
     }
@@ -196,9 +216,6 @@ app.put('/api/update-task-status', async (req, res) => {
                     oldestToday.id,
                 ])
             } else if (getToday.length === 0 && getToDo.length >= 1) {
-                //Om today är tom men to do är fylld
-                console.log('Om today är tom men to do är fylld')
-
                 updateTarget()
                 await client.query('UPDATE Tasks SET status=$1 WHERE id=$2', [
                     2,
@@ -226,6 +243,16 @@ app.delete('/api/delete-task', async (req, res) => {
         await client.query('DELETE FROM Tasks WHERE id= $1', [req.body.id])
 
         res.status(200).send({ message: 'Deleted ' + req.body.id })
+    } catch (error) {
+        res.status(400).send({ Error: error })
+    }
+})
+
+app.delete('/api/delete-all-tasks/:key', async (req, res) => {
+    try {
+        if (req.params.key === 'WCbb6Nm6E5EgThucUnrRWhBjfPJqz4')
+            await client.query('DELETE FROM Tasks')
+        res.status(200).send({ message: 'Deleted all rows from Tasks' })
     } catch (error) {
         res.status(400).send({ Error: error })
     }

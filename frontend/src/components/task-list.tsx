@@ -10,7 +10,6 @@ interface listInterface {
 
 function TaskList(props: listInterface) {
     const [listContent, setListContent] = useState<string>()
-    const [hidden, setHidden] = useState('')
 
     function checkIfEmptyList(list: tasksInterface[]) {
         if (list.toString() === 'activeTask')
@@ -28,7 +27,7 @@ function TaskList(props: listInterface) {
 
     return (
         <>
-            <ul className={props.classes + hidden}>
+            <ul className={props.classes}>
                 {props.list.map((value: tasksInterface) => (
                     <li key={value.id}>
                         <TaskCard
