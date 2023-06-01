@@ -384,8 +384,8 @@ svg {
         }
         .reset {
             position: absolute;
-            right: 0;
-            top: 0;
+            left: calc(50% + 121px / 2 + 32px);
+            top: calc(50% - 32px / 2);
         }
     }
 

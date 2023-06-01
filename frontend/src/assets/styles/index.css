@@ -372,8 +372,8 @@ svg {
 }
 .Pomodoro .Timer .reset {
   position: absolute;
-  right: 0;
-  top: 0;
+  left: calc(50% + 60.5px + 32px);
+  top: calc(50% - 16px);
 }
 .Pomodoro .pill-nav {
   border: 1px solid #fff;
