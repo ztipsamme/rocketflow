@@ -20,9 +20,10 @@ const TaskLists = () => {
         { class: 'today', list: today, h2: 'Today' },
         { class: 'done', list: done, h2: 'Done' },
     ]
-    const [listContent, isListContent] = useState(true)
+    const [radio, setRadio] = useState('today')
     const [windowWidth, setWindowWidth] = useState(window.innerWidth)
     const [mobile, setMobile] = useState<boolean>()
+    const appHeight = document.querySelector('.App')?.clientHeight
     const plusIcon = (
         <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -36,8 +37,9 @@ const TaskLists = () => {
         </svg>
     )
 
-    useEffect(() => {
+    function getAPI() {
         const statuses = [0, 1, 2, 3]
+
         statuses.forEach((e) => {
             const getTasksByStatus = (async () => {
                 axios
@@ -48,19 +50,20 @@ const TaskLists = () => {
                         if (e === 2) setActiveTask(response.data)
                         if (e === 3) setDone(response.data)
                     })
-                    .then(() => {
-                        if (e === 3) ifMobile()
-                    })
                     .catch((error) => {
                         console.log(error)
                     })
             })()
         })
+    }
 
+    useEffect(() => {
         window.addEventListener('load', () => {
             ifMobile()
             setWindowWidth(window.innerWidth)
         })
+
+        getAPI()
     }, [])
 
     useEffect(() => {
@@ -73,19 +76,13 @@ const TaskLists = () => {
     function ifMobile() {
         if (windowWidth !== undefined) {
             if (windowWidth < 1024) {
-                const defaultMode: HTMLInputElement | null =
-                    document.querySelector('#today')
-                if (defaultMode !== null) defaultMode.checked = true
-
-                const lists = document.querySelectorAll('.list')
-                lists?.forEach((e) => {
-                    if (e.className.includes('today')) {
-                        e.classList.remove('hidden')
-                    } else {
-                        e.classList.add('hidden')
-                    }
-                })
                 setMobile(true)
+                // console.log(appHeight)
+                // console.log(window.innerHeight)
+                // if (appHeight !== undefined) {
+                //     setMinHeight(window.innerHeight - appHeight / 2 - 48 + 'px')
+                //     console.log(window.innerHeight - appHeight / 2 - 48 + 'px')
+                // }
             } else {
                 setMobile(false)
             }
@@ -94,37 +91,9 @@ const TaskLists = () => {
 
     function handleMode(e: any) {
         const id = e.target?.id
-        const list = e.target?.value
-        const lists = document.querySelectorAll('.list')
 
         if (windowWidth !== undefined && windowWidth < 1024) {
-            lists?.forEach((e) => {
-                if (e.className.includes(id)) {
-                    e.classList.remove('hidden')
-                } else {
-                    e.classList.add('hidden')
-                }
-            })
-
-            switch (list) {
-                case 'toDo':
-                    checkIfEmptyList(toDo)
-                    break
-                case 'today':
-                    checkIfEmptyList(today)
-                    break
-                case 'done':
-                    checkIfEmptyList(done)
-                    break
-            }
-        }
-
-        function checkIfEmptyList(list: tasksInterface[]) {
-            if (list.length <= 0) {
-                isListContent(false)
-            } else {
-                isListContent(true)
-            }
+            setRadio(id)
         }
     }
 
@@ -140,8 +109,9 @@ const TaskLists = () => {
                 title: 'Heading goes here',
                 description: 'Describe the task',
             },
+        }).then(() => {
+            getAPI()
         })
-        document.location.reload()
     }
 
     function handleOnDrop(e: React.DragEvent) {
@@ -166,15 +136,14 @@ const TaskLists = () => {
                     'Content-Type': 'application/json',
                 },
                 data: { id: id, status: state },
+            }).then(() => {
+                getAPI()
             })
-
-            document.location.reload()
         }
     }
 
     function handleOnDragOver(event: React.DragEvent) {
         event.preventDefault()
-        console.log('drag over')
     }
 
     return (
@@ -185,17 +154,31 @@ const TaskLists = () => {
                 onDragOver={handleOnDragOver}
             >
                 <h2 className="h2-active">Active task</h2>
-                <TaskList classes={'list-option-lists'} list={activeTask} />
+                <TaskList
+                    classes={'list-option-lists'}
+                    list={activeTask}
+                    runAPI={getAPI}
+                />
             </div>
 
-            {mobile && (
-                <div className="lists">
-                    <form className="pill-nav mode-btn" onChange={handleMode}>
+            {window.innerWidth < 1024 || mobile ? (
+                <div
+                    className="lists"
+                    style={{
+                        minHeight:
+                            (appHeight !== undefined
+                                ? window.innerHeight - appHeight - 48
+                                : 0) + 'px',
+                    }}
+                >
+                    <form className="pill-nav mode-btn">
                         <input
                             id="to-do"
                             type="radio"
                             value="toDo"
                             name="mode"
+                            checked={radio === 'to-do'}
+                            onChange={handleMode}
                         />
                         <label htmlFor="to-do" className="button">
                             To Do
@@ -205,6 +188,8 @@ const TaskLists = () => {
                             type="radio"
                             value="today"
                             name="mode"
+                            checked={radio === 'today'}
+                            onChange={handleMode}
                         />
                         <label htmlFor="today" className="button">
                             Today
@@ -214,6 +199,8 @@ const TaskLists = () => {
                             type="radio"
                             value="done"
                             name="mode"
+                            checked={radio === 'done'}
+                            onChange={handleMode}
                         />
                         <label htmlFor="done" className="button">
                             Done
@@ -227,24 +214,21 @@ const TaskLists = () => {
                         {plusIcon}
                     </button>
 
-                    {listContent ? (
-                        <></>
-                    ) : (
-                        <p>You have not added any tasks yet</p>
-                    )}
                     <div>
-                        {lists.map((list) => (
-                            <TaskList
-                                classes={list.class + ' list'}
-                                list={list.list}
-                                key={list.h2}
-                            />
-                        ))}
+                        {lists.map(
+                            (list) =>
+                                radio === list.class && (
+                                    <TaskList
+                                        classes={list.class + ' list'}
+                                        list={list.list}
+                                        key={list.h2}
+                                        runAPI={getAPI}
+                                    />
+                                )
+                        )}
                     </div>
                 </div>
-            )}
-
-            {!mobile && (
+            ) : (
                 <>
                     {lists.map((list) => (
                         <div
@@ -254,15 +238,21 @@ const TaskLists = () => {
                             onDragOver={handleOnDragOver}
                         >
                             <h2>{list.h2}</h2>
-                            {list.h2 === 'To do' && (
-                                <button
-                                    className="add-task"
-                                    onClick={handleAddCard}
-                                >
-                                    Add task
-                                </button>
-                            )}
-                            <TaskList classes={'list'} list={list.list} />
+                            <div className="list-area">
+                                {list.h2 === 'To do' && (
+                                    <button
+                                        className="add-task"
+                                        onClick={handleAddCard}
+                                    >
+                                        Add task
+                                    </button>
+                                )}
+                                <TaskList
+                                    classes={'list'}
+                                    list={list.list}
+                                    runAPI={getAPI}
+                                />
+                            </div>
                         </div>
                     ))}
                 </>

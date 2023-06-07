@@ -15,7 +15,7 @@ const Pomodoro = () => {
     return (
         <div className="Pomodoro">
             <h1 style={{ display: 'none' }}>Pomodoro</h1>
-            <nav className="pill-nav display-options">
+            <nav className="pill-nav display-options WIP">
                 <button className="active" onClick={handleMode}>
                     Pomodoro
                 </button>

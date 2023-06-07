@@ -17,8 +17,8 @@ $space-bg-bottom: #0c1142;
 }
 body {
     min-height: 100vh;
-    background-image: linear-gradient($space-bg-top, $space-bg-bottom);
-    background-attachment: fixed;
+    background: url('/src/assets/images/stars.svg') repeat-y,
+        linear-gradient($space-bg-top, $space-bg-bottom) fixed;
     background-position: center;
     background-size: cover;
     color: $space-white;
@@ -27,16 +27,19 @@ body {
             margin: 16px auto;
             width: calc(100vw - 32px * 2);
         }
-        .navigation {
+        .navigation,
+        .page-footer {
             margin: 0;
             width: 100vw;
-            min-height: fit-content;
         }
     }
 }
 
-/** Headers, Buttons, Img and Spacing DEFAULTS **/
+.WIP {
+    display: none !important;
+}
 
+/** Headers, Buttons, Img and Spacing DEFAULTS **/
 h1 {
     font-size: 32px;
     font-family: GeneralSans-Bold;
@@ -53,7 +56,7 @@ h2 {
     text-transform: capitalize;
 }
 h3,
-.Pomodoro input[name='title'] {
+.Pomodoro textarea[name='title'] {
     font-size: 16px;
     line-height: 100%;
     text-transform: capitalize;
@@ -68,7 +71,7 @@ h3,
     }
 }
 p,
-.Pomodoro input[name='description'] {
+.Pomodoro textarea[name='description'] {
     font-family: GeneralSans-Regular;
     font-size: 16px;
     &.card-text {
@@ -135,16 +138,18 @@ button,
         }
         &.plus-icon {
             margin: auto;
-            margin-bottom: 16px;
-
             svg {
                 color: $space-orange-c;
                 height: 50px;
                 width: 100%;
             }
             + p {
-                margin: auto;
+                margin-top: 16px;
+                margin-inline: auto;
                 width: 152px;
+            }
+            + div {
+                margin-top: 24px;
             }
         }
     }
@@ -164,9 +169,42 @@ svg {
 }
 
 /** Elements **/
+.navigation,
+.page-footer {
+    padding-inline: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    .logo {
+        img {
+            cursor: pointer;
+            display: inline;
+            width: min-content;
+            height: 40px;
+        }
+    }
+}
 .navigation {
-    height: 32px;
-    background-color: #fb8a38;
+    height: 81px;
+    .menu-btn {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        span {
+            background-color: $space-orange-c;
+            content: '';
+            width: 49px;
+            height: 4px;
+            inset: 0;
+            &:last-child {
+                width: 27px;
+            }
+        }
+    }
+}
+
+.page-footer {
+    height: 120px;
 }
 
 .card {
@@ -210,6 +248,9 @@ svg {
     }
 
     .migrate-list {
+        > * {
+            cursor: pointer;
+        }
         margin-top: 8px;
         background-image: linear-gradient(
             180deg,
@@ -234,11 +275,13 @@ svg {
         }
     }
 
-    input[type='text'] {
+    textarea {
         cursor: pointer;
+        resize: none;
         background: transparent;
         border: transparent;
         color: $space-white;
+        width: 100%;
         &:focus {
             outline: $space-orange-c;
         }
@@ -341,8 +384,8 @@ svg {
         }
         .reset {
             position: absolute;
-            right: 0;
-            top: 0;
+            left: calc(50% + 121px / 2 + 32px);
+            top: calc(50% - 32px / 2);
         }
     }
 
@@ -388,8 +431,9 @@ svg {
     }
 
     .lists {
+        position: absolute;
+        left: 0;
         width: 100%;
-        height: 100%;
         border-radius: 8px 8px 0 0;
         border-top: 1px solid #fff;
         background-image: linear-gradient(
@@ -398,6 +442,12 @@ svg {
             rgba(255, 255, 255, 0.03) 100%
         );
         padding: 24px 32px;
+        > * {
+            margin-bottom: 24px;
+        }
+        > *:last-child {
+            margin-bottom: 0;
+        }
     }
 
     .list li {
@@ -457,14 +507,21 @@ svg {
             margin-top: 48px;
         }
     }
-    h3 {
+    h3,
+    .Pomodoro textarea[name='title'] {
         font-size: 32px;
         &.card-title {
             font-size: 24px;
         }
     }
-    p {
+    p,
+    .Pomodoro textarea[name='description'] {
         font-size: 24px;
+    }
+
+    .navigation {
+        height: 160px;
+        margin-bottom: 32px !important;
     }
 
     button,
@@ -533,32 +590,39 @@ svg {
 
     .Pomodoro {
         display: grid;
-        grid-template-columns: repeat(11, 1fr);
+        grid-template-columns: repeat(13, 1fr);
         column-gap: 46px;
         row-gap: 0;
         grid-auto-rows: min-content;
+        margin-bottom: 32px !important;
         > * {
             width: 100%;
             margin-bottom: 0 !important;
         }
-        .display-options {
-            border: none;
-            grid-column: span 11;
-            grid-row: 1 / span 1;
 
-            > * {
-                > *:first-child {
-                    display: none;
-                    border: 1px solid red;
-                }
-                > *:last-child {
-                    grid-column: 2;
-                    text-align: right;
-                    button {
-                        display: inline;
-                        width: initial;
-                        background-color: $space-white;
-                        color: $space-black;
+        .pill-nav {
+            &.timer-options .button {
+                padding-inline: 8px;
+            }
+            &.display-options {
+                border: none;
+                grid-column: span 13;
+                grid-row: 1 / span 1;
+
+                > * {
+                    > *:first-child {
+                        display: none;
+                        border: 1px solid red;
+                    }
+                    > *:last-child {
+                        grid-column: 2;
+                        text-align: right;
+                        button {
+                            display: inline;
+                            width: initial;
+                            background-color: $space-white;
+                            color: $space-black;
+                        }
                     }
                 }
             }
@@ -568,13 +632,14 @@ svg {
         .add-task,
         .activeTask,
         .today {
-            grid-column: 4 / span 5;
+            grid-column: 5 / span 5;
         }
 
         .Timer {
             border-radius: 16px 16px 0 0;
             grid-row: 2 / span 6;
             padding-top: 40px;
+            margin-top: 48px;
         }
 
         .activeTask {
@@ -588,11 +653,11 @@ svg {
         }
 
         .to-do {
-            grid-column: 1 / span 3;
+            grid-column: 1 / span 4;
         }
 
         .done {
-            grid-column: 9 / span 3;
+            grid-column: 10 / span 4;
         }
 
         .add-task {
@@ -600,20 +665,25 @@ svg {
             grid-row: 2 / span 1;
             padding: 12px 16px;
             background-color: $space-white;
+            display: inline;
+            margin-bottom: 24px;
         }
 
         .to-do,
         .done {
             border-radius: 16px;
             grid-row: 2 / span 10;
-            padding: 24px;
+            > .list-area {
+                padding: 24px;
+                border-radius: 16px;
+            }
         }
 
-        .to-do,
-        .today,
         .activeTask,
-        .done,
-        .Timer {
+        .today,
+        .Timer,
+        .to-do .list-area,
+        .done .list-area {
             background-color: rgba(255, 255, 255, 0.07);
             height: min-content;
         }
@@ -624,14 +694,16 @@ svg {
             padding-inline: 80px;
         }
 
-        .lists {
-            border: none;
-        }
-
         .pill-nav {
             .button {
                 padding-inline: 20px;
                 font-size: 12px;
+            }
+        }
+
+        .list-area {
+            > * {
+                text-align: left;
             }
         }
 
