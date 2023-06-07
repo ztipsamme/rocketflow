@@ -1,0 +1,109 @@
+* {
+    box-sizing: border-box;
+}
+
+.formsign {
+    /* padding: 20px; */
+
+    width: 30em;
+    height: 40em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 60px;
+
+    /* display: flex;
+    flex-direction: column;
+    gap: 13px;
+    box-shadow: 6px 5px 15px rgba(0, 0, 0, 0.26);
+    padding: 12px;
+    border-radius: 4px;
+    width: 224px;
+    min-height: 120px;
+    flex-shrink: 0; */
+}
+
+.form-sign {
+    width: 300px;
+    margin: auto;
+}
+
+input[type='text'] {
+    background-color: transparent;
+    color: #fff;
+    border: 3px solid #fff;
+    padding: 5px 10px;
+    border-radius: 17px;
+    outline: none;
+    width: 100%;
+    font-size: 20px;
+}
+
+input[type='email'] {
+    background-color: transparent;
+    color: #fff;
+    border: 3px solid #fff;
+    padding: 5px 10px;
+    border-radius: 17px;
+    outline: none;
+    width: 100%;
+    font-size: 20px;
+}
+
+input[type='password'] {
+    background-color: transparent;
+    color: #fff;
+    border: 3px solid #fff;
+    padding: 5px 10px;
+    border-radius: 17px;
+    outline: none;
+    width: 100%;
+    font-size: 20px;
+}
+
+input[type='confirmpassword'] {
+    background-color: transparent;
+    color: #fff;
+    border: 3px solid #fff;
+    padding: 5px 10px;
+    border-radius: 17px;
+    outline: none;
+    width: 100%;
+    font-size: 20px;
+}
+
+input[type='text']:focus {
+    border: 2px solid #9ae5bd;
+}
+
+input[type='email']:focus {
+    border: 2px solid #9ae5bd;
+}
+
+input[type='password']:focus {
+    border: 2px solid #9ae5bd;
+}
+
+input[type='confirmpassword']:focus {
+    border: 2px solid #9ae5bd;
+}
+
+label {
+    font-size: 20px;
+    font-weight: 600;
+    margin: 7px 0;
+    display: block;
+}
+
+.btn {
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.rubrik {
+    font-size: 30px;
+}

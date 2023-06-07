@@ -7,6 +7,7 @@ const port = process.env.PORT || 8080
 const app = express()
 app.use(express.static(path.join(path.resolve(), 'public')))
 app.use(express.json())
+app.use(express.urlencoded({ extended: false }));
 
 dotenv.config()
 
@@ -129,6 +130,9 @@ app.put('/api/update-task-info', async (req, res) => {
     }
 })
 
+
+
+
 app.put('/api/update-task-status', async (req, res) => {
     try {
         const getTasks = (await client.query(`SELECT * FROM Tasks;`)).rows
@@ -158,6 +162,73 @@ app.delete('/api/delete-task', async (req, res) => {
     } catch (error) {
         res.status(400).send({ Error: error })
     }
+})
+// -------------Login and Signup--------------------
+
+app.post('/api/login', async (req, res) => {
+  try {
+      console.log(req.body.email + ' ' + req.body.password)
+    const { rows } = await client.query(
+          `SELECT * FROM accounts WHERE email=$1`,
+          [req.body.email]
+    )
+    if (rows && rows.length > 0 && rows[0].password === req.body.password) {
+      res.status(200).send('user logged in ' + req.body)
+    } else {
+      res.status(401).send()
+
+      }
+
+  } catch (error) {
+      res.status(400).send({ Error: error })
+  }
+})
+
+
+app.post('/api/Signup', async (req, res) => {
+  try {
+      console.log('signup:fgfg' + req.body.email + ' ' + req.body.password)
+      await client.query(
+          `INSERT INTO accounts (email, password) VALUES ($1, $2)`,
+          [req.body.email, req.body.password]
+      )
+      res.status(200).send('Added ' + req.body)
+  } catch (error) {
+      res.status(401).send({ Error: error })
+  }
+})
+
+app.put('/api/update-conto', async (req, res) => {
+  try {
+      const getAccount = (await client.query(`SELECT * FROM accounts;`)).rows
+
+      getAccount.find(({ id }) => id === req.body.id)
+
+      await client.query(
+          'UPDATE accounts SET email=$1, password=$2 WHERE id=$3',
+          [req.body.email, req.body.password, req.body.id]
+      )
+
+      res.status(200).send({ message: 'Changes ' + req.body.id })
+  } catch (error) {
+      res.status(400).send({ Error: error })
+  }
+})
+
+
+
+app.delete('/api/delete-account', async (req, res) => {
+  try {
+      const getAccount = (await client.query(`SELECT * FROM accounts;`)).rows
+
+      getAccount.find(({ id }) => id === req.body.id)
+
+      await client.query('DELETE FROM accounts WHERE id= $1', [req.body.id])
+
+      res.status(200).send({ message: 'Deleted ' + req.body.id })
+  } catch (error) {
+      res.status(400).send({ Error: error })
+  }
 })
 
 app.listen(port, () => {

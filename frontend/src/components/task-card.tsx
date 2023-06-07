@@ -202,6 +202,9 @@ const TaskCard = (props: tasksInterface) => {
         event.dataTransfer.setData('card-id', id)
     }
 
+
+
+
     return (
         <div
             id="Card"

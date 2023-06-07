@@ -7,6 +7,7 @@ import {
 } from 'react-router-dom'
 import Home from './views/Home'
 import Login from './views/Login'
+import Signup from './views/Signup'
 import About from './views/About'
 import Contact from './views/Contact'
 import Pomodoro from './views/Pomodoro'
@@ -26,7 +27,8 @@ function App() {
         {
             children: [
                 { element: <Home />, path: '/' },
-                { element: <Login />, path: '/login' },
+            { element: <Login />, path: '/login' },
+            { element: <Signup />, path: '/signup' },
                 { element: <About />, path: '/about' },
                 { element: <Contact />, path: '/contact' },
                 { element: <Pomodoro />, path: '/pomodoro' },

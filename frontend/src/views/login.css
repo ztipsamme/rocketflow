@@ -1,0 +1,94 @@
+* {
+    box-sizing: border-box;
+}
+
+.formlogin {
+    width: 30em;
+    height: 40em;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5px;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.form-login {
+    width: 300px;
+    margin: auto;
+    margin: 50px;
+}
+
+input[type='email'] {
+    background-color: transparent;
+    color: #fff;
+    border: px solid #fff;
+    padding: 10px 10px;
+    border-radius: 17px;
+    outline: none;
+    width: 100%;
+    font-size: 20px;
+}
+
+input[type='password'] {
+    background-color: transparent;
+    color: #fff;
+    /* border: 3px solid #fff; */
+    padding: 5px 10px;
+    border-radius: 20%;
+    outline: none;
+    width: 100%;
+    font-size: 20px;
+}
+
+input[type='text']:focus {
+    border: 2px solid #9ae5bd;
+}
+
+input[type='email']:focus {
+    border: 2px solid #9ae5bd;
+}
+
+input[type='password']:focus {
+    border: 2px solid #9ae5bd;
+}
+
+.rubrik {
+    font-size: 30px;
+    padding: 20px;
+}
+
+.btn1 {
+    margin-left: auto;
+    margin-right: auto;
+    width: 40vh;
+}
+
+svg.button {
+    background-color: #fff;
+    display: inline-block;
+    flex-direction: row;
+    text-align: center;
+    justify-content: space-between;
+    margin-right: 5px;
+    margin-left: 5px;
+}
+
+label {
+    margin: 7px 0;
+    display: block;
+    padding: 10px;
+}
+
+.forget {
+    font-size: 15px;
+    margin-left: 150px;
+    margin-bottom: 12px;
+}
+
+.btn2 {
+    padding: 20px;
+    color: #fff;
+}
